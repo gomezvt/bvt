@@ -2,6 +2,16 @@
   "images" : [
     ***REMOVED***
       "idiom" : "iphone",
+      "size" : "20x20",
+      "scale" : "2x"
+    ***REMOVED***,
+    ***REMOVED***
+      "idiom" : "iphone",
+      "size" : "20x20",
+      "scale" : "3x"
+    ***REMOVED***,
+    ***REMOVED***
+      "idiom" : "iphone",
       "size" : "29x29",
       "scale" : "2x"
     ***REMOVED***,
@@ -32,6 +42,16 @@
     ***REMOVED***,
     ***REMOVED***
       "idiom" : "ipad",
+      "size" : "20x20",
+      "scale" : "1x"
+    ***REMOVED***,
+    ***REMOVED***
+      "idiom" : "ipad",
+      "size" : "20x20",
+      "scale" : "2x"
+    ***REMOVED***,
+    ***REMOVED***
+      "idiom" : "ipad",
       "size" : "29x29",
       "scale" : "1x"
     ***REMOVED***,
@@ -58,6 +78,11 @@
     ***REMOVED***
       "idiom" : "ipad",
       "size" : "76x76",
+      "scale" : "2x"
+    ***REMOVED***,
+    ***REMOVED***
+      "idiom" : "ipad",
+      "size" : "83.5x83.5",
       "scale" : "2x"
     ***REMOVED***
   ],
