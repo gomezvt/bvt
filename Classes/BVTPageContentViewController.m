@@ -6,13 +6,13 @@
 ***REMOVED***  Copyright © 2016 gomez. All rights reserved.
 ***REMOVED***
 
-#import "PageContentViewController.h"
+#import "BVTPageContentViewController.h"
 
-@interface PageContentViewController ()
+@interface BVTPageContentViewController ()
 
 ***REMOVED***
 
-@implementation PageContentViewController
+@implementation BVTPageContentViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 ***REMOVED***
