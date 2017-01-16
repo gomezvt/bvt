@@ -6,17 +6,29 @@
 ***REMOVED***  Copyright © 2017 gms. All rights reserved.
 ***REMOVED***
 
+@import YelpAPI
+
+***REMOVED***
+@property (strong, nonatomic) YLPClient *client;
 ***REMOVED***
 
 ***REMOVED***
 
++ (YLPClient *)sharedClient ***REMOVED***
+***REMOVED***
+    return appDelegate.client;
 ***REMOVED***
 
 ***REMOVED***
-
 
 ***REMOVED*** ***REMOVED***
-    ***REMOVED*** Override point for customization after application launch.
+    [YLPClient authorizeWithAppId:@"7VjGynQ1oCHZlytlm23Tgg" secret:@"sZGmHsNB9VPMkcQgj9egnt56jV88LZwFebK3VLBmMVwhAlKq2kXE2wkMkfzudKcZ" completionHandler:^(YLPClient *client, NSError *error) ***REMOVED***
+        self.client = client;
+        if (!client) ***REMOVED***
+***REMOVED***
+        ***REMOVED***
+    ***REMOVED***];
+    
 ***REMOVED***
 ***REMOVED***
 
