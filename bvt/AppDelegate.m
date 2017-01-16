@@ -5,8 +5,9 @@
 ***REMOVED***  Created by Greg on 1/15/17.
 ***REMOVED***  Copyright © 2017 gms. All rights reserved.
 ***REMOVED***
+***REMOVED***
 
-@import YelpAPI
+***REMOVED***
 
 ***REMOVED***
 @property (strong, nonatomic) YLPClient *client;
