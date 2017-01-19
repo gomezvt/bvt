@@ -11,7 +11,7 @@
 #import "BVTHeaderTitleView.h"
 #import "BVTThumbNailTableViewCell.h"
 #import "BVTSubCategoryTableViewController.h"
-
+#import "BVTStyles.h"
 ***REMOVED***
 
 #import "YLPClient+Search.h"
@@ -33,10 +33,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
 static NSString *const kDefaultCellIdentifier = @"Cell";
 static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
-
-static NSString *const kGalleries = @"Galleries";
-static NSString *const kPerformingArts = @"Performing Arts";
-static NSString *const kMuseums = @"Museums";
 
 @implementation BVTCategoryTableViewController
 
@@ -63,6 +59,43 @@ static NSString *const kMuseums = @"Museums";
     ***REMOVED***
         categories = @[ kGalleries, kPerformingArts, kMuseums ];
     ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Cafes and Bakeries"])
+    ***REMOVED***
+        categories = @[ kCafes, kBakeries ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Music"])
+    ***REMOVED***
+        categories = @[ kMusicVenues, kMusicalInstruments ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Hotels, Hostels, Bed & Breakfast"])
+    ***REMOVED***
+        categories = @[ kHotels, kHostels, kBedBreakfasts ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Recreation and Attractions"])
+    ***REMOVED***
+        categories = @[  ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Bars and Lounges"])
+    ***REMOVED***
+        categories = @[  ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Restaurants"])
+    ***REMOVED***
+        categories = @[  ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Shopping"])
+    ***REMOVED***
+        categories = @[  ];
+    ***REMOVED***
+    else if ([self.categoryTitle isEqualToString:@"Tours and Festivals"])
+    ***REMOVED***
+        categories = @[  ];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        ***REMOVED*** Travel
+        categories = @[  ];
+    ***REMOVED***
     
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kDefaultCellIdentifier];
@@ -85,14 +118,22 @@ static NSString *const kMuseums = @"Museums";
     BVTThumbNailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.titleLabel.text;
     
-    [[AppDelegate sharedClient] searchWithLocation:@"San Francisco, CA" term:nil limit:5 offset:0 sort:YLPSortTypeDistance completionHandler:^
+    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:5 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             if (error)***REMOVED***
-                 NSLog(@"An error happened during the request: %@", error);
+             if (searchResults.businesses.count > 0) ***REMOVED***
+                 NSMutableArray *filteredArray = [NSMutableArray array];
+                 for (YLPBusiness *biz in searchResults.businesses)
+                 ***REMOVED***
+                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS %@", selectionTitle]] lastObject])
+                     ***REMOVED***
+                         [filteredArray addObject:biz];
+                     ***REMOVED***
+                 ***REMOVED***
+                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, filteredArray ]];
              ***REMOVED***
-             else if (searchResults) ***REMOVED***
-                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, searchResults ]];
+             else if (error) ***REMOVED***
+                 NSLog(@"An error happened during the request: %@", error);
              ***REMOVED***
              else ***REMOVED***
                  NSLog(@"No business was found");

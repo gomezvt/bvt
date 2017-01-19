@@ -55,7 +55,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     UINib *cellNib = [UINib nibWithNibName:kCollectionViewCellNib bundle:nil];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:kDefaultCellIdentifier];
     
-    cellTitles = @[ @"Arts and Museums", @"Coffee and Cafés", @"Hotels, Inns, and B&Bs", @"Recreation and Attractions", @"Live Music", @"Bars and Lounges", @"Restaurants", @"Shopping", @"Tours and Festivals", @"Travel" ];
+    cellTitles = @[ @"Arts and Museums", @"Cafes and Bakeries", @"Music", @"Hotels, Hostels, Bed & Breakfast", @"Recreation and Attractions", @"Bars and Lounges", @"Restaurants", @"Shopping", @"Tours and Festivals", @"Travel" ];
 ***REMOVED***
 
 #pragma mark - CollectionView Delegate
@@ -83,27 +83,8 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     BVTExploreCollectionViewCell *cell = (BVTExploreCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     NSString *selectionTitle = cell.titleLabel.text;
-    if ([selectionTitle isEqualToString:@"Live Music"])
-    ***REMOVED***
-        [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:20 offset:0 sort:YLPSortTypeDistance completionHandler:^
-         (YLPSearch *searchResults, NSError *error) ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                 if (error)***REMOVED***
-                     NSLog(@"An error happened during the request: %@", error);
-                 ***REMOVED***
-                 else if (searchResults) ***REMOVED***
-                     [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, searchResults.businesses ]];
-                 ***REMOVED***
-                 else ***REMOVED***
-                     NSLog(@"No business was found");
-                 ***REMOVED***
-             ***REMOVED***);
-         ***REMOVED***];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self performSegueWithIdentifier:kShowCategorySegue sender:selectionTitle];
-    ***REMOVED***
+    
+    [self performSegueWithIdentifier:kShowCategorySegue sender:selectionTitle];
 ***REMOVED***
 
 #pragma mark - Navigation
