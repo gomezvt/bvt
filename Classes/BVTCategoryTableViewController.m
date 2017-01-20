@@ -57,31 +57,31 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     if ([self.categoryTitle isEqualToString:@"Arts and Museums"])
     ***REMOVED***
-        categories = @[ kGalleries, kPerformingArts, kMuseums ];
+        categories = kArtsMuseums;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Cafes and Bakeries"])
+    else if ([self.categoryTitle isEqualToString:@"Coffee, Sweets, and Bakeries"])
     ***REMOVED***
-        categories = @[ kCafes, kBakeries ];
+        categories = kCoffeeSweetsBakeries;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Music"])
     ***REMOVED***
-        categories = @[ kMusicVenues, kMusicalInstruments ];
+        categories = kMusic;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Hotels, Hostels, Bed & Breakfast"])
     ***REMOVED***
-        categories = @[ kHotels, kHostels, kBedBreakfasts ];
+        categories = kHotelsHostelsBB;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Recreation and Attractions"])
+    else if ([self.categoryTitle isEqualToString:@"Entertainment and Recreation"])
     ***REMOVED***
-        categories = @[  ];
+        categories = kEntertainmentRecreation;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Bars and Lounges"])
     ***REMOVED***
-        categories = @[  ];
+        categories = kBarsLounges;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Restaurants"])
     ***REMOVED***
-        categories = @[  ];
+        categories = kRestaurants;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Shopping"])
     ***REMOVED***
