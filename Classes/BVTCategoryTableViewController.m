@@ -85,16 +85,16 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Shopping"])
     ***REMOVED***
-        categories = @[  ];
+        categories = kShopping;
     ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Tours and Festivals"])
     ***REMOVED***
-        categories = @[  ];
+        categories = kToursFestivals;
     ***REMOVED***
     else
     ***REMOVED***
         ***REMOVED*** Travel
-        categories = @[  ];
+        categories = kTravel;
     ***REMOVED***
     
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
@@ -118,14 +118,14 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     BVTThumbNailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.titleLabel.text;
     
-    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:5 offset:0 sort:YLPSortTypeDistance completionHandler:^
+    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:30 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              if (searchResults.businesses.count > 0) ***REMOVED***
                  NSMutableArray *filteredArray = [NSMutableArray array];
                  for (YLPBusiness *biz in searchResults.businesses)
                  ***REMOVED***
-                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name CONTAINS %@", selectionTitle]] lastObject])
+                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject])
                      ***REMOVED***
                          [filteredArray addObject:biz];
                      ***REMOVED***
