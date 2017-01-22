@@ -7,16 +7,34 @@
 ***REMOVED***
 
 #import "BVTAboutTableViewController.h"
+#import "BVTHeaderTitleView.h"
 
 @interface BVTAboutTableViewController ()
 
+@property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
+
+
 ***REMOVED***
 
+static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
+
 @implementation BVTAboutTableViewController
+
+- (void)awakeFromNib
+***REMOVED***
+    [super awakeFromNib];
+    
+    UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
+    self.headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
+    self.navigationItem.titleView = self.headerTitleView;
+***REMOVED***
 
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+    
+    self.tableView.estimatedRowHeight = 44.f;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
 
 #pragma mark - Table view data source

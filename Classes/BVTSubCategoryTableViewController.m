@@ -68,7 +68,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     YLPBusiness *selectedBusiness = [self.searchResults.businesses objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:kShowDetailSegue sender:@[ selectedBusiness.name, selectedBusiness ]];
+    [self performSegueWithIdentifier:kShowDetailSegue sender:nil];
+
+***REMOVED***    [self performSegueWithIdentifier:kShowDetailSegue sender:@[ selectedBusiness.name, selectedBusiness ]];
 
 ***REMOVED***    [[AppDelegate sharedClient] businessWithId:selectedBusiness.name completionHandler:^
 ***REMOVED***     (YLPBusiness *business, NSError *error) ***REMOVED***
@@ -89,16 +91,18 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     NSArray *businesses = (NSArray *)self.searchResults;
     
-    return businesses.count;
+***REMOVED***    return businesses.count;
+    return 1;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier forIndexPath:indexPath];
     
-    NSArray *businesses = (NSArray *)self.searchResults;
-    YLPBusiness *business = [businesses objectAtIndex:indexPath.row];
-    cell.titleLabel.text = business.name;
+***REMOVED***    NSArray *businesses = (NSArray *)self.searchResults;
+***REMOVED***    YLPBusiness *business = [businesses objectAtIndex:indexPath.row];
+***REMOVED***    cell.titleLabel.text = business.name;
+    cell.titleLabel.text = @"test";
 
     return cell;
 ***REMOVED***

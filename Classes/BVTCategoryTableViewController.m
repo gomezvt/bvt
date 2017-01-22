@@ -117,29 +117,30 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.titleLabel.text;
-    
-    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:30 offset:0 sort:YLPSortTypeDistance completionHandler:^
-     (YLPSearch *searchResults, NSError *error) ***REMOVED***
-         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             if (searchResults.businesses.count > 0) ***REMOVED***
-                 NSMutableArray *filteredArray = [NSMutableArray array];
-                 for (YLPBusiness *biz in searchResults.businesses)
-                 ***REMOVED***
-                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject])
-                     ***REMOVED***
-                         [filteredArray addObject:biz];
-                     ***REMOVED***
-                 ***REMOVED***
-                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, filteredArray ]];
-             ***REMOVED***
-             else if (error) ***REMOVED***
-                 NSLog(@"An error happened during the request: %@", error);
-             ***REMOVED***
-             else ***REMOVED***
-                 NSLog(@"No business was found");
-             ***REMOVED***
-         ***REMOVED***);
-     ***REMOVED***];
+    [self performSegueWithIdentifier:kShowSubCategorySegue sender:nil];
+
+***REMOVED***    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:30 offset:0 sort:YLPSortTypeDistance completionHandler:^
+***REMOVED***     (YLPSearch *searchResults, NSError *error) ***REMOVED***
+***REMOVED***         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***             if (searchResults.businesses.count > 0) ***REMOVED***
+***REMOVED***                 NSMutableArray *filteredArray = [NSMutableArray array];
+***REMOVED***                 for (YLPBusiness *biz in searchResults.businesses)
+***REMOVED***                 ***REMOVED***
+***REMOVED***                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject])
+***REMOVED***                     ***REMOVED***
+***REMOVED***                         [filteredArray addObject:biz];
+***REMOVED***                     ***REMOVED***
+***REMOVED***                 ***REMOVED***
+***REMOVED***                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, filteredArray ]];
+***REMOVED***             ***REMOVED***
+***REMOVED***             else if (error) ***REMOVED***
+***REMOVED***                 NSLog(@"An error happened during the request: %@", error);
+***REMOVED***             ***REMOVED***
+***REMOVED***             else ***REMOVED***
+***REMOVED***                 NSLog(@"No business was found");
+***REMOVED***             ***REMOVED***
+***REMOVED***         ***REMOVED***);
+***REMOVED***     ***REMOVED***];
 ***REMOVED***
 
 #pragma mark - TableView Data Source
@@ -196,14 +197,14 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
-    NSArray *info = sender;
-    if ([[segue identifier] isEqualToString:kShowSubCategorySegue])
-    ***REMOVED***
-        ***REMOVED*** Get destination view
-        BVTSubCategoryTableViewController *vc = [segue destinationViewController];
-        vc.subCategoryTitle = [info firstObject];
-        vc.searchResults = [info lastObject];
-    ***REMOVED***
+***REMOVED***    NSArray *info = sender;
+***REMOVED***    if ([[segue identifier] isEqualToString:kShowSubCategorySegue])
+***REMOVED***    ***REMOVED***
+***REMOVED***        ***REMOVED*** Get destination view
+***REMOVED***        BVTSubCategoryTableViewController *vc = [segue destinationViewController];
+***REMOVED***        vc.subCategoryTitle = [info firstObject];
+***REMOVED***        vc.searchResults = [info lastObject];
+***REMOVED***    ***REMOVED***
 ***REMOVED***
 
 ***REMOVED***
