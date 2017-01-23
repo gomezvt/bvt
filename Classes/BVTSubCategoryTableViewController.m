@@ -67,17 +67,14 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
-    YLPBusiness *selectedBusiness = [self.searchResults.businesses objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:kShowDetailSegue sender:nil];
-
-***REMOVED***    [self performSegueWithIdentifier:kShowDetailSegue sender:@[ selectedBusiness.name, selectedBusiness ]];
-
-***REMOVED***    [[AppDelegate sharedClient] businessWithId:selectedBusiness.name completionHandler:^
-***REMOVED***     (YLPBusiness *business, NSError *error) ***REMOVED***
-***REMOVED***         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-***REMOVED***             [self performSegueWithIdentifier:kShowDetailSegue sender:@[ selectedBusiness.name, selectedBusiness ]];
-***REMOVED***         ***REMOVED***);
-***REMOVED***     ***REMOVED***];
+    YLPBusiness *selectedBusiness = [self.filteredResults objectAtIndex:indexPath.row];
+    
+    [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+     (YLPBusiness *business, NSError *error) ***REMOVED***
+         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+             [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness ];
+         ***REMOVED***);
+     ***REMOVED***];    
 ***REMOVED***
 
 #pragma mark - TableView Data Source
@@ -89,10 +86,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    NSArray *businesses = (NSArray *)self.searchResults;
+***REMOVED***    NSArray *businesses = (NSArray *)self.filteredResults;
     
-***REMOVED***    return businesses.count;
-    return 1;
+    return self.filteredResults.count;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,9 +96,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier forIndexPath:indexPath];
     
 ***REMOVED***    NSArray *businesses = (NSArray *)self.searchResults;
-***REMOVED***    YLPBusiness *business = [businesses objectAtIndex:indexPath.row];
-***REMOVED***    cell.titleLabel.text = business.name;
-    cell.titleLabel.text = @"test";
+    YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
+    cell.titleLabel.text = business.name;
 
     return cell;
 ***REMOVED***
@@ -140,13 +135,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
-    NSArray *info = sender;
     if ([[segue identifier] isEqualToString:kShowDetailSegue])
     ***REMOVED***
         ***REMOVED*** Get destination view
         BVTDetailTableViewController *vc = [segue destinationViewController];
-        vc.detailTitle = [info firstObject];
-        vc.business = [info lastObject];
+        vc.selectedBusiness = sender;
     ***REMOVED***
 ***REMOVED***
 

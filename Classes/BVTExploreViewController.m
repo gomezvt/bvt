@@ -92,21 +92,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
     BVTCategoryTableViewController *vc = [segue destinationViewController];
-            vc.categoryTitle = sender;
-***REMOVED***    ***REMOVED*** Get destination view
-***REMOVED***    if ([sender isKindOfClass:[NSString class]])
-***REMOVED***    ***REMOVED***
-***REMOVED***        BVTCategoryTableViewController *vc = [segue destinationViewController];
-***REMOVED***        vc.categoryTitle = sender;
-***REMOVED***    ***REMOVED***
-***REMOVED***    else if ([sender isKindOfClass:[NSArray class]])
-***REMOVED***    ***REMOVED***
-***REMOVED***        BVTSubCategoryTableViewController *vc = [segue destinationViewController];
-***REMOVED***
-***REMOVED***        NSArray *array = sender;
-***REMOVED***        vc.subCategoryTitle = [array firstObject];
-***REMOVED***        vc.searchResults = [array lastObject];
-***REMOVED***    ***REMOVED***
+    vc.categoryTitle = sender;
 ***REMOVED***
 
 ***REMOVED***
