@@ -9,7 +9,6 @@
 #import "BVTCategoryTableViewController.h"
 
 #import "BVTHeaderTitleView.h"
-#import "BVTThumbNailTableViewCell.h"
 #import "BVTSubCategoryTableViewController.h"
 #import "BVTStyles.h"
 ***REMOVED***
@@ -30,7 +29,6 @@
 static NSArray *categories;
 static NSArray *businessesToDisplay;
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
-static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
 static NSString *const kDefaultCellIdentifier = @"Cell";
 static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
@@ -97,9 +95,6 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
         categories = kTravel;
     ***REMOVED***
     
-    UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
-    [self.tableView registerNib:cellNib forCellReuseIdentifier:kDefaultCellIdentifier];
-    
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
@@ -115,22 +110,25 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
-    BVTThumbNailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *selectionTitle = cell.titleLabel.text;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *selectionTitle = cell.textLabel.text;
 
-    [[AppDelegate sharedClient] searchWithLocation:@"New York, NY" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
+    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              if (searchResults.businesses.count > 0) ***REMOVED***
                  NSMutableArray *filteredArray = [NSMutableArray array];
                  for (YLPBusiness *biz in searchResults.businesses)
                  ***REMOVED***
-                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject])
+                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject] && biz.closed == NO)
                      ***REMOVED***
                          [filteredArray addObject:biz];
                      ***REMOVED***
                  ***REMOVED***
-                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, filteredArray ]];
+                 NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+                 NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
+
+                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
              ***REMOVED***
              else if (error) ***REMOVED***
                  NSLog(@"An error happened during the request: %@", error);
@@ -156,9 +154,9 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
-    BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier forIndexPath:indexPath];
     
-    cell.titleLabel.text = [categories objectAtIndex:indexPath.row];
+    cell.textLabel.text = [categories objectAtIndex:indexPath.row];
 
     return cell;
 ***REMOVED***

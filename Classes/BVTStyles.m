@@ -12,9 +12,9 @@
 
 @implementation BVTStyles
 
-***REMOVED***+ (UIColor *)redColor
-***REMOVED******REMOVED***
-***REMOVED***    return [UIColor redColor];
-***REMOVED******REMOVED***
++ (UIColor *)BVTLightGray
+***REMOVED***
+    return [UIColor colorWithRed:236 green:235 blue:5 alpha:232];
+***REMOVED***
 
 ***REMOVED***
