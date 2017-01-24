@@ -118,7 +118,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     BVTThumbNailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.titleLabel.text;
 
-    [[AppDelegate sharedClient] searchWithLocation:@"Sidney, Australia" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
+    [[AppDelegate sharedClient] searchWithLocation:@"New York, NY" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              if (searchResults.businesses.count > 0) ***REMOVED***

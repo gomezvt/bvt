@@ -11,6 +11,7 @@
 @interface BVTYelpContactTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UIView *backView;
+@property (nonatomic, weak) IBOutlet UILabel *phoneNumberLabel;
 
 ***REMOVED***
 
@@ -22,6 +23,13 @@
     
     [super awakeFromNib];
     ***REMOVED*** Initialization code
+***REMOVED***
+
+- (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
+***REMOVED***
+    _selectedBusiness = selectedBusiness;
+    
+    self.phoneNumberLabel.text = self.selectedBusiness.phone;
 ***REMOVED***
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***

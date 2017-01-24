@@ -130,7 +130,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     else if (indexPath.row == 1)
     ***REMOVED***
         BVTYelpContactTableViewCell *defaultCell = (BVTYelpContactTableViewCell *)cell;
-        defaultCell.phoneNumberLabel.text = self.selectedBusiness.phone;
+        defaultCell.selectedBusiness = self.selectedBusiness;
     ***REMOVED***
     else if (indexPath.row == 2)
     ***REMOVED***
@@ -139,7 +139,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
     else if (indexPath.row == 3)
     ***REMOVED***
-        BVTYelpContactTableViewCell *defaultCell = (BVTYelpContactTableViewCell *)cell;
+        ***REMOVED*** Map
     ***REMOVED***
     else if (indexPath.row == 4 || indexPath.row == 5)
     ***REMOVED***
