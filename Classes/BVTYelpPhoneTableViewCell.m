@@ -10,7 +10,7 @@
 
 @interface BVTYelpPhoneTableViewCell ()
 
-@property (nonatomic, weak) IBOutlet UILabel *phoneNumberLabel;
+@property (nonatomic, weak) IBOutlet UIButton *phoneNumberButton;
 @property (nonatomic, weak) IBOutlet UIImageView *PhoneImageView;
 
 ***REMOVED***
@@ -25,7 +25,28 @@
 - (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
 ***REMOVED***
     _selectedBusiness = selectedBusiness;
-    self.phoneNumberLabel.text = self.selectedBusiness.phone;
+    
+    [self.phoneNumberButton setTitle:selectedBusiness.phone forState:UIControlStateNormal];
+***REMOVED***
+
+- (IBAction)didTapPhoneNumberButton:(id)sender
+***REMOVED***
+    NSString *phoneNumber;
+    if ([self.selectedBusiness.phone hasPrefix:@"+"])
+    ***REMOVED***
+        phoneNumber = [self.selectedBusiness.phone substringFromIndex:1];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        phoneNumber = self.selectedBusiness.phone;
+    ***REMOVED***
+    
+    NSString *phoneString = [NSString stringWithFormat:@"telprompt:%@", phoneNumber];
+    NSURL *phoneURL = [NSURL URLWithString:phoneString];
+    
+    [[UIApplication sharedApplication] openURL:phoneURL options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
 ***REMOVED***
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
