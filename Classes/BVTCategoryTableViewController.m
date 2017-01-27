@@ -172,7 +172,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (CGFloat)_adjustTitleViewCenter
 ***REMOVED***
-    BOOL deviceIsPortrait = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
+    BOOL deviceIsPortrait = NO;
+    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+    ***REMOVED***
+        deviceIsPortrait = YES;
+    ***REMOVED***
     
     return deviceIsPortrait ? -20.f : 0.f;
 ***REMOVED***
