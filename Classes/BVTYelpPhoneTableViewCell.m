@@ -10,8 +10,7 @@
 
 @interface BVTYelpPhoneTableViewCell ()
 
-@property (nonatomic, weak) IBOutlet UIButton *phoneNumberButton;
-@property (nonatomic, weak) IBOutlet UIImageView *PhoneImageView;
+@property (nonatomic, weak) IBOutlet UILabel *phoneNumberLabel;
 
 ***REMOVED***
 
@@ -26,7 +25,7 @@
 ***REMOVED***
     _selectedBusiness = selectedBusiness;
     
-    [self.phoneNumberButton setTitle:selectedBusiness.phone forState:UIControlStateNormal];
+    self.phoneNumberLabel.text = self.selectedBusiness.phone;
 ***REMOVED***
 
 - (IBAction)didTapPhoneNumberButton:(id)sender
