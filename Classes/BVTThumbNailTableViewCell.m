@@ -36,8 +36,8 @@
     ***REMOVED***
     else
     ***REMOVED***
-        self.addressLabel.text = nil;
-        self.addressLabel2.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
+        self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
+        [self.addressLabel2 removeFromSuperview];
     ***REMOVED***
 ***REMOVED***
 
