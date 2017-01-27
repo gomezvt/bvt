@@ -83,6 +83,25 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     self.headerTitleView.centerXConstraint.constant = [self _adjustTitleViewCenter];
 ***REMOVED***
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+***REMOVED***
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([cell isKindOfClass:[BVTYelpAddressTableViewCell class]])
+    ***REMOVED***
+        BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
+        
+        NSString *filteredString = [addressCell.mapsQueryString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+        NSURL *url = [NSURL URLWithString:filteredString];
+        [[UIApplication sharedApplication] openURL:url options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+            NSLog(@"");
+        ***REMOVED***];
+    ***REMOVED***
+    else if ([cell isKindOfClass:[BVTYelpPhoneTableViewCell class]])
+    ***REMOVED***
+        
+    ***REMOVED***
+***REMOVED***
+
 #pragma mark - TableView Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -159,6 +178,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
             BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
             defaultCell.selectedBusiness = self.selectedBusiness;
+            
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
