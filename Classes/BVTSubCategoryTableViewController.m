@@ -56,13 +56,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
 
-- (void)viewWillAppear:(BOOL)animated
-***REMOVED***
-    [super viewWillAppear:animated];
-    
-    self.headerTitleView.centerXConstraint.constant = [self _adjustTitleViewCenter];
-***REMOVED***
-
 #pragma mark - TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
@@ -105,31 +98,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
-***REMOVED***
-
-#pragma mark - Private Methods
-
-- (CGFloat)_adjustTitleViewCenter
-***REMOVED***
-    BOOL deviceIsPortrait = NO;
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-    ***REMOVED***
-        deviceIsPortrait = YES;
-    ***REMOVED***
-    
-    return deviceIsPortrait ? -20.f : 0.f;
-***REMOVED***
-
-#pragma mark - Device Orientation
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id)coordinator
-***REMOVED***    
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    
-    [coordinator animateAlongsideTransition:^(id  _Nonnull context) ***REMOVED***
-        [self.tableView reloadData];
-    ***REMOVED*** completion:^(id  _Nonnull context) ***REMOVED***
-    ***REMOVED***];
 ***REMOVED***
 
 #pragma mark - Navigation

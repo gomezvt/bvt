@@ -76,13 +76,6 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
 
-- (void)viewWillAppear:(BOOL)animated
-***REMOVED***
-    [super viewWillAppear:animated];
-    
-    self.headerTitleView.centerXConstraint.constant = [self _adjustTitleViewCenter];
-***REMOVED***
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -236,10 +229,6 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
     ***REMOVED***
     
-
-    
-    
-
     return cell;
 ***REMOVED***
 
@@ -248,31 +237,6 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
-***REMOVED***
-
-#pragma mark - Private Methods
-
-- (CGFloat)_adjustTitleViewCenter
-***REMOVED***
-    BOOL deviceIsPortrait = NO;
-    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
-    ***REMOVED***
-        deviceIsPortrait = YES;
-    ***REMOVED***
-    
-    return deviceIsPortrait ? -20.f : 0.f;
-***REMOVED***
-
-#pragma mark - Device Orientation
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id)coordinator
-***REMOVED***
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    
-    [coordinator animateAlongsideTransition:^(id  _Nonnull context) ***REMOVED***
-        [self.tableView reloadData];
-    ***REMOVED*** completion:^(id  _Nonnull context) ***REMOVED***
-    ***REMOVED***];
 ***REMOVED***
 
 ***REMOVED***
