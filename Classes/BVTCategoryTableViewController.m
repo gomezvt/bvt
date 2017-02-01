@@ -188,7 +188,6 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) ***REMOVED***
-        self.headerTitleView.centerXConstraint.constant = -20.f;
         [self.tableView reloadData];
     ***REMOVED*** completion:^(id  _Nonnull context) ***REMOVED***
     ***REMOVED***];

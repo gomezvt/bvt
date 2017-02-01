@@ -111,7 +111,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (CGFloat)_adjustTitleViewCenter
 ***REMOVED***
-    BOOL deviceIsPortrait = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
+    BOOL deviceIsPortrait = NO;
+    if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+    ***REMOVED***
+        deviceIsPortrait = YES;
+    ***REMOVED***
     
     return deviceIsPortrait ? -20.f : 0.f;
 ***REMOVED***
@@ -123,7 +127,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     [coordinator animateAlongsideTransition:^(id  _Nonnull context) ***REMOVED***
-        self.headerTitleView.centerXConstraint.constant = -20.f;
         [self.tableView reloadData];
     ***REMOVED*** completion:^(id  _Nonnull context) ***REMOVED***
     ***REMOVED***];
