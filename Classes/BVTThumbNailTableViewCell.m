@@ -23,7 +23,19 @@
     _business = business;
     
     YLPLocation *location = business.location;
-
+    self.titleLabel.text = business.name;
+    
+    if (location.address.count > 0)
+    ***REMOVED***
+        self.addressLabel.text = location.address[0];
+        self.addressLabel2.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
+        [self.addressLabel2 removeFromSuperview];
+    ***REMOVED***
+    
     __block NSData *imageData;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
@@ -32,18 +44,6 @@
             ***REMOVED*** Update your UI
             UIImage *image = [UIImage imageWithData:imageData];
             self.thumbNailView.image = image;
-            self.titleLabel.text = business.name;
-            
-            if (location.address.count > 0)
-            ***REMOVED***
-                self.addressLabel.text = location.address[0];
-                self.addressLabel2.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
-            ***REMOVED***
-            else
-            ***REMOVED***
-                self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
-                [self.addressLabel2 removeFromSuperview];
-            ***REMOVED***
         ***REMOVED***);
     ***REMOVED***);
 ***REMOVED***
