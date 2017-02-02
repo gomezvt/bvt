@@ -52,8 +52,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:kDefaultCellIdentifier];
 
-    self.tableView.estimatedRowHeight = 44.f;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+***REMOVED***    self.tableView.estimatedRowHeight = 44.f;
+***REMOVED***    self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
 
 #pragma mark - TableView Delegate
@@ -68,6 +68,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
              [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness ];
          ***REMOVED***);
      ***REMOVED***];    
+***REMOVED***
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+***REMOVED***
+    return 93.f;
 ***REMOVED***
 
 #pragma mark - TableView Data Source
@@ -87,7 +92,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier forIndexPath:indexPath];
     
     YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
-    
+
     cell.business = business;
 
     return cell;
