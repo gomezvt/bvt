@@ -8,13 +8,16 @@
 
 #import "BVTStyles.h"
 
-***REMOVED*** Model categories after those found on https:***REMOVED***www.yelp.com/developers/documentation/v2/category_list
-
 @implementation BVTStyles
 
-+ (UIColor *)BVTLightGray
++ (UIColor *)lightGray
 ***REMOVED***
-    return [UIColor colorWithRed:236 green:235 blue:5 alpha:232];
+    return [UIColor colorWithRed:236.f/255 green:235.f/255 blue:5.f/255 alpha:1.f];
+***REMOVED***
+
++ (UIColor *)iconGreen
+***REMOVED***
+    return [UIColor colorWithRed:75.f/255 green:124.f/255 blue:89.f/255 alpha:1.f];
 ***REMOVED***
 
 ***REMOVED***
