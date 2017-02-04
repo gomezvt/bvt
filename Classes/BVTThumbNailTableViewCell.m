@@ -35,17 +35,6 @@
         self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
         [self.addressLabel2 removeFromSuperview];
     ***REMOVED***
-    
-    __block NSData *imageData;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-        ***REMOVED*** Your Background work
-        imageData = [NSData dataWithContentsOfURL:business.imageURL];
-        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-            ***REMOVED*** Update your UI
-            UIImage *image = [UIImage imageWithData:imageData];
-            self.thumbNailView.image = image;
-        ***REMOVED***);
-    ***REMOVED***);
 ***REMOVED***
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
