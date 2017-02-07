@@ -33,39 +33,39 @@ NSString *const star_five       = @"star_five.png";
 ***REMOVED***
     _selectedBusiness = selectedBusiness;
     
-    self.reviewsCountLabel.text = [NSString stringWithFormat:@"%ld Review(s) in", self.selectedBusiness.reviewCount];
+    self.reviewsCountLabel.text = [NSString stringWithFormat:@"Based on (%ld) reviews", self.selectedBusiness.reviewCount];
     
     self.yelpPriceLabel.text = self.selectedBusiness.price;
     
-    YLPCategory *categoryOne;
-    YLPCategory *categoryTwo;
-    YLPCategory *categoryThree;
-    
-    NSString *catString;
-    NSArray *categories = self.selectedBusiness.categories;
-    
-    if (self.selectedBusiness.categories.count == 1)
-    ***REMOVED***
-        categoryOne = categories[0];
-        catString = categoryOne.name;
-    ***REMOVED***
-    else if (self.selectedBusiness.categories.count == 2)
-    ***REMOVED***
-        categoryOne = categories[0];
-        categoryTwo = categories[1];
-        
-        catString = [NSString stringWithFormat:@"%@, %@", categoryOne.name, categoryTwo.name];
-    ***REMOVED***
-    else if (self.selectedBusiness.categories.count == 3)
-    ***REMOVED***
-        categoryOne = categories[0];
-        categoryTwo = categories[1];
-        categoryThree = categories[2];
-        
-        catString = [NSString stringWithFormat:@"%@, %@, %@", categoryOne.name, categoryTwo.name, categoryThree.name];
-    ***REMOVED***
-    
-    self.yelpCategoryLabel.text = catString;
+***REMOVED***    YLPCategory *categoryOne;
+***REMOVED***    YLPCategory *categoryTwo;
+***REMOVED***    YLPCategory *categoryThree;
+***REMOVED***    
+***REMOVED***    NSString *catString;
+***REMOVED***    NSArray *categories = self.selectedBusiness.categories;
+***REMOVED***    
+***REMOVED***    if (self.selectedBusiness.categories.count == 1)
+***REMOVED***    ***REMOVED***
+***REMOVED***        categoryOne = categories[0];
+***REMOVED***        catString = categoryOne.name;
+***REMOVED***    ***REMOVED***
+***REMOVED***    else if (self.selectedBusiness.categories.count == 2)
+***REMOVED***    ***REMOVED***
+***REMOVED***        categoryOne = categories[0];
+***REMOVED***        categoryTwo = categories[1];
+***REMOVED***        
+***REMOVED***        catString = [NSString stringWithFormat:@"%@, %@", categoryOne.name, categoryTwo.name];
+***REMOVED***    ***REMOVED***
+***REMOVED***    else if (self.selectedBusiness.categories.count == 3)
+***REMOVED***    ***REMOVED***
+***REMOVED***        categoryOne = categories[0];
+***REMOVED***        categoryTwo = categories[1];
+***REMOVED***        categoryThree = categories[2];
+***REMOVED***        
+***REMOVED***        catString = [NSString stringWithFormat:@"%@, %@, %@", categoryOne.name, categoryTwo.name, categoryThree.name];
+***REMOVED***    ***REMOVED***
+***REMOVED***    
+***REMOVED***    self.yelpCategoryLabel.text = catString;
     
     NSString *ratingString;
     if (self.selectedBusiness.rating == 0)
