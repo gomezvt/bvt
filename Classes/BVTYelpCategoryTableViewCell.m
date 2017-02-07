@@ -8,6 +8,9 @@
 
 #import "BVTYelpCategoryTableViewCell.h"
 
+#import "YLPCategory.h"
+
+
 @implementation BVTYelpCategoryTableViewCell
 
 - (void)awakeFromNib ***REMOVED***
@@ -21,4 +24,38 @@
     ***REMOVED*** Configure the view for the selected state
 ***REMOVED***
 
+- (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
+***REMOVED***
+    _selectedBusiness = selectedBusiness;
+    
+    YLPCategory *categoryOne;
+    YLPCategory *categoryTwo;
+    YLPCategory *categoryThree;
+    
+    NSString *catString;
+    NSArray *categories = self.selectedBusiness.categories;
+    
+    if (self.selectedBusiness.categories.count == 1)
+    ***REMOVED***
+        categoryOne = categories[0];
+        catString = [NSString stringWithFormat:@"Place category: %@", categoryOne.name];
+    ***REMOVED***
+    else if (self.selectedBusiness.categories.count == 2)
+    ***REMOVED***
+        categoryOne = categories[0];
+        categoryTwo = categories[1];
+        
+        catString = [NSString stringWithFormat:@"Place categories: %@, %@", categoryOne.name, categoryTwo.name];
+    ***REMOVED***
+    else if (self.selectedBusiness.categories.count == 3)
+    ***REMOVED***
+        categoryOne = categories[0];
+        categoryTwo = categories[1];
+        categoryThree = categories[2];
+        
+        catString = [NSString stringWithFormat:@"Place categories: %@, %@, %@", categoryOne.name, categoryTwo.name, categoryThree.name];
+    ***REMOVED***
+    
+    self.categoryLabel.text = catString;
+***REMOVED***
 ***REMOVED***

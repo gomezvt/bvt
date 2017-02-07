@@ -8,7 +8,6 @@
 
 #import "BVTYelpRatingTableViewCell.h"
 
-#import "YLPCategory.h"
 
 NSString *const star_zero       = @"star_zero.png";
 NSString *const star_one        = @"star_one.png";
@@ -36,36 +35,6 @@ NSString *const star_five       = @"star_five.png";
     self.reviewsCountLabel.text = [NSString stringWithFormat:@"Based on (%ld) reviews", self.selectedBusiness.reviewCount];
     
     self.yelpPriceLabel.text = self.selectedBusiness.price;
-    
-***REMOVED***    YLPCategory *categoryOne;
-***REMOVED***    YLPCategory *categoryTwo;
-***REMOVED***    YLPCategory *categoryThree;
-***REMOVED***    
-***REMOVED***    NSString *catString;
-***REMOVED***    NSArray *categories = self.selectedBusiness.categories;
-***REMOVED***    
-***REMOVED***    if (self.selectedBusiness.categories.count == 1)
-***REMOVED***    ***REMOVED***
-***REMOVED***        categoryOne = categories[0];
-***REMOVED***        catString = categoryOne.name;
-***REMOVED***    ***REMOVED***
-***REMOVED***    else if (self.selectedBusiness.categories.count == 2)
-***REMOVED***    ***REMOVED***
-***REMOVED***        categoryOne = categories[0];
-***REMOVED***        categoryTwo = categories[1];
-***REMOVED***        
-***REMOVED***        catString = [NSString stringWithFormat:@"%@, %@", categoryOne.name, categoryTwo.name];
-***REMOVED***    ***REMOVED***
-***REMOVED***    else if (self.selectedBusiness.categories.count == 3)
-***REMOVED***    ***REMOVED***
-***REMOVED***        categoryOne = categories[0];
-***REMOVED***        categoryTwo = categories[1];
-***REMOVED***        categoryThree = categories[2];
-***REMOVED***        
-***REMOVED***        catString = [NSString stringWithFormat:@"%@, %@, %@", categoryOne.name, categoryTwo.name, categoryThree.name];
-***REMOVED***    ***REMOVED***
-***REMOVED***    
-***REMOVED***    self.yelpCategoryLabel.text = catString;
     
     NSString *ratingString;
     if (self.selectedBusiness.rating == 0)

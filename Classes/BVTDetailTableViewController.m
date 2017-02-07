@@ -14,6 +14,7 @@
 #import "BVTYelpRatingTableViewCell.h"
 #import "BVTYelpMapTableViewCell.h"
 #import "BVTSplitTableViewCell.h"
+#import "BVTYelpCategoryTableViewCell.h"
 
 #import "BVTStyles.h"
 
@@ -29,9 +30,14 @@ static NSString *const kYelpAddressCellNib = @"BVTYelpAddressTableViewCell";
 static NSString *const kYelpPhoneCellNib = @"BVTYelpPhoneTableViewCell";
 static NSString *const kYelpRatingCellNib = @"BVTYelpRatingTableViewCell";
 static NSString *const kYelpMapCellNib = @"BVTYelpMapTableViewCell";
+static NSString *const kYelpCategoryCellNib = @"BVTYelpCategoryTableViewCell";
+static NSString *const kYelpHoursCellNib = @"BVTYelpHoursTableViewCell";
+
 static NSString *const kSplitCellNib = @"BVTSplitTableViewCell";
+static NSString *const kYelpHoursCellIdentifier = @"YelpHoursCell";
 
 static NSString *const kYelpMapCellIdentifier = @"YelpMapCell";
+static NSString *const kYelpCategoryCellIdentifier = @"YelpCategoryCell";
 static NSString *const kYelpAddressCellIdentifier = @"YelpAddressCell";
 static NSString *const kYelpPhoneCellIdentifier = @"YelpContactCell";
 static NSString *const kYelpRatingCellIdentifier = @"YelpRatingCell";
@@ -62,6 +68,10 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     UINib *yelpMapCellNib = [UINib nibWithNibName:kYelpMapCellNib bundle:nil];
     [self.tableView registerNib:yelpMapCellNib forCellReuseIdentifier:kYelpMapCellIdentifier];
     
+    UINib *yelpHoursCellNib = [UINib nibWithNibName:kYelpHoursCellNib bundle:nil];
+    [self.tableView registerNib:yelpHoursCellNib forCellReuseIdentifier:kYelpHoursCellIdentifier];
+    
+    
     UINib *yelpAddressCellNib = [UINib nibWithNibName:kYelpAddressCellNib bundle:nil];
     [self.tableView registerNib:yelpAddressCellNib forCellReuseIdentifier:kYelpAddressCellIdentifier];
     
@@ -71,9 +81,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     UINib *yelpRatingCellNib = [UINib nibWithNibName:kYelpRatingCellNib bundle:nil];
     [self.tableView registerNib:yelpRatingCellNib forCellReuseIdentifier:kYelpRatingCellIdentifier];
     
+    UINib *yelpCategoryCellNib = [UINib nibWithNibName:kYelpCategoryCellNib bundle:nil];
+    [self.tableView registerNib:yelpCategoryCellNib forCellReuseIdentifier:kYelpCategoryCellIdentifier];
+    
     UINib *splitCellNib = [UINib nibWithNibName:kSplitCellNib bundle:nil];
     [self.tableView registerNib:splitCellNib forCellReuseIdentifier:kSplitCellIdentifier];
-        
+    
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
@@ -110,9 +123,9 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***
     if (!self.selectedBusiness.phone)
     ***REMOVED***
-        return 5;
+        return 7;
     ***REMOVED***
-    return 6;
+    return 8;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -126,13 +139,21 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 1)
         ***REMOVED***
-            identifier = kYelpAddressCellIdentifier;
+            identifier = kYelpCategoryCellIdentifier;
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
+            identifier = kYelpHoursCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
             identifier = kYelpMapCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 3 || indexPath.row == 4)
+        else if (indexPath.row == 5 || indexPath.row == 6)
         ***REMOVED***
             identifier = kSplitCellIdentifier;
         ***REMOVED***
@@ -145,17 +166,25 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 1)
         ***REMOVED***
-            identifier = kYelpPhoneCellIdentifier;
+            identifier = kYelpCategoryCellIdentifier;
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
-            identifier = kYelpAddressCellIdentifier;
+            identifier = kYelpHoursCellIdentifier;
         ***REMOVED***
         else if (indexPath.row == 3)
         ***REMOVED***
+            identifier = kYelpPhoneCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
             identifier = kYelpMapCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 4 || indexPath.row == 5)
+        else if (indexPath.row == 6 || indexPath.row == 7)
         ***REMOVED***
             identifier = kSplitCellIdentifier;
         ***REMOVED***
@@ -173,18 +202,29 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 1)
         ***REMOVED***
-            BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
+            BVTYelpCategoryTableViewCell *defaultCell = (BVTYelpCategoryTableViewCell *)cell;
             defaultCell.selectedBusiness = self.selectedBusiness;
             
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
+
+            
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
+            defaultCell.selectedBusiness = self.selectedBusiness;
+            
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
             ***REMOVED*** Map
         ***REMOVED***
-        else if (indexPath.row == 3 || indexPath.row == 4)
+        else if (indexPath.row == 5 || indexPath.row == 6)
         ***REMOVED***
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            if (indexPath.row == 3)
+            if (indexPath.row == 5)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
@@ -205,22 +245,32 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 1)
         ***REMOVED***
-            BVTYelpPhoneTableViewCell *defaultCell = (BVTYelpPhoneTableViewCell *)cell;
+            BVTYelpCategoryTableViewCell *defaultCell = (BVTYelpCategoryTableViewCell *)cell;
             defaultCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
-            BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
-            defaultCell.selectedBusiness = self.selectedBusiness;
+
+            
         ***REMOVED***
         else if (indexPath.row == 3)
         ***REMOVED***
+            BVTYelpPhoneTableViewCell *defaultCell = (BVTYelpPhoneTableViewCell *)cell;
+            defaultCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
+            defaultCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
             ***REMOVED*** Map
         ***REMOVED***
-        else if (indexPath.row == 4 || indexPath.row == 5)
+        else if (indexPath.row == 6 || indexPath.row == 7)
         ***REMOVED***
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            if (indexPath.row == 4)
+            if (indexPath.row == 6)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
