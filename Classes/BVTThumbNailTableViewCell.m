@@ -41,16 +41,43 @@ NSString *const star_five_mini          = @"star_five_mini.png";
     
     YLPLocation *location = business.location;
     self.titleLabel.text = business.name;
+    NSMutableString *cityStateZipString = [[NSMutableString alloc] init];
+    if (location.city)
+    ***REMOVED***
+        NSString *cityString = location.city;
+        [cityStateZipString appendString:cityString];
+    ***REMOVED***
     
-    if (location.address.count > 0)
+    if (location.stateCode)
+    ***REMOVED***
+        NSString *stateString = [NSString stringWithFormat:@", %@", location.stateCode];
+        [cityStateZipString appendString:stateString];
+    ***REMOVED***
+    
+    if (location.postalCode)
+    ***REMOVED***
+        NSString *postalString = [NSString stringWithFormat:@" %@", location.postalCode];
+        [cityStateZipString appendString:postalString];
+    ***REMOVED***
+    
+    if (location.address.count == 0)
+    ***REMOVED***
+        self.addressLabel.text = cityStateZipString;
+
+        [self.addressLabel2 removeFromSuperview];
+        [self.addressLabel3 removeFromSuperview];
+    ***REMOVED***
+    else if (location.address.count == 1)
     ***REMOVED***
         self.addressLabel.text = location.address[0];
-        self.addressLabel2.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
+        self.addressLabel2.text = cityStateZipString;
+        [self.addressLabel3 removeFromSuperview];
     ***REMOVED***
-    else
+    else if (location.address.count == 2)
     ***REMOVED***
-        self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@", location.city, location.stateCode, location.postalCode];
-        [self.addressLabel2 removeFromSuperview];
+        self.addressLabel.text = location.address[0];
+        self.addressLabel2.text = location.address[1];
+        self.addressLabel3.text = cityStateZipString;
     ***REMOVED***
     
     NSString *ratingString;
