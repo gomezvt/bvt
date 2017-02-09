@@ -31,7 +31,21 @@
         
         ***REMOVED*** BusinessWithID returned values
         id hoursItem = businessDict[@"hours"];
-        _hours = [hoursItem lastObject];
+        if ([hoursItem isKindOfClass:[NSArray class]])
+        ***REMOVED***
+            NSArray *hoursArray = (NSArray *)hoursItem;
+            if ([[hoursArray lastObject] isKindOfClass:[NSDictionary class]])
+            ***REMOVED***
+                NSDictionary *hoursDict = [hoursArray lastObject];
+                id value = hoursDict[@"is_open_now"];
+                if ([value isKindOfClass:[NSNumber class]])
+                ***REMOVED***
+                    _isOpenNow = [value boolValue];
+                ***REMOVED***
+                
+                _businessHours = hoursDict[@"open"];
+            ***REMOVED***
+        ***REMOVED***
 
         _categories = [self.class categoriesFromJSONArray:businessDict[@"categories"]];
         YLPCoordinate *coordinate = [self.class coordinateFromJSONDictionary:businessDict[@"coordinates"]];
