@@ -7,6 +7,15 @@
 ***REMOVED***
 
 #import "BVTYelpMapTableViewCell.h"
+#import <MapKit/MapKit.h>
+#import "YLPLocation.h"
+#import "YLPCoordinate.h"
+
+@interface BVTYelpMapTableViewCell ()
+
+@property (nonatomic, weak) IBOutlet MKMapView *mapView;
+
+***REMOVED***
 
 @implementation BVTYelpMapTableViewCell
 
@@ -19,6 +28,24 @@
     [super setSelected:selected animated:animated];
 
     ***REMOVED*** Configure the view for the selected state
+***REMOVED***
+
+- (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
+***REMOVED***
+    _selectedBusiness = selectedBusiness;
+    
+    CLLocationCoordinate2D location;
+    location.latitude = self.selectedBusiness.location.coordinate.latitude;
+    location.longitude = self.selectedBusiness.location.coordinate.longitude;
+    
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.005;
+    span.longitudeDelta = 0.005;
+    
+    region.span = span;
+    region.center = location;
+    [self.mapView setRegion:region animated:YES];
 ***REMOVED***
 
 ***REMOVED***

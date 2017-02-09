@@ -226,7 +226,8 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 4)
         ***REMOVED***
-            ***REMOVED*** Map
+            BVTYelpMapTableViewCell *defaultCell = (BVTYelpMapTableViewCell *)cell;
+            defaultCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
         else if (indexPath.row == 5 || indexPath.row == 6)
         ***REMOVED***
@@ -277,7 +278,8 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
         else if (indexPath.row == 5)
         ***REMOVED***
-            ***REMOVED*** Map
+            BVTYelpMapTableViewCell *defaultCell = (BVTYelpMapTableViewCell *)cell;
+            defaultCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
         else if (indexPath.row == 6 || indexPath.row == 7)
         ***REMOVED***
