@@ -136,9 +136,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     return indexPaths;
 ***REMOVED***
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+
+- (NSString *)identifierForIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
-    NSString *identifier = @"";
+    NSString *identifier;
+    NSString *phone = self.selectedBusiness.phone;
+    NSArray *hoursArray = self.selectedBusiness.businessHours;
     if (indexPath.row == 0)
     ***REMOVED***
         identifier = kYelpRatingCellIdentifier;
@@ -147,30 +150,97 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
         identifier = kYelpCategoryCellIdentifier;
     ***REMOVED***
-    else if (indexPath.row == 2)
+    
+    if (phone && hoursArray.count > 0)
     ***REMOVED***
-        identifier = kYelpHoursCellIdentifier;
+        if (indexPath.row == 2)
+        ***REMOVED***
+            identifier = kYelpHoursCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            identifier = kYelpPhoneCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
+            identifier = kYelpMapCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 6 || indexPath.row == 7)
+        ***REMOVED***
+            identifier = kSplitCellIdentifier;
+        ***REMOVED***
     ***REMOVED***
-    else if (indexPath.row == 3)
+    else if (!phone && hoursArray.count == 0)
     ***REMOVED***
-        identifier = kYelpPhoneCellIdentifier;
+        if (indexPath.row == 2)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            identifier = kYelpMapCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4 || indexPath.row == 5)
+        ***REMOVED***
+            identifier = kSplitCellIdentifier;
+        ***REMOVED***
     ***REMOVED***
-    else if (indexPath.row == 4)
+    else if (!phone && hoursArray.count > 0)
     ***REMOVED***
-        identifier = kYelpAddressCellIdentifier;
+        if (indexPath.row == 2)
+        ***REMOVED***
+            identifier = kYelpHoursCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            identifier = kYelpMapCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 5 || indexPath.row == 6)
+        ***REMOVED***
+            identifier = kSplitCellIdentifier;
+        ***REMOVED***
     ***REMOVED***
-    else if (indexPath.row == 5)
+    else if (phone && hoursArray.count == 0)
     ***REMOVED***
-        identifier = kYelpMapCellIdentifier;
+        if (indexPath.row == 2)
+        ***REMOVED***
+            identifier = kYelpPhoneCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            identifier = kYelpAddressCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            identifier = kYelpMapCellIdentifier;
+        ***REMOVED***
+        else if (indexPath.row == 5 || indexPath.row == 6)
+        ***REMOVED***
+            identifier = kSplitCellIdentifier;
+        ***REMOVED***
     ***REMOVED***
-    else if (indexPath.row == 6 || indexPath.row == 7)
-    ***REMOVED***
-        identifier = kSplitCellIdentifier;
-    ***REMOVED***
+
+    return identifier;
+***REMOVED***
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED***
+    NSString *identifier = [self identifierForIndexPath:indexPath];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    NSString *phone = self.selectedBusiness.phone;
+    NSArray *hoursArray = self.selectedBusiness.businessHours;
+
     if (indexPath.row == 0)
     ***REMOVED***
         BVTYelpRatingTableViewCell *ratingCell = (BVTYelpRatingTableViewCell *)cell;
@@ -178,47 +248,150 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
     else if (indexPath.row == 1)
     ***REMOVED***
-        BVTYelpCategoryTableViewCell *defaultCell = (BVTYelpCategoryTableViewCell *)cell;
-        defaultCell.selectedBusiness = self.selectedBusiness;
+        BVTYelpCategoryTableViewCell *categoryCell = (BVTYelpCategoryTableViewCell *)cell;
+        categoryCell.selectedBusiness = self.selectedBusiness;
     ***REMOVED***
-    else if (indexPath.row == 2)
+    
+    if (phone && hoursArray.count > 0)
     ***REMOVED***
-        BVTYelpHoursTableViewCell *defaultCell = (BVTYelpHoursTableViewCell *)cell;
-        defaultCell.isOpenLabel.text = self.selectedBusiness.isOpenNow ? @"Open" : @"Closed";
-        defaultCell.isOpenLabel.textColor = [UIColor redColor];
-        if ([defaultCell.isOpenLabel.text isEqualToString:@"Open"])
+        if (indexPath.row == 2)
         ***REMOVED***
-            defaultCell.isOpenLabel.textColor = [BVTStyles moneyGreen];
+            BVTYelpHoursTableViewCell *hoursCell = (BVTYelpHoursTableViewCell *)cell;
+            hoursCell.isOpenLabel.text = self.selectedBusiness.isOpenNow ? @"Open" : @"Closed";
+            hoursCell.isOpenLabel.textColor = [UIColor redColor];
+            if ([hoursCell.isOpenLabel.text isEqualToString:@"Open"])
+            ***REMOVED***
+                hoursCell.isOpenLabel.textColor = [BVTStyles moneyGreen];
+            ***REMOVED***
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            BVTYelpPhoneTableViewCell *phoneCell = (BVTYelpPhoneTableViewCell *)cell;
+            phoneCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
+            addressCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
+            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+            mapCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 6 || indexPath.row == 7)
+        ***REMOVED***
+            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+            if (indexPath.row == 6)
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+            ***REMOVED***
+            else
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
-    else if (indexPath.row == 3)
+    else if (!phone && hoursArray.count == 0)
     ***REMOVED***
-        BVTYelpPhoneTableViewCell *defaultCell = (BVTYelpPhoneTableViewCell *)cell;
-        defaultCell.selectedBusiness = self.selectedBusiness;
-    ***REMOVED***
-    else if (indexPath.row == 4)
-    ***REMOVED***
-        BVTYelpAddressTableViewCell *defaultCell = (BVTYelpAddressTableViewCell *)cell;
-        defaultCell.selectedBusiness = self.selectedBusiness;
-    ***REMOVED***
-    else if (indexPath.row == 5)
-    ***REMOVED***
-        BVTYelpMapTableViewCell *defaultCell = (BVTYelpMapTableViewCell *)cell;
-        defaultCell.selectedBusiness = self.selectedBusiness;
-    ***REMOVED***
-    else if (indexPath.row == 6 || indexPath.row == 7)
-    ***REMOVED***
-        BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-        if (indexPath.row == 6)
+        if (indexPath.row == 2)
         ***REMOVED***
-            [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
-            [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+            BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
+            addressCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
-        else
+        else if (indexPath.row == 3)
         ***REMOVED***
-            [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-            [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
+            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+            mapCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
+        else if (indexPath.row == 4 || indexPath.row == 5)
+        ***REMOVED***
+            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+            if (indexPath.row == 4)
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+            ***REMOVED***
+            else
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
+            ***REMOVED***
+        ***REMOVED***
+
+    ***REMOVED***
+    else if (!phone && hoursArray.count > 0)
+    ***REMOVED***
+        if (indexPath.row == 2)
+        ***REMOVED***
+            BVTYelpHoursTableViewCell *hoursCell = (BVTYelpHoursTableViewCell *)cell;
+            hoursCell.isOpenLabel.text = self.selectedBusiness.isOpenNow ? @"Open" : @"Closed";
+            hoursCell.isOpenLabel.textColor = [UIColor redColor];
+            if ([hoursCell.isOpenLabel.text isEqualToString:@"Open"])
+            ***REMOVED***
+                hoursCell.isOpenLabel.textColor = [BVTStyles moneyGreen];
+            ***REMOVED***
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
+            addressCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+            mapCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 5 || indexPath.row == 6)
+        ***REMOVED***
+            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+            if (indexPath.row == 5)
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+            ***REMOVED***
+            else
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
+            ***REMOVED***
+        ***REMOVED***
+
+    ***REMOVED***
+    else if (phone && hoursArray.count == 0)
+    ***REMOVED***
+        if (indexPath.row == 2)
+        ***REMOVED***
+            BVTYelpPhoneTableViewCell *phoneCell = (BVTYelpPhoneTableViewCell *)cell;
+            phoneCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
+            addressCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+            mapCell.selectedBusiness = self.selectedBusiness;
+        ***REMOVED***
+        else if (indexPath.row == 5 || indexPath.row == 6)
+        ***REMOVED***
+            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+            if (indexPath.row == 5)
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+            ***REMOVED***
+            else
+            ***REMOVED***
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
+            ***REMOVED***
+        ***REMOVED***
+
     ***REMOVED***
     
     return cell;
