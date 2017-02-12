@@ -25,32 +25,33 @@
 ***REMOVED***
     _selectedBusiness = selectedBusiness;
     
+    NSString *phone = [self formattedPhoneString];
+
+    self.phoneNumberLabel.text = phone;
+***REMOVED***
+
+- (NSString *)formattedPhoneString
+***REMOVED***
     NSString *phone = self.selectedBusiness.phone;
-    if ([phone hasPrefix:@"+1802"] && ![phone containsString:@"-"] && phone.length == 12)
+    if ([phone hasPrefix:@"+1"] && ![phone containsString:@"-"] && phone.length == 12)
     ***REMOVED***
         NSMutableString *mutablePhone = [[NSMutableString alloc] initWithString:phone];
         [mutablePhone insertString:@" (" atIndex:2];
         [mutablePhone insertString:@") " atIndex:7];
         [mutablePhone insertString:@"-" atIndex:12];
-
+        
         phone = mutablePhone;
     ***REMOVED***
-    self.phoneNumberLabel.text = phone;
+    
+    return phone;
 ***REMOVED***
 
 - (IBAction)didTapPhoneNumberButton:(id)sender
 ***REMOVED***
-    NSString *phoneNumber;
-    if ([self.selectedBusiness.phone hasPrefix:@"+"])
-    ***REMOVED***
-        phoneNumber = [self.selectedBusiness.phone substringFromIndex:1];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        phoneNumber = self.selectedBusiness.phone;
-    ***REMOVED***
+    NSString *phone = [self formattedPhoneString];
     
-    NSString *phoneString = [NSString stringWithFormat:@"telprompt:%@", phoneNumber];
+    ***REMOVED*** TODO: this might not work.. may need to have the phone string unconfigured to call
+    NSString *phoneString = [NSString stringWithFormat:@"telprompt:%@", phone];
     NSURL *phoneURL = [NSURL URLWithString:phoneString];
     
     [[UIApplication sharedApplication] openURL:phoneURL options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
