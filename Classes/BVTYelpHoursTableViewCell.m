@@ -103,26 +103,12 @@
         [mutableTime insertString:@":" atIndex:2];
 
         NSString *time = mutableTime;
-
-        
         NSDate *date = [df dateFromString:time];
         df.dateFormat = @"hh:mm a"; ***REMOVED*** The new format
 
         NSString *newStr = [df stringFromDate:date];
-***REMOVED***        NSString *formattedTimeStr;
         self.openClosesLabel.text = [NSString stringWithFormat:@"%@ %@", openCloseStr, newStr];
-***REMOVED***        self.openClosesLabel.text = timeToDisplay;
     ***REMOVED***
-    
-    
-***REMOVED***    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"EDT"];
-***REMOVED***    dateFormatter.dateFormat = @"EEEE";
-***REMOVED***    NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
-***REMOVED***    
-***REMOVED***    if (
-    
-***REMOVED***    NSString *date = [dateFormatter stringFromDate:[NSDate date]];
-***REMOVED***    self.openClosesLabel.text = date;
 ***REMOVED***
 
 ***REMOVED***
