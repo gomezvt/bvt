@@ -17,6 +17,9 @@
 #import "BVTSplitTableViewCell.h"
 #import "BVTYelpCategoryTableViewCell.h"
 
+#import "YLPLocation.h"
+#import "YLPCoordinate.h"
+
 #import "BVTStyles.h"
 
 @interface BVTDetailTableViewController ()
@@ -94,17 +97,33 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
 
+- (void)displayGoogleMaps
+***REMOVED***
+    YLPLocation *location = self.selectedBusiness.location;
+    NSString *mapsQueryString = [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&s11=%f,%f&z=10&t=s", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+    
+    NSString *filteredString = [mapsQueryString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSURL *url = [NSURL URLWithString:filteredString];
+    [[UIApplication sharedApplication] openURL:url options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
+***REMOVED***
+
+- (IBAction)didTapSplitViewCellButton:(id)sender
+***REMOVED***
+    UIButton *button = sender;
+    if ([button.titleLabel.text isEqualToString:@"Map"])
+    ***REMOVED***
+        [self displayGoogleMaps];
+    ***REMOVED***
+***REMOVED***
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[BVTYelpAddressTableViewCell class]])
     ***REMOVED***
-        BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
-        NSString *filteredString = [addressCell.mapsQueryString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-        NSURL *url = [NSURL URLWithString:filteredString];
-        [[UIApplication sharedApplication] openURL:url options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
-            NSLog(@"");
-        ***REMOVED***];
+        [self displayGoogleMaps];
     ***REMOVED***
     else if ([cell isKindOfClass:[BVTYelpPhoneTableViewCell class]])
     ***REMOVED***
