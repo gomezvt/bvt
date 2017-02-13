@@ -97,6 +97,25 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
 
+- (void)displayYelpProfile
+***REMOVED***
+    [[UIApplication sharedApplication] openURL:self.selectedBusiness.URL options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
+***REMOVED***
+
+- (IBAction)didTapYelpButton:(id)sender
+***REMOVED***
+    [self displayYelpProfile];
+***REMOVED***
+
+- (void)displayYelpBizProfile
+***REMOVED***
+    [[UIApplication sharedApplication] openURL:self.selectedBusiness.URL options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
+***REMOVED***
+
 - (void)displayGoogleMaps
 ***REMOVED***
     YLPLocation *location = self.selectedBusiness.location;
@@ -115,6 +134,10 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     if ([button.titleLabel.text isEqualToString:@"Map"])
     ***REMOVED***
         [self displayGoogleMaps];
+    ***REMOVED***
+    else if ([button.titleLabel.text isEqualToString:@"Yelp Profile"])
+    ***REMOVED***
+        [self displayYelpProfile];
     ***REMOVED***
 ***REMOVED***
 
@@ -298,12 +321,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
             if (indexPath.row == 6)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -325,12 +348,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
             if (indexPath.row == 4)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -358,12 +381,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
             if (indexPath.row == 5)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -391,12 +414,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
             if (indexPath.row == 5)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Deals" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Photos" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***

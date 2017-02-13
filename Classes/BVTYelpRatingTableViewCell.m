@@ -82,14 +82,6 @@ NSString *const star_five       = @"star_five.png";
     [self.ratingStarsView setImage:[UIImage imageNamed:ratingString]];
 ***REMOVED***
 
-- (IBAction)didTapYelpButton:(id)sender
-***REMOVED***
-    [[UIApplication sharedApplication] openURL:self.selectedBusiness.URL options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
-        NSLog(@"");
-    ***REMOVED***];
-***REMOVED***
-
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
     [super setSelected:selected animated:animated];
 
