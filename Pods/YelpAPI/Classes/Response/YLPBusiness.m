@@ -20,7 +20,15 @@
         NSString *imageURLString = [businessDict ylp_objectMaybeNullForKey:@"image_url"];
         
         _closed = [businessDict[@"is_closed"] boolValue];
-        _URL = [[NSURL alloc] initWithString:businessDict[@"url"]];
+        if (businessDict[@"url"])
+        ***REMOVED***
+            _URL = [[NSURL alloc] initWithString:businessDict[@"url"]];
+        ***REMOVED***
+        
+        if (businessDict[@"reviews"])
+        ***REMOVED***
+            _reviews = businessDict[@"reviews"];
+        ***REMOVED***
         _imageURL = imageURLString.length > 0 ? [[NSURL alloc] initWithString:imageURLString] : nil;
         _rating = [businessDict[@"rating"] doubleValue];
         _reviewCount = [businessDict[@"review_count"] integerValue];
