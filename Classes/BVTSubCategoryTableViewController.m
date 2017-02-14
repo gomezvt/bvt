@@ -69,9 +69,15 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
      (YLPBusiness *business, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             [self performSegueWithIdentifier:kShowDetailSegue sender:business ];
+             [[AppDelegate sharedClient] reviewsWithId:selectedBusiness.identifier completionHandler:^
+              (YLPBusiness *reviewsBiz, NSError *error) ***REMOVED***
+                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                      business.reviews = reviewsBiz.reviews;
+                      [self performSegueWithIdentifier:kShowDetailSegue sender:business ];
+                  ***REMOVED***);
+              ***REMOVED***];
          ***REMOVED***);
-     ***REMOVED***];    
+     ***REMOVED***];
 ***REMOVED***
 
 #pragma mark - TableView Data Source

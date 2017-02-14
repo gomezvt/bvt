@@ -25,9 +25,22 @@
             _URL = [[NSURL alloc] initWithString:businessDict[@"url"]];
         ***REMOVED***
         
-        if (businessDict[@"reviews"])
+        id reviews = businessDict[@"reviews"];
+        if (reviews)
         ***REMOVED***
-            _reviews = businessDict[@"reviews"];
+            if ([reviews isKindOfClass:[NSArray class]])
+            ***REMOVED***
+                _reviews = reviews;
+            ***REMOVED***
+        ***REMOVED***
+        
+        id photos = businessDict[@"photos"];
+        if (photos)
+        ***REMOVED***
+            if ([photos isKindOfClass:[NSArray class]])
+            ***REMOVED***
+                _photos = photos;
+            ***REMOVED***
         ***REMOVED***
         _imageURL = imageURLString.length > 0 ? [[NSURL alloc] initWithString:imageURLString] : nil;
         _rating = [businessDict[@"rating"] doubleValue];

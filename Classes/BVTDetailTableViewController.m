@@ -144,11 +144,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
     else if ([button.titleLabel.text isEqualToString:@"Reviews"])
     ***REMOVED***
-        [[AppDelegate sharedClient] reviewsWithId:self.selectedBusiness.identifier completionHandler:^
-         (YLPBusiness *business, NSError *error) ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             ***REMOVED***);
-         ***REMOVED***];    
+   
     ***REMOVED***
     else if ([button.titleLabel.text isEqualToString:@"Photos"])
     ***REMOVED***
