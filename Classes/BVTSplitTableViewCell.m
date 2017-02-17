@@ -23,4 +23,27 @@
     ***REMOVED*** Configure the view for the selected state
 ***REMOVED***
 
+***REMOVED***- (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
+***REMOVED******REMOVED***
+***REMOVED***    _selectedBusiness = selectedBusiness;
+***REMOVED***    
+***REMOVED***    if (self.selectedBusiness.imageURL)
+***REMOVED***    ***REMOVED***
+***REMOVED***        
+***REMOVED***    ***REMOVED***
+***REMOVED***    
+***REMOVED***    if (self.selectedBusiness.photos.count > 0)
+***REMOVED***    ***REMOVED***
+***REMOVED***        
+***REMOVED***    ***REMOVED***
+***REMOVED***    else if (self.selectedBusiness.imageURL)
+***REMOVED***    ***REMOVED***
+***REMOVED***        
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+***REMOVED***        
+***REMOVED***    ***REMOVED***
+***REMOVED******REMOVED***
+
 ***REMOVED***

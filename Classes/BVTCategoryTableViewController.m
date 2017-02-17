@@ -110,7 +110,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.textLabel.text;
 
-    [[AppDelegate sharedClient] searchWithLocation:@"New York, NY" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
+    [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              if (searchResults.businesses.count > 0) ***REMOVED***
@@ -122,16 +122,34 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                          [filteredArray addObject:biz];
                      ***REMOVED***
                  ***REMOVED***
-                 NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-                 NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
-
-                 [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                 
+                 if (filteredArray.count > 0)
+                 ***REMOVED***
+                     NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+                     NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
+                     
+                     [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                 ***REMOVED***
+                 else
+                 ***REMOVED***
+                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results match the selected category" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+                     
+                     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                     [alertController addAction:ok];
+                     
+                     [self presentViewController:alertController animated:YES completion:nil];
+                 ***REMOVED***
              ***REMOVED***
              else if (error) ***REMOVED***
                  NSLog(@"An error happened during the request: %@", error);
              ***REMOVED***
              else ***REMOVED***
-                 NSLog(@"No business was found");
+                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+                 
+                 UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                 [alertController addAction:ok];
+                 
+                 [self presentViewController:alertController animated:YES completion:nil];
              ***REMOVED***
          ***REMOVED***);
      ***REMOVED***];

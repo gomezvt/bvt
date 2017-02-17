@@ -18,7 +18,12 @@
     if (self = [super init]) ***REMOVED***
         NSString *phone = [businessDict ylp_objectMaybeNullForKey:@"phone"];
         NSString *imageURLString = [businessDict ylp_objectMaybeNullForKey:@"image_url"];
-        
+***REMOVED***        if (imageURLString)
+***REMOVED***        ***REMOVED***
+***REMOVED***            NSURL *url = [NSURL URLWithString:imageURLString];
+***REMOVED***            NSData *imageData = [NSData dataWithContentsOfURL:url];
+***REMOVED***            self.businessThumbnail = [UIImage imageWithData:imageData];
+***REMOVED***        ***REMOVED***
         _closed = [businessDict[@"is_closed"] boolValue];
         if (businessDict[@"url"])
         ***REMOVED***
@@ -37,8 +42,16 @@
         id photos = businessDict[@"photos"];
         if (photos)
         ***REMOVED***
+***REMOVED***            NSMutableArray *photosArray = [NSMutableArray array];
             if ([photos isKindOfClass:[NSArray class]])
             ***REMOVED***
+***REMOVED***                for (NSString *imageStr in photos)
+***REMOVED***                ***REMOVED***
+***REMOVED***                    NSURL *url = [NSURL URLWithString:imageStr];
+***REMOVED***                    NSData *imageData = [NSData dataWithContentsOfURL:url];
+***REMOVED***                    UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***                    [photosArray addObject:image];
+***REMOVED***                ***REMOVED***
                 _photos = photos;
             ***REMOVED***
         ***REMOVED***
@@ -67,11 +80,53 @@
                 _businessHours = hoursDict[@"open"];
             ***REMOVED***
         ***REMOVED***
+        
+***REMOVED***        if (businessDict[@"reviews"])
+***REMOVED***        ***REMOVED***
+***REMOVED***            _reviews = businessDict[@"reviews"];
+***REMOVED***        ***REMOVED***
+
 
         _categories = [self.class categoriesFromJSONArray:businessDict[@"categories"]];
         YLPCoordinate *coordinate = [self.class coordinateFromJSONDictionary:businessDict[@"coordinates"]];
         _location = [[YLPLocation alloc] initWithDictionary:businessDict[@"location"] coordinate:coordinate];
     ***REMOVED***
+    
+***REMOVED***    NSArray *photos
+***REMOVED***    if (business.photos.count > 0)
+***REMOVED***    ***REMOVED***
+***REMOVED***        for (NSString *imageStr in business.photos)
+***REMOVED***        ***REMOVED***
+***REMOVED***            NSURL *url = [NSURL URLWithString:imageStr];
+***REMOVED***            NSData *imageData = [NSData dataWithContentsOfURL:url];
+***REMOVED***            UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***            [business.photosArray addObject:image];
+***REMOVED***        ***REMOVED***
+***REMOVED***    ***REMOVED***
+***REMOVED***    
+***REMOVED***    [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+***REMOVED***     (YLPBusiness *business, NSError *error) ***REMOVED***
+***REMOVED***         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***             if (business.photos.count > 0)
+***REMOVED***             ***REMOVED***
+***REMOVED***                 for (NSString *imageStr in business.photos)
+***REMOVED***                 ***REMOVED***
+***REMOVED***                     NSURL *url = [NSURL URLWithString:imageStr];
+***REMOVED***                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+***REMOVED***                     UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***                     [business.photosArray addObject:image];
+***REMOVED***                 ***REMOVED***
+***REMOVED***             ***REMOVED***
+***REMOVED***             [[AppDelegate sharedClient] reviewsWithId:selectedBusiness.identifier completionHandler:^
+***REMOVED***              (YLPBusiness *reviewsBiz, NSError *error) ***REMOVED***
+***REMOVED***                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***                      business.reviews = reviewsBiz.reviews;
+***REMOVED***                      [self performSegueWithIdentifier:kShowDetailSegue sender:business ];
+***REMOVED***                  ***REMOVED***);
+***REMOVED***              ***REMOVED***];
+***REMOVED***         ***REMOVED***);
+***REMOVED***     ***REMOVED***];
+    
     return self;
 ***REMOVED***
 

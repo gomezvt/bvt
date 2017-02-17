@@ -65,11 +65,24 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     YLPBusiness *selectedBusiness = [self.filteredResults objectAtIndex:indexPath.row];
-    
     [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
      (YLPBusiness *business, NSError *error) ***REMOVED***
+
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             [[AppDelegate sharedClient] reviewsWithId:selectedBusiness.identifier completionHandler:^
+             NSMutableArray *photosArray = [NSMutableArray array];
+             if (business.photos.count > 0)
+             ***REMOVED***
+                 for (NSString *photoStr in business.photos)
+                 ***REMOVED***
+                     NSURL *url = [NSURL URLWithString:photoStr];
+                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+                     UIImage *image = [UIImage imageWithData:imageData];
+                     [photosArray addObject:image];
+                 ***REMOVED***
+             ***REMOVED***
+             business.photos = photosArray;
+             
+             [[AppDelegate sharedClient] reviewsWithId:business.identifier completionHandler:^
               (YLPBusiness *reviewsBiz, NSError *error) ***REMOVED***
                   dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                       business.reviews = reviewsBiz.reviews;

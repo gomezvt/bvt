@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
 
-
 ***REMOVED***
 
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
