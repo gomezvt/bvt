@@ -272,6 +272,16 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     
     NSString *phone = self.selectedBusiness.phone;
     NSArray *hoursArray = self.selectedBusiness.businessHours;
+    NSString *photosTitle = [NSString stringWithFormat: @"Photos (%lu)", (unsigned long)self.selectedBusiness.photos.count];
+    NSString *reviewsTitle;
+    if (self.selectedBusiness.reviewCount > 3)
+    ***REMOVED***
+        reviewsTitle = @"Reviews (3)";
+    ***REMOVED***
+    else
+    ***REMOVED***
+        reviewsTitle = [NSString stringWithFormat: @"Reviews (%lu)", (unsigned long)self.selectedBusiness.reviewCount];
+    ***REMOVED***
 
     if (indexPath.row == 0)
     ***REMOVED***
@@ -313,11 +323,11 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             if (indexPath.row == 6)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Photos" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -341,11 +351,11 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             if (indexPath.row == 4)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Photos" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -375,11 +385,11 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             if (indexPath.row == 5)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Photos" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -409,11 +419,11 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             if (indexPath.row == 5)
             ***REMOVED***
                 [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Reviews" forState:UIControlStateNormal];
+                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Photos" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -431,7 +441,8 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***
     UIButton *button = sender;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if ([button.titleLabel.text isEqualToString:@"Reviews"] || [button.titleLabel.text isEqualToString:@"Photos"])
+    if (([button.titleLabel.text containsString:@"Reviews"] && self.selectedBusiness.reviewCount > 0) ||
+        ([button.titleLabel.text containsString:@"Photos"] && self.selectedBusiness.photos.count > 0))
     ***REMOVED***
         BVTPresentationTableViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"PresTVC"];
         controller.business = self.selectedBusiness;

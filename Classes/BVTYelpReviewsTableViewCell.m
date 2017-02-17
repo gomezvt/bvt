@@ -21,4 +21,12 @@
     ***REMOVED*** Configure the view for the selected state
 ***REMOVED***
 
+
+
+***REMOVED***- (void)setBusiness:(YLPBusiness *)business
+***REMOVED******REMOVED***
+***REMOVED***    _business = business;
+***REMOVED***    
+***REMOVED******REMOVED***
+
 ***REMOVED***
