@@ -322,12 +322,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             splitCell.selectedBusiness = self.selectedBusiness;
             if (indexPath.row == 6)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -350,12 +350,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             splitCell.selectedBusiness = self.selectedBusiness;
             if (indexPath.row == 4)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -384,12 +384,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             splitCell.selectedBusiness = self.selectedBusiness;
             if (indexPath.row == 5)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -418,12 +418,12 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             splitCell.selectedBusiness = self.selectedBusiness;
             if (indexPath.row == 5)
             ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
             ***REMOVED***
             else
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
@@ -432,9 +432,16 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     return cell;
 ***REMOVED***
 
-- (UIModalPresentationStyle) adaptivePresentationStyleForPresentationController: (UIPresentationController * ) controller ***REMOVED***
+- (void)prepareForPopoverPresentation:(UIPopoverPresentationController *)popoverPresentationController;
+***REMOVED***
+    ***REMOVED***
+***REMOVED***
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController: (UIPresentationController * ) controller
+***REMOVED***
     return UIModalPresentationNone;
 ***REMOVED***
+
 #pragma mark - IBActions
 
 - (IBAction)popoverWithoutBarButton:(id)sender
