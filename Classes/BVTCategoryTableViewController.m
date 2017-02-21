@@ -17,7 +17,7 @@
 #import "YLPSortType.h"
 #import "YLPSearch.h"
 #import "YLPBusiness.h"
-
+#import "BVTHUDView.h"
 #import "BVTStyles.h"
 
 @interface BVTCategoryTableViewController ()
@@ -103,10 +103,28 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
 
+- (void)doSomeWork ***REMOVED***
+    ***REMOVED*** Simulate by just waiting.
+    sleep(3.);
+***REMOVED***
 #pragma mark - TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
+    BVTHUDView *hud = [BVTHUDView configureHUDWithView:tableView animated:YES];
+    
+    ***REMOVED*** Set the label text.
+    hud.label.text = NSLocalizedString(@"Loading...", @"HUD loading title");
+    ***REMOVED*** You can also adjust other label properties if needed.
+    ***REMOVED*** hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^***REMOVED***
+***REMOVED***        [self doSomeWork];
+        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***            [hud hideAnimated:YES];
+        ***REMOVED***);
+    ***REMOVED***);
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.textLabel.text;
 
