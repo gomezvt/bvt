@@ -103,28 +103,12 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 ***REMOVED***
 
-- (void)doSomeWork ***REMOVED***
-    ***REMOVED*** Simulate by just waiting.
-    sleep(3.);
-***REMOVED***
 #pragma mark - TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
-    BVTHUDView *hud = [BVTHUDView hudWithView:tableView];
-    
-    ***REMOVED*** Set the label text.
-    hud.label.text = @"test";
-    ***REMOVED*** You can also adjust other label properties if needed.
-    ***REMOVED*** hud.label.font = [UIFont italicSystemFontOfSize:16.f];
-    
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^***REMOVED***
-***REMOVED***        [self doSomeWork];
-        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-***REMOVED***            [hud hideAnimated:YES];
-        ***REMOVED***);
-    ***REMOVED***);
-    
+    BVTHUDView *hudClass = [BVTHUDView hudWithView:tableView];
+
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.textLabel.text;
 
