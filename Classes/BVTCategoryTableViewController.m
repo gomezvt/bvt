@@ -21,7 +21,6 @@
 #import "BVTStyles.h"
 
 @interface BVTCategoryTableViewController ()
-***REMOVED***    <UITabBarDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
@@ -199,15 +198,6 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
     return cell;
 ***REMOVED***
-
-***REMOVED***- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-***REMOVED******REMOVED***
-***REMOVED***    if (self.hud)
-***REMOVED***    ***REMOVED***
-***REMOVED***        [self removeHUD];
-***REMOVED***
-***REMOVED***    ***REMOVED***
-***REMOVED******REMOVED***
 
 #pragma mark - IBActions
 
