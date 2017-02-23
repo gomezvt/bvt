@@ -21,9 +21,11 @@
 #import "BVTStyles.h"
 
 @interface BVTCategoryTableViewController ()
+***REMOVED***    <UITabBarDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
 
 ***REMOVED***
 
@@ -107,11 +109,16 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
-    BVTHUDView *hudClass = [BVTHUDView hudWithView:self.navigationController.view];
-
+    BVTHUDView *hud = [BVTHUDView hudWithView:self.navigationController.view];
+    self.tableView.userInteractionEnabled = NO;
+    self.backChevron.enabled = NO;
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *selectionTitle = cell.textLabel.text;
 
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
     [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error) ***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -131,6 +138,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
                      
                      [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                     
                  ***REMOVED***
                  else
                  ***REMOVED***
@@ -140,10 +148,18 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      [alertController addAction:ok];
                      
                      [self presentViewController:alertController animated:YES completion:nil];
+                     
                  ***REMOVED***
+
              ***REMOVED***
              else if (error) ***REMOVED***
-                 NSLog(@"An error happened during the request: %@", error);
+                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
+                 
+                 UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                 [alertController addAction:ok];
+                 
+                 [self presentViewController:alertController animated:YES completion:nil];
+
              ***REMOVED***
              else ***REMOVED***
                  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
@@ -152,10 +168,16 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                  [alertController addAction:ok];
                  
                  [self presentViewController:alertController animated:YES completion:nil];
+
              ***REMOVED***
+             self.backChevron.enabled = YES;
+             self.tableView.userInteractionEnabled = YES;
+             [hud removeFromSuperview];
          ***REMOVED***);
      ***REMOVED***];
 ***REMOVED***
+
+
 
 #pragma mark - TableView Data Source
 
@@ -177,6 +199,15 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
     return cell;
 ***REMOVED***
+
+***REMOVED***- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+***REMOVED******REMOVED***
+***REMOVED***    if (self.hud)
+***REMOVED***    ***REMOVED***
+***REMOVED***        [self removeHUD];
+***REMOVED***
+***REMOVED***    ***REMOVED***
+***REMOVED******REMOVED***
 
 #pragma mark - IBActions
 
