@@ -11,6 +11,8 @@
 #import "BVTYelpPhotoTableViewCell.h"
 #import "BVTYelpReviewsTableViewCell.h"
 
+#import "BVTStyles.h"
+
 @interface BVTPresentationTableViewController ()
 
 ***REMOVED***
@@ -19,17 +21,6 @@ static NSString *const kPhotoNib = @"BVTYelpPhotoTableViewCell";
 static NSString *const kPhotoCellID = @"BVTYelpPhotoCellIdentifier";
 static NSString *const kReviewsNib = @"BVTYelpReviewsTableViewCell";
 static NSString *const kReviewsCellID = @"BVTReviewsPhotoCellIdentifier";
-
-NSString *const kstar_zero_mini          = @"star_zero_mini.png";
-NSString *const kstar_one_mini           = @"star_one_mini.png";
-NSString *const kstar_one_half_mini      = @"star_one_half_mini.png";
-NSString *const kstar_two_mini           = @"star_two_mini.png";
-NSString *const kstar_two_half_mini      = @"star_two_half_mini.png";
-NSString *const kstar_three_mini         = @"star_three_mini.png";
-NSString *const kstar_three_half_mini    = @"star_three_half_mini.png";
-NSString *const kstar_four_mini          = @"star_four_mini.png";
-NSString *const kstar_four_half_mini     = @"star_four_half_mini.png";
-NSString *const kstar_five_mini          = @"star_five_mini.png";
 
 @implementation BVTPresentationTableViewController
 
@@ -56,36 +47,28 @@ NSString *const kstar_five_mini          = @"star_five_mini.png";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    if ([self.sender isKindOfClass:[UIButton class]])
+    if ([self.title containsString:@"Reviews"])
     ***REMOVED***
-        UIButton *button = (UIButton *)self.sender;
-        if ([button.titleLabel.text containsString:@"Reviews"])
-        ***REMOVED***
-            return self.business.reviews.count;
-        ***REMOVED***
-        else if ([button.titleLabel.text containsString:@"Photos"])
-        ***REMOVED***
-            return self.business.photos.count;
-        ***REMOVED***
+        return self.business.reviews.count;
+    ***REMOVED***
+    else if ([self.title containsString:@"Photos"])
+    ***REMOVED***
+        return self.business.photos.count;
     ***REMOVED***
     return 1;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
-    NSString *identifier;
+    NSString *identifier = @"";
 
-    if ([self.sender isKindOfClass:[UIButton class]])
+    if ([self.title containsString:@"Reviews"])
     ***REMOVED***
-        UIButton *button = (UIButton *)self.sender;
-        if ([button.titleLabel.text containsString:@"Reviews"])
-        ***REMOVED***
-            identifier = kReviewsCellID;
-        ***REMOVED***
-        else if ([button.titleLabel.text containsString:@"Photos"])
-        ***REMOVED***
-            identifier = kPhotoCellID;
-        ***REMOVED***
+        identifier = kReviewsCellID;
+    ***REMOVED***
+    else if ([self.title containsString:@"Photos"])
+    ***REMOVED***
+        identifier = kPhotoCellID;
     ***REMOVED***
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
@@ -99,6 +82,7 @@ NSString *const kstar_five_mini          = @"star_five_mini.png";
             dateFormatter = [[NSDateFormatter alloc] init];
         ***REMOVED***
         [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd  HH':'mm':'ss"];
+        
         NSDictionary *reviewDict = [self.business.reviews objectAtIndex:indexPath.row];
         NSDate *date = [dateFormatter dateFromString:reviewDict[@"time_created"]];
         [dateFormatter setDateFormat:@"MMM d, yyyy h:mm a"];
@@ -111,7 +95,7 @@ NSString *const kstar_five_mini          = @"star_five_mini.png";
         reviewsCell.userImageView.image = [UIImage imageNamed:@"placeholder"];
         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
             id userId = user[@"image_url"];
-            NSString *userStr;
+            NSString *userStr = @"";
             if ([userId isKindOfClass:[NSString class]])
             ***REMOVED***
                 userStr = user[@"image_url"];
@@ -129,44 +113,44 @@ NSString *const kstar_five_mini          = @"star_five_mini.png";
         NSNumber *rating = reviewDict[@"rating"];
         if ([rating integerValue] == 0)
         ***REMOVED***
-            ratingString = kstar_zero_mini;
+            ratingString = star_zero_mini;
         ***REMOVED***
         else if ([rating integerValue] == 1)
         ***REMOVED***
-            ratingString = kstar_one_mini;
+            ratingString = star_one_mini;
         ***REMOVED***
         else if ([rating integerValue] == 1.5)
         ***REMOVED***
-            ratingString = kstar_one_half_mini;
+            ratingString = star_one_half_mini;
         ***REMOVED***
         else if ([rating integerValue] == 2)
         ***REMOVED***
-            ratingString = kstar_two_mini;
+            ratingString = star_two_mini;
         ***REMOVED***
         else if ([rating integerValue] == 2.5)
         ***REMOVED***
-            ratingString = kstar_two_half_mini;
+            ratingString = star_two_half_mini;
         ***REMOVED***
         else if ([rating integerValue] == 3)
         ***REMOVED***
-            ratingString = kstar_three_mini;
+            ratingString = star_three_mini;
         ***REMOVED***
         else if ([rating integerValue] == 3.5)
         ***REMOVED***
-            ratingString = kstar_three_half_mini;
+            ratingString = star_three_half_mini;
         ***REMOVED***
         else if ([rating integerValue] == 4)
         ***REMOVED***
-            ratingString = kstar_four_mini;
+            ratingString = star_four_mini;
         ***REMOVED***
         else if ([rating integerValue] == 4.5)
         ***REMOVED***
-            ratingString = kstar_four_half_mini;
+            ratingString = star_four_half_mini;
         ***REMOVED***
         else
         ***REMOVED***
             ***REMOVED*** 5 star rating
-            ratingString = kstar_five_mini;
+            ratingString = star_five_mini;
         ***REMOVED***
         
         [reviewsCell.ratingView setImage:[UIImage imageNamed:ratingString]];
