@@ -8,10 +8,14 @@
 
 #import "BVTSurpriseShoppingCartTableViewController.h"
 
+#import "BVTSurpriseCategoryTableViewController.h"
 #import "BVTHeaderTitleView.h"
 #import "BVTStyles.h"
 
 @interface BVTSurpriseShoppingCartTableViewController ()
+
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIButton *goButton;
 
 ***REMOVED***
 
@@ -19,6 +23,11 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 
 @implementation BVTSurpriseShoppingCartTableViewController
+
+- (IBAction)didTapSubmit:(id)sender
+***REMOVED***
+    ***REMOVED*** WIP
+***REMOVED***
 
 - (void)awakeFromNib
 ***REMOVED***
@@ -39,6 +48,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     [self.navigationController popViewControllerAnimated:YES];
 ***REMOVED***
 
+
+
 - (void)viewDidLoad ***REMOVED***
     [super viewDidLoad];
     
@@ -58,66 +69,45 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
-    return 0;
+    return 1;
 ***REMOVED***
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    return 0;
+    return self.selectedCategories.count;
 ***REMOVED***
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+- (void)viewWillAppear:(BOOL)animated
+***REMOVED***
+    [super viewWillAppear:animated];
     
-    ***REMOVED*** Configure the cell...
+    [self.goButton setEnabled:[self evaluateButtonState]];
+    
+***REMOVED***
+
+- (BOOL)evaluateButtonState
+***REMOVED***
+    BOOL isEnabled = NO;
+    
+    if (self.selectedCategories.count > 0)
+    ***REMOVED***
+        isEnabled = YES;
+    ***REMOVED***
+    
+    return isEnabled;
+***REMOVED***
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED***
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    
+    cell.textLabel.text = [self.selectedCategories objectAtIndex:indexPath.row];
     
     return cell;
 ***REMOVED***
-*/
-
-/*
-***REMOVED*** Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    ***REMOVED*** Return NO if you do not want the specified item to be editable.
-***REMOVED***
-***REMOVED***
-*/
-
-/*
-***REMOVED*** Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
-        ***REMOVED*** Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    ***REMOVED*** else if (editingStyle == UITableViewCellEditingStyleInsert) ***REMOVED***
-        ***REMOVED*** Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    ***REMOVED***   
-***REMOVED***
-*/
-
-/*
-***REMOVED*** Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath ***REMOVED***
-***REMOVED***
-*/
-
-/*
-***REMOVED*** Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    ***REMOVED*** Return NO if you do not want the item to be re-orderable.
-***REMOVED***
-***REMOVED***
-*/
-
-/*
-#pragma mark - Navigation
-
-***REMOVED*** In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender ***REMOVED***
-    ***REMOVED*** Get the new view controller using [segue destinationViewController].
-    ***REMOVED*** Pass the selected object to the new view controller.
-***REMOVED***
-*/
 
 ***REMOVED***
