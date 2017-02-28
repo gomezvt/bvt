@@ -21,4 +21,14 @@
     ***REMOVED*** Configure the view for the selected state
 ***REMOVED***
 
+- (void)prepareForReuse
+***REMOVED***
+    [super prepareForReuse];
+    
+    self.reviewLabel.text = nil;
+    self.dateLabel.text = nil;
+    self.ratingView.image = nil;
+    self.userImageView.image = nil;
+***REMOVED***
+
 ***REMOVED***

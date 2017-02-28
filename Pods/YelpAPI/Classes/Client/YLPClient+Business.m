@@ -18,12 +18,6 @@
     return [self requestWithPath:businessPath];
 ***REMOVED***
 
-- (NSURLRequest *)reviewsRequestWithId:(NSString *)businessId ***REMOVED***
-    NSString *businessPath = [@"/v3/businesses/" stringByAppendingString:businessId];
-    NSString *reviewsPath = [businessPath stringByAppendingString:@"/reviews"];
-    return [self requestWithPath:reviewsPath];
-***REMOVED***
-
 - (void)businessWithId:(NSString *)businessId
      completionHandler:(void (^)(YLPBusiness *business, NSError *error))completionHandler ***REMOVED***
     NSURLRequest *req = [self businessRequestWithId:businessId];
@@ -36,19 +30,5 @@
         ***REMOVED***
     ***REMOVED***];
 ***REMOVED***
-
-- (void)reviewsWithId:(NSString *)businessId
-     completionHandler:(void (^)(YLPBusiness *business, NSError *error))completionHandler ***REMOVED***
-    NSURLRequest *req = [self reviewsRequestWithId:businessId];
-    [self queryWithRequest:req completionHandler:^(NSDictionary *responseDict, NSError *error) ***REMOVED***
-        if (error) ***REMOVED***
-            completionHandler(nil, error);
-        ***REMOVED*** else ***REMOVED***
-            YLPBusiness *business = [[YLPBusiness alloc] initWithDictionary:responseDict];
-            completionHandler(business, nil);
-        ***REMOVED***
-    ***REMOVED***];
-***REMOVED***
-
 
 ***REMOVED***

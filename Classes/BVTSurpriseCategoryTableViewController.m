@@ -168,11 +168,6 @@ static NSString *const kShowShoppingCartSegue = @"ShowShoppingCart";
     return categories.count;
 ***REMOVED***
 
-***REMOVED***- (void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-***REMOVED******REMOVED***
-***REMOVED***    [cell prepareForReuse];
-***REMOVED******REMOVED***
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

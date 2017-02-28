@@ -21,4 +21,11 @@
     ***REMOVED*** Configure the view for the selected state
 ***REMOVED***
 
+- (void)prepareForReuse
+***REMOVED***
+    [super prepareForReuse];
+    
+    self.photoView.image = nil;
+***REMOVED***
+
 ***REMOVED***

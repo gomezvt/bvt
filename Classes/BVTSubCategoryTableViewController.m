@@ -17,8 +17,11 @@
 #import "YLPBusiness.h"
 #import "YLPSearch.h"
 #import "BVTHUDView.h"
-
+#import "YLPClient+Reviews.h"
+#import "YLPBusinessReviews.h"
 #import "BVTStyles.h"
+#import "YLPReview.h"
+#import "YLPUser.h"
 
 @interface BVTSubCategoryTableViewController ()
 
@@ -77,7 +80,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
          if (error) ***REMOVED***
              UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
              
-             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
              [alertController addAction:ok];
              
              [self presentViewController:alertController animated:YES completion:nil];
@@ -87,10 +90,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
          ***REMOVED***
          else
          ***REMOVED***
+             ***REMOVED*** *** Get business photos in advance if they exist, to display from Presentation VC
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                 NSMutableArray *photosArray = [NSMutableArray array];
                  if (business.photos.count > 0)
                  ***REMOVED***
+                     NSMutableArray *photosArray = [NSMutableArray array];
                      for (NSString *photoStr in business.photos)
                      ***REMOVED***
                          NSURL *url = [NSURL URLWithString:photoStr];
@@ -98,19 +102,34 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          UIImage *image = [UIImage imageWithData:imageData];
                          [photosArray addObject:image];
                      ***REMOVED***
+                     
+                     business.photos = photosArray;
                  ***REMOVED***
-                 business.photos = photosArray;
                  
-                 [[AppDelegate sharedClient] reviewsWithId:business.identifier completionHandler:^
-                  (YLPBusiness *reviewsBiz, NSError *error) ***REMOVED***
-                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                          business.reviews = reviewsBiz.reviews;
-                          [self performSegueWithIdentifier:kShowDetailSegue sender:business];
-                          self.backChevron.enabled = YES;
-                          self.tableView.userInteractionEnabled = YES;
-                          [hud removeFromSuperview];
-                      ***REMOVED***);
-                  ***REMOVED***];
+                 [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
+                                                    completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
+                                                        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                            ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
+                                                            NSMutableArray *userPhotos = [NSMutableArray array];
+                                                            for (YLPReview *review in reviews.reviews)
+                                                            ***REMOVED***
+                                                                YLPUser *user = review.user;
+                                                                if (user.imageURL)
+                                                                ***REMOVED***
+                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+                                                                    UIImage *image = [UIImage imageWithData:imageData];
+                                                                    [userPhotos addObject:image];
+                                                                ***REMOVED***
+                                                            ***REMOVED***
+                                                            business.reviews = reviews.reviews;
+                                                            business.userPhotosArray = userPhotos;
+                                                            self.backChevron.enabled = YES;
+                                                            self.tableView.userInteractionEnabled = YES;
+                                                            [hud removeFromSuperview];
+                                                            
+                                                            [self performSegueWithIdentifier:kShowDetailSegue sender:business];
+                                                        ***REMOVED***);
+                                                    ***REMOVED***];
              ***REMOVED***);
          ***REMOVED***
 
