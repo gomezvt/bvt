@@ -50,14 +50,9 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 
 
-- (void)viewDidLoad ***REMOVED***
+- (void)viewDidLoad
+***REMOVED***
     [super viewDidLoad];
-    
-    ***REMOVED*** Uncomment the following line to preserve selection between presentations.
-    ***REMOVED*** self.clearsSelectionOnViewWillAppear = NO;
-    
-    ***REMOVED*** Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    ***REMOVED*** self.navigationItem.rightBarButtonItem = self.editButtonItem;
 ***REMOVED***
 
 - (void)didReceiveMemoryWarning ***REMOVED***

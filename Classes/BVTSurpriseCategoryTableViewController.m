@@ -31,11 +31,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     [super awakeFromNib];
     
-***REMOVED******REMOVED***    if (!self.selectedCategories)
-***REMOVED******REMOVED***    ***REMOVED***
-***REMOVED***        self.selectedCategories = [[NSMutableArray alloc] init];
-***REMOVED******REMOVED***    ***REMOVED***
-    
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
     BVTHeaderTitleView *headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
