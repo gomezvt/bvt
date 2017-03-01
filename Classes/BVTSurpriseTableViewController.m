@@ -12,6 +12,7 @@
 #import "BVTStyles.h"
 
 @interface BVTSurpriseTableViewController ()
+<BVTSurpriseCategoryTableViewControllerDelegate>
 
 @property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
 
@@ -30,7 +31,14 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
     self.headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
     self.navigationItem.titleView = self.headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
+    
 
+
+***REMOVED***
+
+- (void)didTapBackChevron:(id)sender withCategories:(NSMutableArray *)categories
+***REMOVED***
+    self.selectedCategories = categories;
 ***REMOVED***
 
 - (void)viewDidLoad
@@ -39,6 +47,11 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
     
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    if (!self.selectedCategories)
+    ***REMOVED***
+        self.selectedCategories = [[NSMutableArray alloc] init];
+    ***REMOVED***
 ***REMOVED***
 
 #pragma mark - Table view data source
@@ -67,7 +80,8 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     cell.textLabel.text = [kBVTCategories objectAtIndex:indexPath.row];
-    
+    cell.textLabel.numberOfLines = 0;
+
     return cell;
 ***REMOVED***
 
@@ -76,6 +90,9 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
     BVTSurpriseCategoryTableViewController *vc = [segue destinationViewController];
+    vc.delegate = self;
+    vc.selectedCategories = self.selectedCategories;
+    
     vc.categoryTitle = sender;
 ***REMOVED***
 

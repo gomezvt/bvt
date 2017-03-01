@@ -69,7 +69,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
-    return 1;
+***REMOVED***    return [self.selectedCategories allKeys].count;
+    return 2;
 ***REMOVED***
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -83,6 +84,15 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     
     [self.goButton setEnabled:[self evaluateButtonState]];
     
+***REMOVED***
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+***REMOVED***
+    NSArray *array = [self.selectedCategories allKeys];
+    
+
+***REMOVED***    NSString *title = [array objectAtIndex:]
+    return [array lastObject];
 ***REMOVED***
 
 - (BOOL)evaluateButtonState
@@ -104,9 +114,11 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
+    NSArray *subCategories = [self.selectedCategories allValues];
     
-    cell.textLabel.text = [self.selectedCategories objectAtIndex:indexPath.row];
-    
+***REMOVED***    cell.textLabel.text = [self.selectedCategories objectAtIndex:indexPath.row];
+    cell.textLabel.numberOfLines = 0;
+
     return cell;
 ***REMOVED***
 
