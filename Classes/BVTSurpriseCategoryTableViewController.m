@@ -1,29 +1,25 @@
 ***REMOVED***
-***REMOVED***  BVTSurpriseCategoryTableViewController.m
-***REMOVED***  bvt
+***REMOVED***  BVTSurpriseTableViewController.m
+***REMOVED***  burlingtonian
 ***REMOVED***
-***REMOVED***  Created by Greg on 2/23/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
+***REMOVED***  Created by Greg on 12/20/16.
+***REMOVED***  Copyright © 2016 gomez. All rights reserved.
 ***REMOVED***
 
 #import "BVTSurpriseCategoryTableViewController.h"
-
-#import "BVTSurpriseShoppingCartTableViewController.h"
 #import "BVTHeaderTitleView.h"
+#import "BVTSurpriseSubCategoryTableViewController.h"
 #import "BVTStyles.h"
 
 @interface BVTSurpriseCategoryTableViewController ()
+<BVTSurpriseSubCategoryTableViewControllerDelegate>
 
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, weak) IBOutlet UIButton *goButton;
+@property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
 
 ***REMOVED***
 
-static NSArray *categories;
-
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
-static NSString *const kShowShoppingCartSegue = @"ShowShoppingCart";
-static NSString *const kCheckMarkGraphic = @"green_check";
+static NSString *const kShowCategorySegue = @"ShowCategory";
 
 @implementation BVTSurpriseCategoryTableViewController
 
@@ -32,125 +28,42 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     [super awakeFromNib];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
-    BVTHeaderTitleView *headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
-    headerTitleView.titleViewLabelConstraint.constant = -20.f;
-    self.navigationItem.titleView = headerTitleView;
+    self.headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
+    self.navigationItem.titleView = self.headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
-***REMOVED***
-
-- (void)viewWillAppear:(BOOL)animated
-***REMOVED***
-    [super viewWillAppear:animated];
     
-    [self.goButton setEnabled:[self evaluateButtonState]];
+
+
 ***REMOVED***
 
-- (BOOL)evaluateButtonState
+- (void)didTapBackChevron:(id)sender withCategories:(NSMutableArray *)categories
 ***REMOVED***
-    BOOL isEnabled = NO;
-    
-    if (self.selectedCategories.count > 0)
-    ***REMOVED***
-        isEnabled = YES;
-    ***REMOVED***
-    
-    return isEnabled;
-***REMOVED***
-
-#pragma mark - IBActions
-
-- (IBAction)didTapBack:(id)sender
-***REMOVED***
-    if ([self.delegate respondsToSelector:@selector(didTapBackChevron:withCategories:)])
-    ***REMOVED***
-        [self.delegate didTapBackChevron:sender withCategories:self.selectedCategories];
-        [self.navigationController popViewControllerAnimated:YES];
-    ***REMOVED***
+***REMOVED***    self.selectedCategories = categories;
 ***REMOVED***
 
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
     
-    categories = @[ ];
-        
-    if ([self.categoryTitle isEqualToString:@"Arts and Museums"])
-    ***REMOVED***
-        categories = kArtsMuseums;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Coffee, Sweets, and Bakeries"])
-    ***REMOVED***
-        categories = kCoffeeSweetsBakeries;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Music"])
-    ***REMOVED***
-        categories = kMusic;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Hotels, Hostels, Bed & Breakfast"])
-    ***REMOVED***
-        categories = kHotelsHostelsBB;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Entertainment and Recreation"])
-    ***REMOVED***
-        categories = kEntertainmentRecreation;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Bars and Lounges"])
-    ***REMOVED***
-        categories = kBarsLounges;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Restaurants"])
-    ***REMOVED***
-        categories = kRestaurants;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Shopping"])
-    ***REMOVED***
-        categories = kShopping;
-    ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Tours and Festivals"])
-    ***REMOVED***
-        categories = kToursFestivals;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        ***REMOVED*** Travel
-        categories = kTravel;
-    ***REMOVED***
-    
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    if (!self.selectedCategories)
+    ***REMOVED***
+        self.selectedCategories = [[NSMutableDictionary alloc] init];
+    ***REMOVED***
 ***REMOVED***
+
+#pragma mark - Table view data source
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    NSString *selectionTitle = [kBVTCategories objectAtIndex:indexPath.row];
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *category = [categories objectAtIndex:indexPath.row];
-    UIImageView *checkView;
-***REMOVED***    NSString *fullCat = [NSString stringWithFormat:@"%@: %@", self.categoryTitle, category];
-    if (!cell.accessoryView)
-    ***REMOVED***
-        checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kCheckMarkGraphic]];
-        [self.selectedCategories addObject:category];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.selectedCategories removeObject:category];
-        cell.accessoryView = nil;
-    ***REMOVED***
-    cell.accessoryView = checkView;
-
-    [self.goButton setEnabled:[self evaluateButtonState]];
+    [self performSegueWithIdentifier:kShowCategorySegue sender:selectionTitle];
 ***REMOVED***
-
-- (IBAction)didTapButton:(id)sender
-***REMOVED***
-    ***REMOVED*** Not wired directly from button as this will cause a double presentation
-    [self performSegueWithIdentifier:kShowShoppingCartSegue sender:nil];
-***REMOVED***
-
-#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
@@ -159,42 +72,28 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    return categories.count;
+    return kBVTCategories.count;
+***REMOVED***
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED***
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    cell.textLabel.text = [kBVTCategories objectAtIndex:indexPath.row];
+    cell.textLabel.numberOfLines = 0;
+
+    return cell;
 ***REMOVED***
 
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
-    ***REMOVED*** Get destination view
-    BVTSurpriseShoppingCartTableViewController *vc = [segue destinationViewController];
+    BVTSurpriseSubCategoryTableViewController *vc = [segue destinationViewController];
+    vc.delegate = self;
+    vc.selectedCategories = self.selectedCategories;
     
-    NSDictionary *selectedCategories = [NSDictionary dictionaryWithObject:self.selectedCategories forKey:self.categoryTitle];
-    vc.selectedCategories = selectedCategories;
+    vc.categoryTitle = sender;
 ***REMOVED***
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-***REMOVED***
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-    NSString *title = [categories objectAtIndex:indexPath.row];
-    cell.textLabel.text = title;
-    cell.textLabel.numberOfLines = 0;
-    
-    UIImageView *checkView;
-***REMOVED***    NSString *fullCat = [NSString stringWithFormat:@"%@: %@", self.categoryTitle, title];
-
-    if (![self.selectedCategories containsObject:title])
-    ***REMOVED***
-        checkView = nil;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"green_check"]];
-    ***REMOVED***
-    
-    cell.accessoryView = checkView;
-
-    return cell;
-***REMOVED***
 ***REMOVED***
