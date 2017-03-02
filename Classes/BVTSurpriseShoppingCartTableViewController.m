@@ -64,8 +64,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
-***REMOVED***    return [self.selectedCategories allKeys].count;
-    return 2;
+    return [self.selectedCategories allKeys].count;
+***REMOVED***    return 2;
 ***REMOVED***
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -83,12 +83,11 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
-    NSArray *array = [self.selectedCategories allKeys];
-    
+    NSString *item = [self.selectedCategories allKeys][section];
 
-***REMOVED***    NSString *title = [array objectAtIndex:]
-    return [array lastObject];
+    return  item;
 ***REMOVED***
+
 
 - (BOOL)evaluateButtonState
 ***REMOVED***
