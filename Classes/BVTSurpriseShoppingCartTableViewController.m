@@ -65,12 +65,14 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
     return [self.selectedCategories allKeys].count;
-***REMOVED***    return 2;
 ***REMOVED***
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    return self.selectedCategories.count;
+    NSArray *array = [self.selectedCategories allValues];
+    NSArray *b = [array objectAtIndex:section];
+    
+    return b.count;
 ***REMOVED***
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,12 +107,12 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-***REMOVED***    NSArray *subCategories = [self.selectedCategories allValues];
+    NSArray *sectionValues = [self.selectedCategories allValues][indexPath.section];
+
+    cell.textLabel.text = sectionValues[indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-***REMOVED***    cell.textLabel.text = [self.selectedCategories objectAtIndex:indexPath.row];
     cell.textLabel.numberOfLines = 0;
 
     return cell;

@@ -53,10 +53,16 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 - (BOOL)evaluateButtonState
 ***REMOVED***
     BOOL isEnabled = NO;
+    NSArray *selectedCats = [self.selectedCategories allValues];
     
-    if (self.selectedCategories.count > 0)
+    for (NSArray *array in selectedCats)
     ***REMOVED***
-        isEnabled = YES;
+        if (array.count > 0)
+        ***REMOVED***
+            isEnabled = YES;
+            
+            break;
+        ***REMOVED***
     ***REMOVED***
     
     return isEnabled;
@@ -68,10 +74,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     if ([self.delegate respondsToSelector:@selector(didTapBackChevron:withCategories:)])
     ***REMOVED***
-***REMOVED***        self.dict = [NSDictionary dictionaryWithObject:self.subCats forKey:self.categoryTitle];
-***REMOVED***        [self.selectedCategories addEntriesFromDictionary:self.dict];
-
-        
         [self.delegate didTapBackChevron:sender withCategories:self.selectedCategories];
         [self.navigationController popViewControllerAnimated:YES];
     ***REMOVED***
@@ -139,19 +141,22 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     NSString *category = [categories objectAtIndex:indexPath.row];
-    UIImageView *checkView;
-***REMOVED***    NSString *fullCat = [NSString stringWithFormat:@"%@: %@", self.categoryTitle, category];
-***REMOVED***    if (!cell.accessoryView)
-***REMOVED***    ***REMOVED***
-        checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kCheckMarkGraphic]];
+    
+    if (cell.accessoryView)
+    ***REMOVED***
+        if ([self.subCats containsObject:category])
+        ***REMOVED***
+            [self.subCats removeObject:category];
+        ***REMOVED***
+        cell.accessoryView = nil;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        UIImageView *checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kCheckMarkGraphic]];
+        cell.accessoryView = checkView;
         [self.subCats addObject:category];
-***REMOVED***    ***REMOVED***
-***REMOVED***    else
-***REMOVED***    ***REMOVED***
-***REMOVED***        [self.subCats removeObject:category];
-***REMOVED***        cell.accessoryView = nil;
-***REMOVED***    ***REMOVED***
-    cell.accessoryView = checkView;
+    ***REMOVED***
+
     
     
     NSDictionary *dict = [NSDictionary dictionaryWithObject:self.subCats forKey:self.categoryTitle];
@@ -162,12 +167,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
 - (IBAction)didTapButton:(id)sender
 ***REMOVED***
-***REMOVED***    self.dict = [NSDictionary dictionaryWithObject:self.subCats forKey:self.categoryTitle];
-***REMOVED***    [self.selectedCategories addEntriesFromDictionary:self.dict];
-
-
-***REMOVED***    [self.selectedCategories addObject:self.dict];
-    
     ***REMOVED*** Not wired directly from button as this will cause a double presentation
     [self performSegueWithIdentifier:kShowShoppingCartSegue sender:nil];
 ***REMOVED***
@@ -190,10 +189,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     ***REMOVED*** Get destination view
     BVTSurpriseShoppingCartTableViewController *vc = [segue destinationViewController];
-    
-
-***REMOVED***    [self.selectedCategories addObject:self.dict];
-    
     vc.selectedCategories = self.selectedCategories;
 ***REMOVED***
 
@@ -205,17 +200,18 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     cell.textLabel.text = title;
     cell.textLabel.numberOfLines = 0;
     
-    UIImageView *checkView;
-    if (![self.selectedCategories objectForKey:title])
+    NSArray *array = [self.selectedCategories allValues];
+    NSString *btitle = [[array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[c] %@", title]] lastObject];
+    if (!btitle)
     ***REMOVED***
-        checkView = nil;
+        cell.accessoryView = nil;
     ***REMOVED***
     else
     ***REMOVED***
-        checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"green_check"]];
+        UIImageView *checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"green_check"]];
+        cell.accessoryView = checkView;
     ***REMOVED***
     
-    cell.accessoryView = checkView;
 
     return cell;
 ***REMOVED***
