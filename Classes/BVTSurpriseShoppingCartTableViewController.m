@@ -90,9 +90,13 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
-    NSString *item = [self.selectedCategories allKeys][section];
+    NSArray *array = [self.selectedCategories allValues][section];
+    if (array.count > 0)
+    ***REMOVED***
+        return [self.selectedCategories allKeys][section];
+    ***REMOVED***
 
-    return  item;
+        return nil;
 ***REMOVED***
 
 

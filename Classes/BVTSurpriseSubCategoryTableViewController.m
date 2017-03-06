@@ -45,8 +45,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     [super viewWillAppear:animated];
     
-***REMOVED***    self.dict = [NSDictionary dictionary];
-    
     [self.goButton setEnabled:[self evaluateButtonState]];
 ***REMOVED***
 
@@ -57,18 +55,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     ***REMOVED***
         isEnabled = YES;
     ***REMOVED***
-***REMOVED***    NSArray *selectedCats = [self.selectedCategories allValues];
-    
-***REMOVED***    for (NSArray *array in selectedCats)
-***REMOVED***    ***REMOVED***
-***REMOVED***        if (array.count > 0)
-***REMOVED***        ***REMOVED***
-***REMOVED***            isEnabled = YES;
-***REMOVED***            
-***REMOVED***            break;
-***REMOVED***        ***REMOVED***
-***REMOVED***    ***REMOVED***
-    
+
     return isEnabled;
 ***REMOVED***
 
@@ -99,7 +86,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
     ***REMOVED***
 
-    
     categories = @[ ];
         
     if ([self.categoryTitle isEqualToString:@"Arts and Museums"])
@@ -153,9 +139,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *category = [categories objectAtIndex:indexPath.row];
-    
+    NSString *category = [categories objectAtIndex:indexPath.row];    
     if (cell.accessoryView)
     ***REMOVED***
         if ([self.mut containsObject:category])
@@ -179,8 +163,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
         [self.subCats addObject:category];
     ***REMOVED***
 
-    
-    
     NSDictionary *dict = [NSDictionary dictionaryWithObject:self.mut forKey:self.categoryTitle];
     [self.selectedCategories addEntriesFromDictionary:dict];
 
@@ -235,7 +217,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
         UIImageView *checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"green_check"]];
         cell.accessoryView = checkView;
     ***REMOVED***
-    
 
     return cell;
 ***REMOVED***
