@@ -45,7 +45,12 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.delegate respondsToSelector:@selector(didTapBackWithSubCategories:withCategories:)])
+    ***REMOVED***
+        [self.delegate didTapBackWithSubCategories:self.subCats withCategories:self.selectedCategories];
+        [self.navigationController popViewControllerAnimated:YES];
+    ***REMOVED***
+    
 ***REMOVED***
 
 
