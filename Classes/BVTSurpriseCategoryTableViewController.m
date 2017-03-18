@@ -9,6 +9,7 @@
 #import "BVTSurpriseCategoryTableViewController.h"
 #import "BVTHeaderTitleView.h"
 #import "BVTSurpriseSubCategoryTableViewController.h"
+#import "BVTSurpriseShoppingCartTableViewController.h"
 #import "BVTStyles.h"
 
 @interface BVTSurpriseCategoryTableViewController ()
@@ -16,11 +17,14 @@
 
 @property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
 @property (nonatomic, strong) NSMutableArray *subCats;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIButton *goButton;
 
 ***REMOVED***
 
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 static NSString *const kShowCategorySegue = @"ShowCategory";
+static NSString *const kShowShoppingCartSegue = @"ShowShoppingCart";
 
 @implementation BVTSurpriseCategoryTableViewController
 
@@ -35,6 +39,15 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
     
 
 
+***REMOVED***
+
+- (IBAction)didTapBack:(id)sender
+***REMOVED***
+***REMOVED***    if ([self.delegate respondsToSelector:@selector(didTapBackWithSubCategories:withCategories:)])
+***REMOVED***    ***REMOVED***
+***REMOVED***        [self.delegate didTapBackWithSubCategories:self.subCats withCategories:self.selectedCategories];
+***REMOVED***        [self.navigationController popViewControllerAnimated:YES];
+***REMOVED***    ***REMOVED***
 ***REMOVED***
 
 - (void)didTapBackWithSubCategories:(NSMutableArray *)array withCategories:(NSMutableDictionary *)categories
@@ -54,6 +67,24 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
     ***REMOVED***
         self.selectedCategories = [[NSMutableDictionary alloc] init];
     ***REMOVED***
+***REMOVED***
+
+- (void)viewWillAppear:(BOOL)animated
+***REMOVED***
+    [super viewWillAppear:animated];
+    
+    [self.goButton setEnabled:[self evaluateButtonState]];
+***REMOVED***
+
+- (BOOL)evaluateButtonState
+***REMOVED***
+    BOOL isEnabled = NO;
+    if (self.subCats.count > 0)
+    ***REMOVED***
+        isEnabled = YES;
+    ***REMOVED***
+    
+    return isEnabled;
 ***REMOVED***
 
 #pragma mark - Table view data source
@@ -91,11 +122,21 @@ static NSString *const kShowCategorySegue = @"ShowCategory";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
-    BVTSurpriseSubCategoryTableViewController *vc = [segue destinationViewController];
-    vc.delegate = self;
-    vc.selectedCategories = self.selectedCategories;
-    vc.subCats = self.subCats;
-    vc.categoryTitle = sender;
+    if ([segue.identifier isEqualToString:kShowShoppingCartSegue])
+    ***REMOVED***
+        ***REMOVED*** Get destination view
+        BVTSurpriseShoppingCartTableViewController *vc = [segue destinationViewController];
+        vc.selectedCategories = self.selectedCategories;
+        vc.subCats = self.subCats;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        BVTSurpriseSubCategoryTableViewController *vc = [segue destinationViewController];
+        vc.delegate = self;
+        vc.selectedCategories = self.selectedCategories;
+        vc.subCats = self.subCats;
+        vc.categoryTitle = sender;
+    ***REMOVED***
 ***REMOVED***
 
 ***REMOVED***
