@@ -16,6 +16,7 @@
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *goButton;
+***REMOVED***@property (nonatomic, strong) NSMutableArray *a;
 
 ***REMOVED***
 
@@ -58,8 +59,20 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 ***REMOVED***
     [super viewDidLoad];
     
+    
     [self.goButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
 
+***REMOVED***
+
+- (BOOL)evaluateButtonState
+***REMOVED***
+    BOOL isEnabled = NO;
+    if (self.subCats.count > 0)
+    ***REMOVED***
+        isEnabled = YES;
+    ***REMOVED***
+    
+    return isEnabled;
 ***REMOVED***
 
 - (void)didReceiveMemoryWarning ***REMOVED***
@@ -77,17 +90,16 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
     NSString *key = [self.selectedCategories allKeys][section];
-    NSArray *a = [self.selectedCategories objectForKey:key];
+    self.subCats = [self.selectedCategories objectForKey:key];
     
-    return a.count;
+    return self.subCats.count;
 ***REMOVED***
 
 - (void)viewWillAppear:(BOOL)animated
 ***REMOVED***
     [super viewWillAppear:animated];
     
-    [self.goButton setEnabled:[self evaluateButtonState]];
-    
+[self.goButton setEnabled:[self evaluateButtonState]];
 ***REMOVED***
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -101,18 +113,32 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
         return nil;
 ***REMOVED***
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
+    ***REMOVED***add code here for when you hit delete
+***REMOVED***    NSString *key = [self.selectedCategories allKeys][indexPath.section];
+***REMOVED***    NSArray *a = [self.selectedCategories objectForKey:key];
+***REMOVED***    NSMutableArray *array = [NSMutableArray array];
+***REMOVED***    [array addObjectsFromArray:a];
+    if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
+        NSArray *key = [self.selectedCategories allValues][indexPath.section];
+        NSString *str = [key objectAtIndex:indexPath.row];
+        if ([self.subCats containsObject:str])
+        ***REMOVED***
+            [self.subCats removeObjectAtIndex:indexPath.row];
+            [tableView reloadData];
+            
+            [self.goButton setEnabled:[self evaluateButtonState]];
 
-- (BOOL)evaluateButtonState
-***REMOVED***
-    BOOL isEnabled = NO;
-    
-    if (self.selectedCategories.count > 0)
+        ***REMOVED***
+        
+
+        
+        
     ***REMOVED***
-        isEnabled = YES;
-    ***REMOVED***
-    
-    return isEnabled;
 ***REMOVED***
+
+
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
