@@ -48,9 +48,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     if ([self.delegate respondsToSelector:@selector(didTapBackWithSubCategories:withCategories:)])
     ***REMOVED***
         [self.delegate didTapBackWithSubCategories:self.subCats withCategories:self.selectedCategories];
-        [self.navigationController popViewControllerAnimated:YES];
     ***REMOVED***
-    
+    [self.navigationController popViewControllerAnimated:YES];
 ***REMOVED***
 
 
@@ -58,6 +57,9 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+    
+    [self.goButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
 ***REMOVED***
 
 - (void)didReceiveMemoryWarning ***REMOVED***
