@@ -38,7 +38,6 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
-    self.mut = [NSMutableArray array];
 ***REMOVED***
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,9 +50,14 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 - (BOOL)evaluateButtonState
 ***REMOVED***
     BOOL isEnabled = NO;
-    if (self.subCats.count > 0)
+    NSArray *allValues = [self.catDict allValues];
+    for (NSArray *array in allValues)
     ***REMOVED***
-        isEnabled = YES;
+        if (array.count > 0)
+        ***REMOVED***
+            isEnabled = YES;
+            break;
+        ***REMOVED***
     ***REMOVED***
 
     return isEnabled;
@@ -63,27 +67,30 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
-    if ([self.delegate respondsToSelector:@selector(didTapBackWithSubCategories:withCategories:)])
+    if ([self.delegate respondsToSelector:@selector(didTapBackWithCategories:)])
     ***REMOVED***
-        [self.delegate didTapBackWithSubCategories:self.subCats withCategories:self.selectedCategories];
+        [self.delegate didTapBackWithCategories:self.catDict];
         [self.navigationController popViewControllerAnimated:YES];
     ***REMOVED***
 ***REMOVED***
 
-- (void)didTapBackWithSubCategories:(NSMutableArray *)array withCategories:(NSMutableDictionary *)categories
+- (void)didTapBackWithCategories:(NSMutableDictionary *)categories
 ***REMOVED***
-    self.subCats = array;
-    self.selectedCategories = categories;
+    self.catDict = self.catDict;
 ***REMOVED***
 
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
     
-    if (!self.subCats)
+    if (!self.mut)
     ***REMOVED***
-        self.subCats = [NSMutableArray array];
-
+        self.mut = [NSMutableArray array];
+    ***REMOVED***
+    
+    if (!self.catDict)
+    ***REMOVED***
+        self.catDict = [[NSMutableDictionary alloc] init];
     ***REMOVED***
 
     categories = @[ ];
@@ -140,34 +147,27 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    NSArray *previousValues = [self.catDict objectForKey:self.categoryTitle];
+    if (previousValues.count > 0)
+    ***REMOVED***
+        self.mut = [previousValues mutableCopy];
+    ***REMOVED***
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *category = [categories objectAtIndex:indexPath.row];    
     if (cell.accessoryView)
     ***REMOVED***
-        if ([self.mut containsObject:category])
-        ***REMOVED***
-            [self.mut removeObject:category];
-
-        ***REMOVED***
-        
-        if ([self.subCats containsObject:category])
-        ***REMOVED***
-            [self.subCats removeObject:category];
-
-        ***REMOVED***
+        [self.mut removeObject:category];
         cell.accessoryView = nil;
     ***REMOVED***
     else
     ***REMOVED***
         UIImageView *checkView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kCheckMarkGraphic]];
         cell.accessoryView = checkView;
-        [self.mut addObject:category];[self.goButton setEnabled:[self evaluateButtonState]];
-        [self.subCats addObject:category];
+        [self.mut addObject:category];
     ***REMOVED***
 
-    NSDictionary *dict = [NSDictionary dictionaryWithObject:self.mut forKey:self.categoryTitle];
-    [self.selectedCategories addEntriesFromDictionary:dict];
-
+    self.catDict[self.categoryTitle] = self.mut;
     [self.goButton setEnabled:[self evaluateButtonState]];
 ***REMOVED***
 
@@ -195,8 +195,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     ***REMOVED*** Get destination view
     BVTSurpriseShoppingCartTableViewController *vc = [segue destinationViewController];
-    vc.selectedCategories = self.selectedCategories;
-    vc.subCats = self.subCats;
+    vc.catDict = self.catDict;
     vc.delegate = self;
 ***REMOVED***
 
@@ -208,7 +207,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     cell.textLabel.text = title;
     cell.textLabel.numberOfLines = 0;
     
-    NSArray *array = [self.selectedCategories allValues];
+    NSArray *array = [self.catDict allValues];
     NSString *btitle = [[array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[c] %@", title]] lastObject];
     if (!btitle)
     ***REMOVED***
