@@ -29,6 +29,28 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     ***REMOVED*** WIP
 ***REMOVED***
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
+***REMOVED***
+***REMOVED***
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
+    if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
+        ***REMOVED***remove the deleted object from your data source.
+        ***REMOVED***If your data source is an NSMutableArray, do this
+***REMOVED***        [self.dataArray removeObjectAtIndex:indexPath.row];
+        
+        NSString *key = [self.catDict allKeys][indexPath.section];
+        NSMutableArray *k = [self.catDict objectForKey:key];
+        
+        id object = [k objectAtIndex:indexPath.row];
+
+        [k removeObject:object];
+        
+        [tableView reloadData]; ***REMOVED*** tell table to refresh now
+        [self.goButton setEnabled:[self evaluateButtonState]];
+    ***REMOVED***
+***REMOVED***
+
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];
@@ -39,6 +61,22 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
     
+***REMOVED***
+
+- (BOOL)evaluateButtonState
+***REMOVED***
+    BOOL isEnabled = NO;
+    NSArray *allValues = [self.catDict allValues];
+    for (NSArray *array in allValues)
+    ***REMOVED***
+        if (array.count > 0)
+        ***REMOVED***
+            isEnabled = YES;
+            break;
+        ***REMOVED***
+    ***REMOVED***
+    
+    return isEnabled;
 ***REMOVED***
 
 #pragma mark - IBActions
@@ -82,13 +120,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     return k.count;
 ***REMOVED***
 
-- (void)viewWillAppear:(BOOL)animated
-***REMOVED***
-    [super viewWillAppear:animated];
-    
-    [self.goButton setEnabled:[self evaluateButtonState]];
-***REMOVED***
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
     NSArray *array = [self.catDict allValues][section];
@@ -99,24 +130,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
         return nil;
 ***REMOVED***
-
-
-- (BOOL)evaluateButtonState
-***REMOVED***
-    BOOL isEnabled = NO;
-    NSArray *allValues = [self.catDict allValues];
-    for (NSArray *array in allValues)
-    ***REMOVED***
-        if (array.count > 0)
-        ***REMOVED***
-            isEnabled = YES;
-            break;
-        ***REMOVED***
-    ***REMOVED***
-    
-    return isEnabled;
-***REMOVED***
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
