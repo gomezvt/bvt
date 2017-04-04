@@ -133,65 +133,81 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
     
     [[AppDelegate sharedClient] searchWithLocation:@"New York, NY" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
-     (YLPSearch *searchResults, NSError *error) ***REMOVED***
-         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-             if (searchResults.businesses.count > 0) ***REMOVED***
-                 NSMutableArray *filteredArray = [NSMutableArray array];
-                 for (YLPBusiness *biz in searchResults.businesses)
+     (YLPSearch *searchResults, NSError *error)***REMOVED***
+         if (searchResults.businesses.count == 0)
+         ***REMOVED***
+             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+             
+             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+             [alertController addAction:ok];
+             
+             [self presentViewController:alertController animated:YES completion:nil];
+             
+         ***REMOVED***
+         else if (searchResults.businesses.count > 0)
+         ***REMOVED***
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  ***REMOVED***
-                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject] && biz.closed == NO)
+                     NSMutableArray *filteredArray = [NSMutableArray array];
+                     for (YLPBusiness *biz in searchResults.businesses)
                      ***REMOVED***
-                         [filteredArray addObject:biz];
+                         if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject] && biz.closed == NO)
+                         ***REMOVED***
+                             [filteredArray addObject:biz];
+                         ***REMOVED***
                      ***REMOVED***
-                 ***REMOVED***
-                 
-                 if (filteredArray.count > 0)
-                 ***REMOVED***
-                     NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-                     NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
                      
-                     if (!self.didCancelRequest)
+                     if (filteredArray.count > 0)
                      ***REMOVED***
-                         [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                         NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+                         NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
+                         
+                         if (!self.didCancelRequest)
+                         ***REMOVED***
+                             [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                             
+                             [self _hideHUD];
+                             
+                         ***REMOVED***
                      ***REMOVED***
-                 ***REMOVED***
-                 else
-                 ***REMOVED***
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results match the selected category" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+                     else
+                     ***REMOVED***
+                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results match the selected category" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+                         
+                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                         [alertController addAction:ok];
+                         
+                         [self presentViewController:alertController animated:YES completion:nil];
+                         
+                         [self _hideHUD];
+                         
+                         
+                     ***REMOVED***
                      
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-                     
-                     [self presentViewController:alertController animated:YES completion:nil];
-                     
                  ***REMOVED***
-
-             ***REMOVED***
-             else if (error) ***REMOVED***
-                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
-                 
-                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                 [alertController addAction:ok];
-                 
-                 [self presentViewController:alertController animated:YES completion:nil];
-
-             ***REMOVED***
-             else ***REMOVED***
-                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
-                 
-                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                 [alertController addAction:ok];
-                 
-                 [self presentViewController:alertController animated:YES completion:nil];
-
-             ***REMOVED***
-             self.backChevron.enabled = YES;
-             self.tableView.userInteractionEnabled = YES;
-             [self.hud removeFromSuperview];
-         ***REMOVED***);
+             ***REMOVED***);
+         ***REMOVED***
+         
+         if (error)
+         ***REMOVED***
+             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
+             
+             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+             [alertController addAction:ok];
+             
+             [self presentViewController:alertController animated:YES completion:nil];
+             
+             [self _hideHUD];
+         ***REMOVED***
      ***REMOVED***];
 ***REMOVED***
 
+- (void)_hideHUD
+***REMOVED***
+    self.backChevron.enabled = YES;
+    self.tableView.userInteractionEnabled = YES;
+    [self.hud removeFromSuperview];
+***REMOVED***
 
 
 #pragma mark - TableView Data Source
