@@ -206,7 +206,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
-    [self.hud removeFromSuperview];
+***REMOVED***    [self.hud removeFromSuperview];
 ***REMOVED***
 
 

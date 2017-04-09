@@ -70,6 +70,10 @@
         ***REMOVED*** else ***REMOVED***
             YLPSearch *search = [[YLPSearch alloc] initWithDictionary:responseDict];
             completionHandler(search, nil);
+            
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"BVTReceivedBusinessesNotification"
+             object:search];
         ***REMOVED***
         
     ***REMOVED***];
