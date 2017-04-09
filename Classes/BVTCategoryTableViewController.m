@@ -197,7 +197,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
              
              [self presentViewController:alertController animated:YES completion:nil];
              
-             [self _hideHUD];
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 ***REMOVED*** code here
+                 [self _hideHUD];
+             ***REMOVED***);
          ***REMOVED***
      ***REMOVED***];
 ***REMOVED***

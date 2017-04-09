@@ -64,18 +64,18 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     ***REMOVED***
         [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:subCatTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
          (YLPSearch *searchResults, NSError *error)***REMOVED***
-             if (subCatTitle == [categoryArray lastObject])
-             ***REMOVED***
-                 [self _hideHUD];
-             ***REMOVED***
-             else if (error)
+             if (error)
              ***REMOVED***
                  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
                  
                  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                  [alertController addAction:ok];
                  
-                 [self _hideHUD];
+                 
+                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                     ***REMOVED*** code here
+                     [self _hideHUD];
+                 ***REMOVED***);
              ***REMOVED***
          ***REMOVED***];
     ***REMOVED***
@@ -85,7 +85,7 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 ***REMOVED***
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
-***REMOVED***    [self.hud removeFromSuperview];
+    [self.hud removeFromSuperview];
 ***REMOVED***
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -163,11 +163,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 ***REMOVED***
 
-- (void)_presentBusinessOptions:(NSMutableArray *)array
-***REMOVED***
-
-***REMOVED***
-
 - (void)didReceiveBusinessesNotification:(NSNotification *)notification
 ***REMOVED***
     if ([[notification name] isEqualToString:@"BVTReceivedBusinessesNotification"])
@@ -189,8 +184,12 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
         
         if (i == self.subCategories.count)
         ***REMOVED***
-            i = 0;
-            [self performSegueWithIdentifier:@"ShowRecommendations" sender:resultsArray];
+            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                ***REMOVED*** code here
+                i = 0;
+                [self _hideHUD];
+                [self performSegueWithIdentifier:@"ShowRecommendations" sender:resultsArray];
+            ***REMOVED***);
         ***REMOVED***
     ***REMOVED***
 ***REMOVED***

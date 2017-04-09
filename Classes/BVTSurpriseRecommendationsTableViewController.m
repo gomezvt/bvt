@@ -10,11 +10,14 @@
 
 @interface BVTSurpriseRecommendationsTableViewController ()
 
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 ***REMOVED***
 
 @implementation BVTSurpriseRecommendationsTableViewController
 
-- (void)viewDidLoad ***REMOVED***
+- (void)viewDidLoad
+***REMOVED***
     [super viewDidLoad];
     
     ***REMOVED*** Uncomment the following line to preserve selection between presentations.
@@ -31,13 +34,13 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView ***REMOVED***
-#warning Incomplete implementation, return the number of sections
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+***REMOVED***
     return 0;
 ***REMOVED***
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section ***REMOVED***
-#warning Incomplete implementation, return the number of rows
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+***REMOVED***
     return 0;
 ***REMOVED***
 
