@@ -98,9 +98,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
              [alertController addAction:ok];
              
              [self presentViewController:alertController animated:YES completion:nil];
-             self.backChevron.enabled = YES;
-             self.tableView.userInteractionEnabled = YES;
-             [self.hud removeFromSuperview];
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 [self _hideHUD];
+
+             ***REMOVED***);
          ***REMOVED***
          else
          ***REMOVED***
@@ -124,23 +125,21 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                     completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                             ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
-                                                            NSMutableArray *userPhotos = [NSMutableArray array];
-                                                            for (YLPReview *review in reviews.reviews)
-                                                            ***REMOVED***
-                                                                YLPUser *user = review.user;
-                                                                if (user.imageURL)
-                                                                ***REMOVED***
-                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
-                                                                    UIImage *image = [UIImage imageWithData:imageData];
-                                                                    [userPhotos addObject:image];
-                                                                ***REMOVED***
-                                                            ***REMOVED***
+***REMOVED***                                                            NSMutableArray *userPhotos = [NSMutableArray array];
+***REMOVED***                                                            for (YLPReview *review in reviews.reviews)
+***REMOVED***                                                            ***REMOVED***
+***REMOVED***                                                                YLPUser *user = review.user;
+***REMOVED***                                                                if (user.imageURL)
+***REMOVED***                                                                ***REMOVED***
+***REMOVED***                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+***REMOVED***                                                                    UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***                                                                    [userPhotos addObject:image];
+***REMOVED***                                                                ***REMOVED***
+***REMOVED***                                                            ***REMOVED***
                                                             business.reviews = reviews.reviews;
-                                                            business.userPhotosArray = userPhotos;
-                                                            self.backChevron.enabled = YES;
-                                                            self.tableView.userInteractionEnabled = YES;
-                                                            [self.hud removeFromSuperview];
-                                                            
+***REMOVED***                                                            business.userPhotosArray = userPhotos;
+
+                                                            [self _hideHUD];
                                                             if (!self.didCancelRequest)
                                                             ***REMOVED***
                                                                 [self performSegueWithIdentifier:kShowDetailSegue sender:business];
@@ -154,6 +153,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
      ***REMOVED***];
 ***REMOVED***
 
+- (void)_hideHUD
+***REMOVED***
+    self.backChevron.enabled = YES;
+    self.tableView.userInteractionEnabled = YES;
+    [self.hud removeFromSuperview];
+***REMOVED***
 
 #pragma mark - TableView Data Source
 

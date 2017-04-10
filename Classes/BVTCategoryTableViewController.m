@@ -164,9 +164,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                          
                          if (!self.didCancelRequest)
                          ***REMOVED***
+                             [self _hideHUD];
+
                              [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
                              
-                             [self _hideHUD];
                              
                          ***REMOVED***
                      ***REMOVED***
@@ -209,7 +210,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
-***REMOVED***    [self.hud removeFromSuperview];
+    [self.hud removeFromSuperview];
 ***REMOVED***
 
 
