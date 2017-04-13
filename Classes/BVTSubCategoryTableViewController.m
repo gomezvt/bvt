@@ -125,19 +125,19 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                     completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                             ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
-***REMOVED***                                                            NSMutableArray *userPhotos = [NSMutableArray array];
-***REMOVED***                                                            for (YLPReview *review in reviews.reviews)
-***REMOVED***                                                            ***REMOVED***
-***REMOVED***                                                                YLPUser *user = review.user;
-***REMOVED***                                                                if (user.imageURL)
-***REMOVED***                                                                ***REMOVED***
-***REMOVED***                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
-***REMOVED***                                                                    UIImage *image = [UIImage imageWithData:imageData];
-***REMOVED***                                                                    [userPhotos addObject:image];
-***REMOVED***                                                                ***REMOVED***
-***REMOVED***                                                            ***REMOVED***
+                                                            NSMutableArray *userPhotos = [NSMutableArray array];
+                                                            for (YLPReview *review in reviews.reviews)
+                                                            ***REMOVED***
+                                                                YLPUser *user = review.user;
+                                                                if (user.imageURL)
+                                                                ***REMOVED***
+                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+                                                                    UIImage *image = [UIImage imageWithData:imageData];
+                                                                    [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
+                                                                ***REMOVED***
+                                                            ***REMOVED***
                                                             business.reviews = reviews.reviews;
-***REMOVED***                                                            business.userPhotosArray = userPhotos;
+                                                            business.userPhotosArray = userPhotos;
 
                                                             [self _hideHUD];
                                                             if (!self.didCancelRequest)

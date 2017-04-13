@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic, strong) NSArray *photos;
 
-***REMOVED***@property (nonatomic, strong) NSArray *userPhotosArray;
+@property (nonatomic, strong) NSArray *userPhotosArray;
 
 ***REMOVED***
 

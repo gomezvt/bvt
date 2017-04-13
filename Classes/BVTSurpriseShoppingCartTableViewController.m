@@ -49,12 +49,14 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 - (IBAction)didTapSubmit:(id)sender
 ***REMOVED***
     [self.resultsArray removeAllObjects];
+    
     i = 0;
     NSArray *array = [self.catDict allValues];
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
     self.didCancelRequest = NO;
-    
+    [self.goButton setEnabled:NO];
+
     NSMutableArray *categoryArray = [NSMutableArray array];
     for (NSArray *subCat in array)
     ***REMOVED***
@@ -74,7 +76,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                  
                  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                  [alertController addAction:ok];
-                 
+                 [self presentViewController:alertController animated:YES completion:nil];
+                 [self.goButton setEnabled:YES];
                  
                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                      ***REMOVED*** code here
@@ -179,10 +182,25 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
         ***REMOVED***
             for (YLPBusiness *biz in searchObject.businesses)
             ***REMOVED***
-                ***REMOVED***TODO: DONT ADD DUPLICATES
-                if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", category]] lastObject])
+                BOOL isDuplicate = NO;
+                if (self.resultsArray.count > 0)
                 ***REMOVED***
-                    [self.resultsArray addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
+                    for (NSDictionary *dict in self.resultsArray)
+                    ***REMOVED***
+                        YLPBusiness *bizz = [[dict allValues] lastObject];
+                        if ([biz.name isEqualToString:bizz.name] && [[dict allKeys] lastObject] == category)
+                        ***REMOVED***
+                            isDuplicate = YES;
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+
+                if (isDuplicate == NO)
+                ***REMOVED***
+                    if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", category]] lastObject])
+                    ***REMOVED***
+                        [self.resultsArray addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***
@@ -198,6 +216,7 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                 [alertController addAction:ok];
                 
                 [self presentViewController:alertController animated:YES completion:nil];
+                [self.goButton setEnabled:YES];
             ***REMOVED***
             else
             ***REMOVED***
@@ -209,6 +228,7 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                 ***REMOVED***
                 
                 [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
+                [self.goButton setEnabled:YES];
             ***REMOVED***
             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                 ***REMOVED*** code here
