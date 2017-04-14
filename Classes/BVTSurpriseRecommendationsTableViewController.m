@@ -20,14 +20,14 @@
 #import "YLPClient+Reviews.h"
 #import "YLPClient+Business.h"
 #import "BVTDetailTableViewController.h"
-@interface BVTSurpriseRecommendationsTableViewController ()     <BVTHUDViewDelegate>
 
+@interface BVTSurpriseRecommendationsTableViewController ()
+    <BVTHUDViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic) BOOL didCancelRequest;
-***REMOVED***@property (nonatomic, strong) NSMutableArray *bizArray;
 
 ***REMOVED***
 
@@ -65,26 +65,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
-    
-***REMOVED***    self.bizArray = [NSMutableArray array];
-***REMOVED***    for (
-***REMOVED***    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
-***REMOVED***    NSArray *allValues = [self.businessOptions allValues][indexPath.section];
-***REMOVED***    NSArray *sortedArray = [allValues sortedArrayUsingDescriptors: @[descriptor]];
 
-    
-    
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
     
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
-    ***REMOVED*** Uncomment the following line to preserve selection between presentations.
-    ***REMOVED*** self.clearsSelectionOnViewWillAppear = NO;
-    
-    ***REMOVED*** Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    ***REMOVED*** self.navigationItem.rightBarButtonItem = self.editButtonItem;
 ***REMOVED***
 
 - (void)didReceiveMemoryWarning ***REMOVED***
@@ -102,25 +88,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
     NSArray *key = [self.businessOptions allValues][section];
-***REMOVED***    for (NSString *category in k)
-***REMOVED***    ***REMOVED***
-***REMOVED***        if (![self.subCategories containsObject:category])
-***REMOVED***        ***REMOVED***
-***REMOVED***            [self.subCategories addObject:category];
-***REMOVED***        ***REMOVED***
-***REMOVED***    ***REMOVED***
+
     return key.count;
 ***REMOVED***
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
-***REMOVED***    NSArray *array = [self.businessOptions allValues][section];
-***REMOVED***    if (array.count > 0)
-***REMOVED***    ***REMOVED***
-***REMOVED***        return [self.businessOptions allKeys][section];
-***REMOVED***    ***REMOVED***
-***REMOVED***    
-***REMOVED***    return nil;
     NSArray *array = [self.businessOptions allValues][section];
     if (array.count > 0)
     ***REMOVED***
