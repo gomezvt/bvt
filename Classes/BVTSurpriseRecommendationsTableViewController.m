@@ -28,6 +28,7 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic) BOOL didCancelRequest;
+@property (nonatomic, strong) NSMutableDictionary *orderedDict;
 
 ***REMOVED***
 
@@ -49,6 +50,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super awakeFromNib];
     
+    self.orderedDict = [NSMutableDictionary dictionary];
+    
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
     BVTHeaderTitleView *headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
@@ -65,6 +68,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+    
+    
+
 
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
@@ -87,20 +93,30 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    NSArray *key = [self.businessOptions allValues][section];
+    NSString *key = [self.businessOptions allKeys][section];
+    NSArray *k = [self.businessOptions objectForKey:key];
 
-    return key.count;
+    return k.count;
 ***REMOVED***
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
-    NSArray *array = [self.businessOptions allValues][section];
+    NSString *key = [self.businessOptions allKeys][section];
+    NSArray *array = [self.businessOptions valueForKey:key];
+
     if (array.count > 0)
     ***REMOVED***
-        NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
-        NSArray *sortedArray = [[self.businessOptions allKeys] sortedArrayUsingDescriptors: @[descriptor]];
+***REMOVED***        NSMutableArray *array2 = [NSMutableArray array];
+***REMOVED***        for (NSDictionary *dict in array)
+***REMOVED***        ***REMOVED***
+***REMOVED***            NSArray *ar = [dict allValues];
+***REMOVED***            [array2 addObject:[ar firstObject]];
+***REMOVED***        ***REMOVED***
+***REMOVED***        NSSortDescriptor *descriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+***REMOVED***        NSArray *sortedArray2 = [array2 sortedArrayUsingDescriptors: @[descriptor2]];
+***REMOVED***        [self.orderedDict setObject:sortedArray2 forKey:key];
         
-        return sortedArray[section];
+        return key;
     ***REMOVED***
     
     return nil;
@@ -111,18 +127,18 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSDictionary *dict in [self.businessOptions allValues][indexPath.section])
-    ***REMOVED***
-        [array addObject:[[dict allValues] lastObject]];
-    ***REMOVED***
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSString *key = [self.businessOptions allKeys][indexPath.section];
+
+    NSArray *allValues = [self.businessOptions valueForKey:key];
+    NSDictionary *bizDict = allValues[indexPath.row];
+    YLPBusiness *biz = [[bizDict allValues] lastObject];
     
-    NSArray *sortedArray = [array sortedArrayUsingDescriptors: @[descriptor]];
-    
-    YLPBusiness *biz = sortedArray[indexPath.row];
+
     
     cell.business = biz;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.textLabel.numberOfLines = 0;
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
     cell.thumbNailView.image = image;
@@ -142,7 +158,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             ***REMOVED***
         ***REMOVED***);
     ***REMOVED***);
-    
+
     return cell;
 ***REMOVED***
 
