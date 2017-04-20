@@ -29,6 +29,11 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
 @implementation BVTSurpriseSubCategoryTableViewController
 
+- (void)didClearShoppingCart
+***REMOVED***
+    [self.mut removeAllObjects];
+***REMOVED***
+
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];

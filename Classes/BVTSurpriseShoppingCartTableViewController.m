@@ -26,10 +26,11 @@
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *goButton;
+@property (nonatomic, weak) IBOutlet UIButton *clearButton;
+
 @property (nonatomic) BOOL didCancelRequest;
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
-@property (nonatomic, strong) NSMutableDictionary *mutDict;
 @property (nonatomic, strong) NSMutableArray *subCategories;
 @property (nonatomic, strong) NSMutableArray *resultsArray;
 @property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
@@ -42,12 +43,29 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 @implementation BVTSurpriseShoppingCartTableViewController
 
+- (IBAction)didTapClearAllButton:(id)sender
+***REMOVED***
+    [self.catDict removeAllObjects];
+    [self.subCategories removeAllObjects];
+    [self.resultsArray removeAllObjects];
+    
+    if ([self.delegate respondsToSelector:@selector(didClearShoppingCart)])
+    ***REMOVED***
+        [self.delegate didClearShoppingCart];
+    ***REMOVED***
+    [self.tableView reloadData];
+    [self.clearButton setEnabled:[self evaluateButtonState]];
+    [self.goButton setEnabled:[self evaluateButtonState]];
+
+***REMOVED***
+
 - (void)didTapHUDCancelButton
 ***REMOVED***
     self.didCancelRequest = YES;
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
     [self.goButton setEnabled:[self evaluateButtonState]];
+    [self.clearButton setEnabled:[self evaluateButtonState]];
     [self.hud removeFromSuperview];
 ***REMOVED***
 
@@ -61,6 +79,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.hud.delegate = self;
     self.didCancelRequest = NO;
     [self.goButton setEnabled:NO];
+    [self.clearButton setEnabled:NO];
 
     NSMutableArray *categoryArray = [NSMutableArray array];
     for (NSArray *subCat in array)
@@ -83,7 +102,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                  [alertController addAction:ok];
                  [self presentViewController:alertController animated:YES completion:nil];
                  [self.goButton setEnabled:[self evaluateButtonState]];
-                 
+                 [self.clearButton setEnabled:[self evaluateButtonState]];
                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                      ***REMOVED*** code here
                      [self _hideHUD];
@@ -121,17 +140,18 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
     if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
-        NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
-        NSArray *sortedArray2 = [[self.catDict allKeys] sortedArrayUsingDescriptors: @[descriptor]];
-        
-        
-        NSString *key = [sortedArray2 objectAtIndex:indexPath.section];
-        NSMutableArray *k = [self.catDict valueForKey:key];
+        NSString *key = [self.catDict allKeys][indexPath.section];
+        NSMutableArray *k = [self.catDict objectForKey:key];
         [k removeObjectAtIndex:indexPath.row];
         [self.subCategories removeObjectAtIndex:indexPath.row];
-        
-        [tableView reloadData]; ***REMOVED*** tell table to refresh now
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (k.count == 0)
+        ***REMOVED***
+            [tableView reloadData];
+        ***REMOVED***
+        ***REMOVED*** tell table to refresh now
         [self.goButton setEnabled:[self evaluateButtonState]];
+        [self.clearButton setEnabled:[self evaluateButtonState]];
     ***REMOVED***
 ***REMOVED***
 
@@ -186,7 +206,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     self.resultsArray = [NSMutableArray array];
     self.subCategories = [NSMutableArray array];
-    self.mutDict = [[NSMutableDictionary alloc] init];;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveBusinessesNotification:)
@@ -194,6 +213,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                object:nil];
     
     [self.goButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [self.clearButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
 ***REMOVED***
 
 - (void)viewWillAppear:(BOOL)animated
@@ -201,6 +222,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     [super viewWillAppear:animated];
     
     [self.goButton setEnabled:[self evaluateButtonState]];
+    [self.clearButton setEnabled:[self evaluateButtonState]];
 ***REMOVED***
 
 - (void)didReceiveBusinessesNotification:(NSNotification *)notification
