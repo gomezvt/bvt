@@ -68,16 +68,17 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
-    NSString *key = [self.businessOptions allKeys][section];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    NSArray *sortedArray2 = [[self.businessOptions allKeys] sortedArrayUsingDescriptors: @[descriptor]];
+    NSString *key = [sortedArray2 objectAtIndex:section];
     NSArray *array = [self.businessOptions valueForKey:key];
-    
-    NSString *title;
+
     if (array.count > 0)
     ***REMOVED***
-        title = key;
+        return key;
     ***REMOVED***
 
-    return title;
+    return nil;
 ***REMOVED***
 
 - (IBAction)didTapBack:(id)sender
@@ -89,7 +90,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
-    self.tableView.sectionFooterHeight = 0.0f;
+    self.tableView.sectionHeaderHeight = 44.f;
     
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
@@ -110,56 +111,59 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     return self.businessOptions.count;
 ***REMOVED***
 
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    NSString *key = [self.businessOptions allKeys][section];
-    NSArray *k = [self.businessOptions objectForKey:key];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    NSArray *sortedArray2 = [[self.businessOptions allKeys] sortedArrayUsingDescriptors: @[descriptor]];
+    NSString *key = [sortedArray2 objectAtIndex:section];
+    NSArray *values = [self.businessOptions valueForKey:key];
 
-    return k.count;
-***REMOVED***
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section ***REMOVED***
-    return 44.f;
+    return values.count;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
-    
-    NSString *key = [self.businessOptions allKeys][indexPath.section];
 
-    NSArray *allValues = [self.businessOptions valueForKey:key];
-    NSDictionary *bizDict = allValues[indexPath.row];
-    YLPBusiness *biz = [[bizDict allValues] lastObject];
-    
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+    NSArray *sortedArray2 = [[self.businessOptions allKeys] sortedArrayUsingDescriptors: @[descriptor]];
+    NSString *key = [sortedArray2 objectAtIndex:indexPath.section];
+    NSArray *values = [self.businessOptions valueForKey:key];
+    if (values.count > 0)
+    ***REMOVED***
+        NSMutableArray *tempArray = [NSMutableArray array];
+        for (NSDictionary *dict in values)
+        ***REMOVED***
+            [tempArray addObject:[[dict allValues] lastObject]];
+        ***REMOVED***
+        NSSortDescriptor *nameDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+        NSArray *bizArray = [tempArray sortedArrayUsingDescriptors: @[nameDescriptor]];
 
-    
-    cell.business = biz;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.textLabel.numberOfLines = 0;
-    
-    UIImage *image = [UIImage imageNamed:@"placeholder"];
-    cell.thumbNailView.image = image;
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-        ***REMOVED*** Your Background work
-        NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
-        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-            ***REMOVED*** Update your UI
-            if (cell.tag == indexPath.row)
-            ***REMOVED***
-                if (imageData)
+        YLPBusiness *biz = [bizArray objectAtIndex:indexPath.row];
+        cell.business = biz;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.numberOfLines = 0;
+        
+        UIImage *image = [UIImage imageNamed:@"placeholder"];
+        cell.thumbNailView.image = image;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+            ***REMOVED*** Your Background work
+            NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                ***REMOVED*** Update your UI
+                if (cell.tag == indexPath.row)
                 ***REMOVED***
-                    UIImage *image = [UIImage imageWithData:imageData];
-                    cell.thumbNailView.image = image;
+                    if (imageData)
+                    ***REMOVED***
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        cell.thumbNailView.image = image;
+                    ***REMOVED***
                 ***REMOVED***
-            ***REMOVED***
+            ***REMOVED***);
         ***REMOVED***);
-    ***REMOVED***);
+    ***REMOVED***
 
     return cell;
 ***REMOVED***
