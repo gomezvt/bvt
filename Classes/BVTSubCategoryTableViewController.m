@@ -31,6 +31,8 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic) BOOL didCancelRequest;
+@property (nonatomic, weak) IBOutlet UIButton *starSortIcon;
+@property (nonatomic, strong) NSMutableArray *sortedArray;
 
 ***REMOVED***
 
@@ -40,11 +42,31 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 @implementation BVTSubCategoryTableViewController
 
+- (IBAction)didTapStarSortIcon:(id)sender
+***REMOVED***
+    if (self.sortedArray.count > 0)
+    ***REMOVED***
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+        self.filteredResults = [[self.sortedArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        [self.sortedArray removeAllObjects];
+
+    ***REMOVED***
+    else
+    ***REMOVED***
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+        self.sortedArray = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+    ***REMOVED***
+
+    [self.tableView reloadData];
+***REMOVED***
+
 #pragma mark - View Life Cycle
 
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];
+    
+    self.sortedArray = [NSMutableArray array];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
     BVTHeaderTitleView *headerTitleView = [[nibTitleView instantiateWithOwner:self options:nil] objectAtIndex:0];
@@ -177,7 +199,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
+    NSArray *array;
+    if (self.sortedArray.count > 0)
+    ***REMOVED***
+        array = self.sortedArray;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        array = self.filteredResults;
+    ***REMOVED***
+    YLPBusiness *business = [array objectAtIndex:indexPath.row];
     cell.business = business;
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
