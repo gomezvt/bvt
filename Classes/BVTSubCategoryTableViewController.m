@@ -35,6 +35,7 @@
 @property (nonatomic, strong) NSMutableArray *sortedArray;
 @property (nonatomic, weak) IBOutlet UIButton *priceButton;
 @property (nonatomic, weak) IBOutlet UIButton *distanceButton;
+@property (nonatomic, weak) IBOutlet UIButton *openNowButton;
 
 ***REMOVED***
 
@@ -43,6 +44,63 @@ static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
 static NSString *const kShowDetailSegue = @"ShowDetail";
 
 @implementation BVTSubCategoryTableViewController
+
+- (IBAction)didTapPriceButton:(id)sender
+***REMOVED***
+    if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
+    ***REMOVED***
+        [self.priceButton setTitle:@"$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
+    ***REMOVED***
+        [self.priceButton setTitle:@"$$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
+    ***REMOVED***
+        [self.priceButton setTitle:@"$$$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
+    ***REMOVED***
+        [self.priceButton setTitle:@"$" forState:UIControlStateNormal];
+    ***REMOVED***
+***REMOVED***
+
+- (IBAction)didTapDistanceButton:(id)sender
+***REMOVED***
+    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 mi. away"])
+    ***REMOVED***
+        [self.distanceButton setTitle:@"10 mi. away" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 mi. away"])
+    ***REMOVED***
+        [self.distanceButton setTitle:@"25 mi. away" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 mi. away"])
+    ***REMOVED***
+        [self.distanceButton setTitle:@"50 mi. away" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 mi. away"])
+    ***REMOVED***
+        [self.distanceButton setTitle:@"100 mi. away" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 mi. away"])
+    ***REMOVED***
+        [self.distanceButton setTitle:@"5 mi. away" forState:UIControlStateNormal];
+    ***REMOVED***
+***REMOVED***
+
+- (IBAction)didTapOpenButton:(id)sender
+***REMOVED***
+    self.openNowButton.selected = ![self.openNowButton isSelected]; ***REMOVED*** Important line
+    if (self.openNowButton.selected)
+    ***REMOVED***
+        self.openNowButton.backgroundColor = [BVTStyles iconGreen];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.openNowButton.backgroundColor = [BVTStyles buttonBackGround];
+    ***REMOVED***
+***REMOVED***
 
 - (IBAction)didTapStarSortIcon:(id)sender
 ***REMOVED***
@@ -102,6 +160,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [layer2 setBorderWidth:1.0];
     [layer2 setBorderColor:[[BVTStyles iconGreen] CGColor]];
 
+    CALayer * layer3 = [self.openNowButton layer];
+    [layer3 setMasksToBounds:YES];
+    [layer3 setCornerRadius:10.0];
+    [layer3 setBorderWidth:1.0];
+    [layer3 setBorderColor:[[BVTStyles iconGreen] CGColor]];
 ***REMOVED***
 
 - (void)didTapHUDCancelButton
