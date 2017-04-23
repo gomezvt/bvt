@@ -54,25 +54,13 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
         [self.delegate didClearShoppingCart];
     ***REMOVED***
     [self.tableView reloadData];
-    [self.clearButton setEnabled:[self evaluateButtonState]];
-    [self.goButton setEnabled:[self evaluateButtonState]];
-    if (self.goButton.enabled)
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
     
-    if (self.clearButton.enabled)
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
+    self.clearButton.enabled = NO;
+    self.goButton.enabled = NO;
+    
+    self.clearButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.goButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+
     [self presentMessage];
 ***REMOVED***
 
@@ -82,25 +70,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.didCancelRequest = YES;
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
-    [self.goButton setEnabled:[self evaluateButtonState]];
-    [self.clearButton setEnabled:[self evaluateButtonState]];
-    if (self.goButton.enabled)
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
-    
-    if (self.clearButton.enabled)
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
+    [self evaluateButtonStateForButton:self.goButton];
+    [self evaluateButtonStateForButton:self.clearButton];
     [self.hud removeFromSuperview];
 ***REMOVED***
 
@@ -115,6 +86,9 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.didCancelRequest = NO;
     [self.goButton setEnabled:NO];
     [self.clearButton setEnabled:NO];
+    
+    self.goButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.clearButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 
     NSMutableArray *categoryArray = [NSMutableArray array];
     for (NSArray *subCat in array)
@@ -131,33 +105,22 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
          (YLPSearch *searchResults, NSError *error)***REMOVED***
              if (error)
              ***REMOVED***
-                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
-                 
-                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                 [alertController addAction:ok];
-                 [self presentViewController:alertController animated:YES completion:nil];
-                 [self.goButton setEnabled:[self evaluateButtonState]];
-                 [self.clearButton setEnabled:[self evaluateButtonState]];
-                 if (self.goButton.enabled)
-                 ***REMOVED***
-                     [self.goButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-                 ***REMOVED***
-                 else
-                 ***REMOVED***
-                     [self.goButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-                 ***REMOVED***
-                 
-                 if (self.clearButton.enabled)
-                 ***REMOVED***
-                     [self.clearButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-                 ***REMOVED***
-                 else
-                 ***REMOVED***
-                     [self.clearButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-                 ***REMOVED***
+
                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                     ***REMOVED*** code here
                      [self _hideHUD];
+
+                     ***REMOVED*** code here
+                     [self.goButton setEnabled:YES];
+                     [self.clearButton setEnabled:YES];
+                     
+                     self.goButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
+                     self.clearButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
+                     
+                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
+                     
+                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                     [alertController addAction:ok];
+                     [self presentViewController:alertController animated:YES completion:nil];
                  ***REMOVED***);
              ***REMOVED***
          ***REMOVED***];
@@ -218,25 +181,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
             [self presentMessage];
         ***REMOVED***
         ***REMOVED*** tell table to refresh now
-        [self.goButton setEnabled:[self evaluateButtonState]];
-        [self.clearButton setEnabled:[self evaluateButtonState]];
-        if (self.goButton.enabled)
-        ***REMOVED***
-            [self.goButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-        ***REMOVED***
-        else
-        ***REMOVED***
-            [self.goButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-        ***REMOVED***
-        
-        if (self.clearButton.enabled)
-        ***REMOVED***
-            [self.clearButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-        ***REMOVED***
-        else
-        ***REMOVED***
-            [self.clearButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-        ***REMOVED***
+        [self evaluateButtonStateForButton:self.goButton];
+        [self evaluateButtonStateForButton:self.clearButton];
     ***REMOVED***
 ***REMOVED***
 
@@ -254,20 +200,29 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
 ***REMOVED***
 
-- (BOOL)evaluateButtonState
+- (void)evaluateButtonStateForButton:(UIButton *)button
 ***REMOVED***
-    BOOL isEnabled = NO;
+    CALayer *layer = [button layer];
+    [layer setMasksToBounds:YES];
+    [layer setCornerRadius:10.0];
+    [layer setBorderWidth:1.0];
+    
     NSArray *allValues = [self.catDict allValues];
     for (NSArray *array in allValues)
     ***REMOVED***
         if (array.count > 0)
         ***REMOVED***
-            isEnabled = YES;
+            [button setEnabled:YES];
+            [button.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
+            break;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            [button setEnabled:NO];
+            [button.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
             break;
         ***REMOVED***
     ***REMOVED***
-    
-    return isEnabled;
 ***REMOVED***
 
 #pragma mark - IBActions
@@ -287,18 +242,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewDidLoad];
     
-    CALayer * layer2 = [self.clearButton layer];
-    [layer2 setMasksToBounds:YES];
-    [layer2 setCornerRadius:10.0];
-    [layer2 setBorderWidth:1.0];
-    [layer2 setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    
-    CALayer * layer = [self.goButton layer];
-    [layer setMasksToBounds:YES];
-    [layer setCornerRadius:10.0];
-    [layer setBorderWidth:1.0];
-    [layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    
+
     self.tableView.sectionHeaderHeight = 44.f;
     
     self.resultsArray = [NSMutableArray array];
@@ -318,25 +262,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewWillAppear:animated];
     
-    [self.goButton setEnabled:[self evaluateButtonState]];
-    [self.clearButton setEnabled:[self evaluateButtonState]];
-    if (self.goButton.enabled)
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.goButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
-    
-    if (self.clearButton.enabled)
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        [self.clearButton.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
+    [self evaluateButtonStateForButton:self.goButton];
+    [self evaluateButtonStateForButton:self.clearButton];
 ***REMOVED***
 
 - (void)didReceiveBusinessesNotification:(NSNotification *)notification
@@ -378,13 +305,22 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
         ***REMOVED***
             if (self.resultsArray.count == 0)
             ***REMOVED***
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results were found for the selected category(s)" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                [alertController addAction:ok];
-                
-                [self presentViewController:alertController animated:YES completion:nil];
-***REMOVED***                [self.goButton setEnabled:YES];
+                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                    ***REMOVED*** code here
+                    [self.goButton setEnabled:YES];
+                    [self.clearButton setEnabled:YES];
+                    
+                    self.goButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
+                    self.clearButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
+                    
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results were found for the selected category(s)" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                    [alertController addAction:ok];
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
+                ***REMOVED***);
+
             ***REMOVED***
             else
             ***REMOVED***
@@ -396,13 +332,14 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                 ***REMOVED***
                 
                 [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
-***REMOVED***                [self.goButton setEnabled:YES];
             ***REMOVED***
             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                 ***REMOVED*** code here
                 [self _hideHUD];
             ***REMOVED***);
         ***REMOVED***
+        
+        
     ***REMOVED***
 ***REMOVED***
 

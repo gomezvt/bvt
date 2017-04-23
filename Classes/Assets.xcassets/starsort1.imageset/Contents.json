@@ -2,17 +2,17 @@
   "images" : [
     ***REMOVED***
       "idiom" : "universal",
-      "filename" : "staricon_30x40@1x.png",
+      "filename" : "placeholder@x1.png",
       "scale" : "1x"
     ***REMOVED***,
     ***REMOVED***
       "idiom" : "universal",
-      "filename" : "staricon_30x40@2x.png",
+      "filename" : "placeholder@x2.png",
       "scale" : "2x"
     ***REMOVED***,
     ***REMOVED***
       "idiom" : "universal",
-      "filename" : "staricon_30x40@3x.png",
+      "filename" : "placeholder@x3.png",
       "scale" : "3x"
     ***REMOVED***
   ],

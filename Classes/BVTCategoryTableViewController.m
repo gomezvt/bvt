@@ -201,7 +201,6 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  ***REMOVED*** code here
                  [self _hideHUD];
-             ***REMOVED***);
              UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
              
              UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -209,7 +208,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
              
              [self presentViewController:alertController animated:YES completion:nil];
              
-
+             ***REMOVED***);
          ***REMOVED***
      ***REMOVED***];
 ***REMOVED***
