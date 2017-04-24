@@ -36,6 +36,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *priceButton;
 @property (nonatomic, weak) IBOutlet UIButton *distanceButton;
 @property (nonatomic, weak) IBOutlet UIButton *openNowButton;
+@property (nonatomic, strong) NSArray *filteredArrayCopy;
 
 ***REMOVED***
 
@@ -47,22 +48,43 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapPriceButton:(id)sender
 ***REMOVED***
-    if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
+    NSString *filterKey;
+    NSArray *sortedArray;
+    if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
     ***REMOVED***
-        [self.priceButton setTitle:@"$$" forState:UIControlStateNormal];
+        filterKey = @"Any price";
+        [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+        sortedArray = self.filteredArrayCopy;
     ***REMOVED***
-    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
+    else
     ***REMOVED***
-        [self.priceButton setTitle:@"$$$" forState:UIControlStateNormal];
+        if ([self.priceButton.titleLabel.text isEqualToString:@"Any price"])
+        ***REMOVED***
+            filterKey = @"$";
+            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+        ***REMOVED***
+        else if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
+        ***REMOVED***
+            filterKey = @"$$";
+            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+        ***REMOVED***
+        else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
+        ***REMOVED***
+            filterKey = @"$$$";
+            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+        ***REMOVED***
+        else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
+        ***REMOVED***
+            filterKey = @"$$$$";
+            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+        ***REMOVED***
+        
+        sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
     ***REMOVED***
-    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
-    ***REMOVED***
-        [self.priceButton setTitle:@"$$$$" forState:UIControlStateNormal];
-    ***REMOVED***
-    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
-    ***REMOVED***
-        [self.priceButton setTitle:@"$" forState:UIControlStateNormal];
-    ***REMOVED***
+
+    self.filteredResults = sortedArray;
+    
+    [self.tableView reloadData];
 ***REMOVED***
 
 - (IBAction)didTapDistanceButton:(id)sender
@@ -91,30 +113,32 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapOpenButton:(id)sender
 ***REMOVED***
-    self.openNowButton.selected = ![self.openNowButton isSelected]; ***REMOVED*** Important line
-    if (self.openNowButton.selected)
+    if ([self.openNowButton.titleLabel.text isEqualToString:@"Open now"])
     ***REMOVED***
-        self.openNowButton.backgroundColor = [BVTStyles iconGreen];
+        [self.openNowButton setTitle:@"Closed now" forState:UIControlStateNormal];
     ***REMOVED***
-    else
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed now"])
     ***REMOVED***
-        self.openNowButton.backgroundColor = [BVTStyles buttonBackGround];
+        [self.openNowButton setTitle:@"Open now" forState:UIControlStateNormal];
     ***REMOVED***
 ***REMOVED***
 
 - (IBAction)didTapStarSortIcon:(id)sender
 ***REMOVED***
-    if (self.sortedArray.count > 0)
+    self.starSortIcon.selected = ![self.starSortIcon isSelected];
+    
+
+    
+    if (self.starSortIcon.isSelected)
     ***REMOVED***
         NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-        self.filteredResults = [[self.sortedArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
-        [self.sortedArray removeAllObjects];
+        self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
 
     ***REMOVED***
     else
     ***REMOVED***
         NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-        self.sortedArray = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
     ***REMOVED***
 
     [self.tableView reloadData];
@@ -139,6 +163,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+    
+    self.filteredArrayCopy = self.filteredResults;
     
     self.titleLabel.text = self.subCategoryTitle;
 
@@ -278,16 +304,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    NSArray *array;
-    if (self.sortedArray.count > 0)
-    ***REMOVED***
-        array = self.sortedArray;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        array = self.filteredResults;
-    ***REMOVED***
-    YLPBusiness *business = [array objectAtIndex:indexPath.row];
+    YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
     cell.business = business;
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
