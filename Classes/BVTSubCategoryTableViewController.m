@@ -81,10 +81,26 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
     ***REMOVED***
+    
+    if (sortedArray.count == 0)
+    ***REMOVED***
+        [self presentMessage];
+    ***REMOVED***
 
     self.filteredResults = sortedArray;
     
     [self.tableView reloadData];
+***REMOVED***
+
+- (void)presentMessage
+***REMOVED***
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
+    label.text = @"No sorted results found.";
+    [super.view addSubview:label];
+    label.center = self.tableView.center;
+    self.tableView.separatorColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor lightGrayColor];
 ***REMOVED***
 
 - (IBAction)didTapDistanceButton:(id)sender
