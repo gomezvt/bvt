@@ -37,6 +37,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *distanceButton;
 @property (nonatomic, weak) IBOutlet UIButton *openNowButton;
 @property (nonatomic, strong) NSArray *filteredArrayCopy;
+@property (nonatomic, strong) UILabel *label;
 
 ***REMOVED***
 
@@ -81,26 +82,28 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
     ***REMOVED***
-    
+
     if (sortedArray.count == 0)
     ***REMOVED***
-        [self presentMessage];
+        self.label.hidden = NO;
+        if (!self.label)
+        ***REMOVED***
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
+            self.label.text = @"No sorted results found.";
+            [self.view addSubview:self.label];
+            self.label.center = self.tableView.center;
+            self.tableView.separatorColor = [UIColor clearColor];
+            self.label.textAlignment = NSTextAlignmentCenter;
+            self.label.textColor = [UIColor lightGrayColor];
+        ***REMOVED***
     ***REMOVED***
-
+    else
+    ***REMOVED***
+        self.label.hidden = YES;
+    ***REMOVED***
     self.filteredResults = sortedArray;
     
     [self.tableView reloadData];
-***REMOVED***
-
-- (void)presentMessage
-***REMOVED***
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
-    label.text = @"No sorted results found.";
-    [super.view addSubview:label];
-    label.center = self.tableView.center;
-    self.tableView.separatorColor = [UIColor clearColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor lightGrayColor];
 ***REMOVED***
 
 - (IBAction)didTapDistanceButton:(id)sender
