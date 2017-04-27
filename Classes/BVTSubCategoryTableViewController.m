@@ -84,31 +84,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
     ***REMOVED***
 
-    if (sortedArray.count == 0)
-    ***REMOVED***
-        self.label.hidden = NO;
-        if (!self.label)
-        ***REMOVED***
-            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
-            self.label.text = @"No sorted results found.";
-            [self.view addSubview:self.label];
-            self.label.center = self.tableView.center;
-            self.tableView.separatorColor = [UIColor clearColor];
-            self.label.textAlignment = NSTextAlignmentCenter;
-            self.label.textColor = [UIColor lightGrayColor];
-        ***REMOVED***
-    ***REMOVED***
-    else
-    ***REMOVED***
-        self.label.hidden = YES;
-    ***REMOVED***
+
     self.filteredResults = sortedArray;
-    if (self.filteredResults.count == 0)
-    ***REMOVED***
-        
-    ***REMOVED***
     
-    [self.tableView reloadData];
+    [self evaluateSortedItemsState:self.filteredResults];
 ***REMOVED***
 
 - (IBAction)didTapDistanceButton:(id)sender
@@ -133,12 +112,17 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         [self.distanceButton setTitle:@"5 mi. away" forState:UIControlStateNormal];
     ***REMOVED***
+    
+    NSArray *sortedArray; ***REMOVED*** need to work this TODO:
+    self.filteredResults = sortedArray;
+
+    [self evaluateSortedItemsState:self.filteredResults];
 ***REMOVED***
 
 - (IBAction)didTapOpenButton:(id)sender
 ***REMOVED***
         NSArray *sortedArray;
-    if ([self.openNowButton.titleLabel.text isEqualToString:@"Open or closed"])
+    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed now"])
     ***REMOVED***
         [self.openNowButton setTitle:@"Open now" forState:UIControlStateNormal];
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)]];
@@ -148,43 +132,37 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         [self.openNowButton setTitle:@"Closed now" forState:UIControlStateNormal];
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)]];
     ***REMOVED***
-    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed now"])
-    ***REMOVED***
-        sortedArray = self.filteredArrayCopy;
-        [self.openNowButton setTitle:@"Open or closed" forState:UIControlStateNormal];
-    ***REMOVED***
     
     self.filteredResults = sortedArray;
     
-    [self.tableView reloadData];
+    [self evaluateSortedItemsState:self.filteredResults];
 ***REMOVED***
 
-- (void)evaluateBizOpenState
+- (void)evaluateSortedItemsState:(NSArray *)items
 ***REMOVED***
-
-        if (self.filteredResults.count == 0)
-        ***REMOVED***
-            self.label.hidden = NO;
-            if (!self.label)
-            ***REMOVED***
-                self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
-                self.label.text = @"No sorted results found.";
-                [self.view addSubview:self.label];
-                self.label.center = self.tableView.center;
-                self.tableView.separatorColor = [UIColor clearColor];
-                self.label.textAlignment = NSTextAlignmentCenter;
-                self.label.textColor = [UIColor lightGrayColor];
-            ***REMOVED***
-        ***REMOVED***
-            else
-            ***REMOVED***
-                self.label.hidden = YES;
-            ***REMOVED***
     
-
+    if (items.count == 0)
+    ***REMOVED***
+        self.label.hidden = NO;
+        if (!self.label)
+        ***REMOVED***
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
+            self.label.text = @"No sorted results found";
+            [self.view addSubview:self.label];
+            self.label.center = self.tableView.center;
+            self.tableView.separatorColor = [UIColor clearColor];
+            self.label.textAlignment = NSTextAlignmentCenter;
+            self.label.textColor = [UIColor lightGrayColor];
+        ***REMOVED***
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.label.hidden = YES;
+    ***REMOVED***
+    
+    
     [self.tableView reloadData];
 ***REMOVED***
-
 
 - (IBAction)didTapStarSortIcon:(id)sender
 ***REMOVED***
@@ -282,6 +260,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     
     [super viewDidLoad];
+    
+    
     
     if (!self.cachedDetails)
     ***REMOVED***
@@ -405,6 +385,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                  
                  [[AppDelegate sharedClient] reviewsForBusinessWithId:selectedBusiness.identifier
                                                     completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
+                                                        if (error)
+                                                        ***REMOVED***
+                                                            
+                                                        ***REMOVED***
                                                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                             ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
                                                             NSMutableArray *userPhotos = [NSMutableArray array];
@@ -424,6 +408,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                             [self _hideHUD];
                                                             if (!self.didCancelRequest)
                                                             ***REMOVED***
+                                                                ***REMOVED*** get biz photos here if we dont have them?
                                                                 [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
                                                             ***REMOVED***
                                                         ***REMOVED***);
