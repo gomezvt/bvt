@@ -21,7 +21,7 @@
 #import "BVTStyles.h"
 
 @interface BVTCategoryTableViewController ()
-    <BVTHUDViewDelegate>
+    <BVTHUDViewDelegate, BVTSubCategoryTableViewControllerDelegate>
 
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -51,6 +51,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
 
+***REMOVED***
+
+- (void)didTapBackWithDetails:(NSMutableDictionary *)details
+***REMOVED***
+    self.cachedDetails = details;
 ***REMOVED***
 
 - (void)viewDidLoad
@@ -134,12 +139,12 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     [[AppDelegate sharedClient] searchWithLocation:@"New York, NY" term:selectionTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error)***REMOVED***
+         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+             ***REMOVED*** code here
          if (searchResults.businesses.count == 0)
          ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                 ***REMOVED*** code here
+
                  [self _hideHUD];
-             ***REMOVED***);
              UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
              
              UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -150,8 +155,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
          ***REMOVED***
          else if (searchResults.businesses.count > 0)
          ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                 ***REMOVED***
+   
                      NSMutableArray *filteredArray = [NSMutableArray array];
                      for (YLPBusiness *biz in searchResults.businesses)
                      ***REMOVED***
@@ -166,21 +170,23 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                          NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
                          NSArray *sortedArray = [filteredArray sortedArrayUsingDescriptors:descriptor];
                          
-                         if (!self.didCancelRequest)
-                         ***REMOVED***
+                         
                              [self _hideHUD];
 
-                             [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ selectionTitle, sortedArray ]];
+                         BVTSubCategoryTableViewController *subCat = [self.storyboard instantiateViewControllerWithIdentifier:@"SubCat"];
+                         subCat.subCategoryTitle = selectionTitle;
+                         subCat.filteredResults = sortedArray;
+                         subCat.cachedDetails = self.cachedDetails;
+                         subCat.delegate = self;
+                         [self.navigationController pushViewController:subCat animated:YES];
+                         
                              
-                             
-                         ***REMOVED***
+                         
                      ***REMOVED***
                      else
                      ***REMOVED***
-                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                              ***REMOVED*** code here
                              [self _hideHUD];
-                         ***REMOVED***);
                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No results match the selected category" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
                          
                          UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -193,12 +199,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      ***REMOVED***
                      
                  ***REMOVED***
-             ***REMOVED***);
-         ***REMOVED***
+         
          
          if (error)
          ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  ***REMOVED*** code here
                  [self _hideHUD];
              UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
@@ -208,9 +212,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
              
              [self presentViewController:alertController animated:YES completion:nil];
              
-             ***REMOVED***);
          ***REMOVED***
+                        ***REMOVED***);
+         
      ***REMOVED***];
+                        
 ***REMOVED***
 
 - (void)_hideHUD
@@ -246,21 +252,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
+    if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
+    ***REMOVED***
+        [self.delegate didTapBackWithDetails:self.cachedDetails];
+    ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
-***REMOVED***
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-***REMOVED***
-    NSArray *info = sender;
-    if ([[segue identifier] isEqualToString:kShowSubCategorySegue])
-    ***REMOVED***
-        ***REMOVED*** Get destination view
-        BVTSubCategoryTableViewController *vc = [segue destinationViewController];
-        vc.subCategoryTitle = [info firstObject];
-        vc.filteredResults = [info lastObject];
-    ***REMOVED***
 ***REMOVED***
 
 ***REMOVED***
