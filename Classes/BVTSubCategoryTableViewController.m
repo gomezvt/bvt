@@ -52,39 +52,37 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     NSString *filterKey;
     NSArray *sortedArray;
-    if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
+    
+    if ([self.priceButton.titleLabel.text isEqualToString:@"Any $"])
     ***REMOVED***
-        filterKey = @"Any price";
+        filterKey = @"$";
         [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
-        sortedArray = self.filteredArrayCopy;
     ***REMOVED***
-    else
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
     ***REMOVED***
-        if ([self.priceButton.titleLabel.text isEqualToString:@"Any price"])
-        ***REMOVED***
-            filterKey = @"$";
-            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
-        ***REMOVED***
-        else if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
-        ***REMOVED***
-            filterKey = @"$$";
-            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
-        ***REMOVED***
-        else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
-        ***REMOVED***
-            filterKey = @"$$$";
-            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
-        ***REMOVED***
-        else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
-        ***REMOVED***
-            filterKey = @"$$$$";
-            [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
-        ***REMOVED***
-        
-        sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
+        filterKey = @"$$";
+        [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
     ***REMOVED***
-
-
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
+    ***REMOVED***
+        filterKey = @"$$$";
+        [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
+    ***REMOVED***
+        filterKey = @"$$$$";
+        [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
+    ***REMOVED***
+        filterKey = @"Any $";
+        [self.priceButton setTitle:filterKey forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
+    
+    
+    
     self.filteredResults = sortedArray;
     
     [self evaluateSortedItemsState:self.filteredResults];
@@ -92,25 +90,25 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapDistanceButton:(id)sender
 ***REMOVED***
-    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 mi. away"])
+    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 miles"])
     ***REMOVED***
-        [self.distanceButton setTitle:@"10 mi. away" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"10 miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 mi. away"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 miles"])
     ***REMOVED***
-        [self.distanceButton setTitle:@"25 mi. away" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"25 miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 mi. away"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 miles"])
     ***REMOVED***
-        [self.distanceButton setTitle:@"50 mi. away" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"50 miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 mi. away"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 miles"])
     ***REMOVED***
-        [self.distanceButton setTitle:@"100 mi. away" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"100 miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 mi. away"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 miles"])
     ***REMOVED***
-        [self.distanceButton setTitle:@"5 mi. away" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"5 miles" forState:UIControlStateNormal];
     ***REMOVED***
     
     NSArray *sortedArray; ***REMOVED*** need to work this TODO:
@@ -122,14 +120,14 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (IBAction)didTapOpenButton:(id)sender
 ***REMOVED***
         NSArray *sortedArray;
-    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed now"])
+    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
     ***REMOVED***
-        [self.openNowButton setTitle:@"Open now" forState:UIControlStateNormal];
+        [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)]];
     ***REMOVED***
-    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open now"])
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
     ***REMOVED***
-        [self.openNowButton setTitle:@"Closed now" forState:UIControlStateNormal];
+        [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
         sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)]];
     ***REMOVED***
     
