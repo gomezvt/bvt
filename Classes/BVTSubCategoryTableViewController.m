@@ -259,7 +259,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     [super viewDidLoad];
     
+    self.filteredArrayCopy = self.filteredResults;
+
     
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredArrayCopy.count];
     
     if (!self.cachedDetails)
     ***REMOVED***
@@ -286,12 +289,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
         if (self.filteredResults.count > 0)
         ***REMOVED***
-            self.hud = [BVTHUDView hudWithView:self.navigationController.view];
-            self.hud.delegate = self;
-            
-            self.didCancelRequest = NO;
-            self.tableView.userInteractionEnabled = NO;
-            self.backChevron.enabled = NO;
+***REMOVED***            self.hud = [BVTHUDView hudWithView:self.navigationController.view];
+***REMOVED***            self.hud.delegate = self;
+***REMOVED***            
+***REMOVED***            self.didCancelRequest = NO;
+***REMOVED***            self.tableView.userInteractionEnabled = NO;
+***REMOVED***            self.backChevron.enabled = NO;
             for (YLPBusiness *selectedBusiness in self.filteredResults)
             ***REMOVED***
                 
@@ -302,7 +305,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                      if (error) ***REMOVED***
                          
                          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                             [self _hideHUD];
+***REMOVED***                             [self _hideHUD];
                              
                              UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
                              
@@ -320,16 +323,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
     ***REMOVED***
 
-    
-    
-
-    
-
-    self.filteredArrayCopy = self.filteredResults;
-    
-
-    
-    self.titleLabel.text = self.subCategoryTitle;
 
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
