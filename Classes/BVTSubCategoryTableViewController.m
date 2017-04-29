@@ -92,6 +92,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.priceKeyValue = @"Any $";
     ***REMOVED***
     
+    NSMutableArray *arrayPred = [NSMutableArray array];
     if ([self.priceKeyValue isEqualToString:@"Any $"])
     ***REMOVED***
         pricePredicate = [NSPredicate predicateWithFormat:@"price = %@ OR price = %@ OR price = %@ OR price = %@ OR price = %@", nil, @"$", @"$$", @"$$$", @"$$$$"];
@@ -101,15 +102,27 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
     ***REMOVED***
     
+    [arrayPred addObject:pricePredicate];
+    
     NSPredicate *distancePredicate;
-    if (self.milesKeyValue == 0)
+    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDel.userLocation)
     ***REMOVED***
-        distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", 5];
+        self.distanceButton.hidden = NO;
+        if (self.milesKeyValue == 0)
+        ***REMOVED***
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %f", 5];
+        ***REMOVED***
+        else
+        ***REMOVED***
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %f", self.milesKeyValue];
+        ***REMOVED***
+        
+        [arrayPred addObject:distancePredicate];
     ***REMOVED***
     else
     ***REMOVED***
-        distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
-        
+        self.distanceButton.hidden = YES;
     ***REMOVED***
     
     NSPredicate *openClosePredicate;
@@ -123,17 +136,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
         ***REMOVED***
+        
+        [arrayPred addObject:openClosePredicate];
     ***REMOVED***
     
-    NSPredicate *comboPredicate;
-    if (openClosePredicate)
-    ***REMOVED***
-        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate, openClosePredicate]];
-    ***REMOVED***
-    else
-    ***REMOVED***
-        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate]];
-    ***REMOVED***
+    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: [arrayPred copy]];
     
     NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
     self.filteredResults = sortedArray;
@@ -257,7 +264,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [super viewDidLoad];
     
     [self.openNowButton setHidden:YES];
-    
+    [self.distanceButton setHidden:YES];
     self.filteredArrayCopy = self.filteredResults;
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
@@ -304,8 +311,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              business.photos = photosArray;
                          ***REMOVED***
                          
-                         [self.filteredArray addObject:business];
-                         
+                         if (business)
+                         ***REMOVED***
+                             [self.filteredArray addObject:business];
+                         ***REMOVED***
                          
                          if (self.filteredArray.count == self.filteredResults.count)
                          ***REMOVED***
