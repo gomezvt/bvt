@@ -42,6 +42,7 @@
 @property (nonatomic, strong) NSMutableArray *filteredArray;
 @property (nonatomic) double milesKeyValue;
 @property (nonatomic, strong) NSString *priceKeyValue;
+@property (nonatomic) BOOL openCloseKeyValue;
 
 ***REMOVED***
 
@@ -85,10 +86,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)sortArrayWithPredicates
 ***REMOVED***
     NSPredicate *pricePredicate;
-    if (!self.milesKeyValue)
-    ***REMOVED***
-        self.milesKeyValue = 5;
-    ***REMOVED***
     
     if (!self.priceKeyValue)
     ***REMOVED***
@@ -103,27 +100,43 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
     ***REMOVED***
-
-    NSPredicate *distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
     
+    NSPredicate *distancePredicate;
+    if (self.milesKeyValue == 0)
+    ***REMOVED***
+        distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", 5];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
+
+    ***REMOVED***
+    
+    
+    NSPredicate *openClosePredicate;
+
+    if (self.openNowButton.hidden == NO)
+    ***REMOVED***
+        if (self.openCloseKeyValue == YES)
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+        ***REMOVED***
+        else
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
+        ***REMOVED***
+    ***REMOVED***
+
     NSPredicate *comboPredicate;
-***REMOVED***    if (self.openNowButton.hidden == NO)
-***REMOVED***    ***REMOVED***
-***REMOVED***        NSPredicate *openClosePredicate;
-***REMOVED***        if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
-***REMOVED***        ***REMOVED***
-***REMOVED***            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
-***REMOVED***        ***REMOVED***
-***REMOVED***        else
-***REMOVED***        ***REMOVED***
-***REMOVED***            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
-***REMOVED***        ***REMOVED***
-***REMOVED***        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, openClosePredicate, distancePredicate]];
-***REMOVED***    ***REMOVED***
-***REMOVED***    else
-***REMOVED***    ***REMOVED***
+    if (openClosePredicate)
+    ***REMOVED***
+        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate, openClosePredicate]];
+    ***REMOVED***
+    else
+    ***REMOVED***
         comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate]];
-***REMOVED***    ***REMOVED***
+    ***REMOVED***
+    
 
     NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
     self.filteredResults = sortedArray;
@@ -186,10 +199,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
     ***REMOVED***
+        self.openCloseKeyValue = YES;
         [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
     ***REMOVED***
+        self.openCloseKeyValue = NO;
         [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
     ***REMOVED***
     
@@ -303,14 +318,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                      ***REMOVED***
                          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                              NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+                             self.openCloseKeyValue = YES;
                              NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
+                             [self.openNowButton setHidden:NO];
+
                              self.filteredResults = sortedArray;
                              self.filteredArrayCopy = sortedArray;
                              [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
                              [self sortArrayWithPredicates];
                              [self _hideHUD];
                              
-                             [self.openNowButton setHidden:NO];
                          ***REMOVED***);
                      ***REMOVED***
 
