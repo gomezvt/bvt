@@ -111,11 +111,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.distanceButton.hidden = NO;
         if (self.milesKeyValue == 0)
         ***REMOVED***
-            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %f", 5];
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", 5];
         ***REMOVED***
         else
         ***REMOVED***
-            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %f", self.milesKeyValue];
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
         ***REMOVED***
         
         [arrayPred addObject:distancePredicate];
@@ -264,7 +264,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [super viewDidLoad];
     
     [self.openNowButton setHidden:YES];
-    [self.distanceButton setHidden:YES];
+    
+    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!appDel.userLocation)
+    ***REMOVED***
+        [self.distanceButton setHidden:YES];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        [self.distanceButton setHidden:NO];
+    ***REMOVED***
     self.filteredArrayCopy = self.filteredResults;
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
