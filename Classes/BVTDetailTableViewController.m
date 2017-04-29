@@ -27,7 +27,7 @@
 #import "BVTStyles.h"
 
 @interface BVTDetailTableViewController ()
-    <UIPopoverPresentationControllerDelegate>
+<UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -65,7 +65,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
-
+    
 ***REMOVED***
 
 - (void)viewDidLoad
@@ -73,7 +73,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     [super viewDidLoad];
     
     self.titleLabel.text = self.selectedBusiness.name;
-
+    
     UINib *yelpMapCellNib = [UINib nibWithNibName:kYelpMapCellNib bundle:nil];
     [self.tableView registerNib:yelpMapCellNib forCellReuseIdentifier:kYelpMapCellIdentifier];
     
@@ -259,7 +259,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             identifier = kSplitCellIdentifier;
         ***REMOVED***
     ***REMOVED***
-
+    
     return identifier;
 ***REMOVED***
 
@@ -282,7 +282,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
         reviewsTitle = [NSString stringWithFormat: @"Reviews (%lu)", (unsigned long)self.selectedBusiness.reviewCount];
     ***REMOVED***
-
+    
     if (indexPath.row == 0)
     ***REMOVED***
         BVTYelpRatingTableViewCell *ratingCell = (BVTYelpRatingTableViewCell *)cell;
@@ -359,7 +359,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
-
+        
     ***REMOVED***
     else if (!phone && hoursArray.count > 0)
     ***REMOVED***
@@ -393,7 +393,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
                 [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
             ***REMOVED***
         ***REMOVED***
-
+        
     ***REMOVED***
     else if (phone && hoursArray.count == 0)
     ***REMOVED***
@@ -459,7 +459,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         controller.popoverPresentationController.delegate = self;
         controller.modalPresentationStyle = UIModalPresentationPopover;
         controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-***REMOVED***        controller.preferredContentSize = CGSizeMake(320, self.tableView.contentSize.height);
+        ***REMOVED***        controller.preferredContentSize = CGSizeMake(320, self.tableView.contentSize.height);
         controller.popoverPresentationController.sourceView = button;
         controller.popoverPresentationController.sourceRect = CGRectMake(0.f,0.f,160.f,300.f);
         controller.presentationController.delegate = self;

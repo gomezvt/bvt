@@ -25,7 +25,7 @@
 
 
 @interface BVTSubCategoryTableViewController ()
-    <BVTHUDViewDelegate>
+<BVTHUDViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
@@ -109,12 +109,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     else
     ***REMOVED***
         distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
-
+        
     ***REMOVED***
     
-    
     NSPredicate *openClosePredicate;
-
     if (self.openNowButton.hidden == NO)
     ***REMOVED***
         if (self.openCloseKeyValue == YES)
@@ -126,7 +124,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
         ***REMOVED***
     ***REMOVED***
-
+    
     NSPredicate *comboPredicate;
     if (openClosePredicate)
     ***REMOVED***
@@ -137,7 +135,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate]];
     ***REMOVED***
     
-
     NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
     self.filteredResults = sortedArray;
     if (self.filteredResults.count == 0)
@@ -161,6 +158,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
         self.label.hidden = YES;
     ***REMOVED***
+    
     [self.tableView reloadData];
 ***REMOVED***
 
@@ -215,20 +213,20 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     self.starSortIcon.selected = ![self.starSortIcon isSelected];
     
-
+    
     
     if (self.starSortIcon.isSelected)
     ***REMOVED***
         NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
         self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
-
+        
     ***REMOVED***
     else
     ***REMOVED***
         NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
         self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
     ***REMOVED***
-
+    
     [self.tableView reloadData];
 ***REMOVED***
 
@@ -238,8 +236,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super awakeFromNib];
     
-
-    
     self.sortedArray = [NSMutableArray array];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
@@ -247,7 +243,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
- 
 ***REMOVED***
 
 - (void)viewDidAppear:(BOOL)animated
@@ -259,12 +254,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)viewDidLoad
 ***REMOVED***
-    
     [super viewDidLoad];
     
-
     [self.openNowButton setHidden:YES];
-
+    
     self.filteredArrayCopy = self.filteredResults;
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
@@ -279,84 +272,70 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         self.filteredResults = details;
         [self.openNowButton setHidden:NO];
-
+        
     ***REMOVED***
     else
     ***REMOVED***
         self.filteredArray = [NSMutableArray array];
-
+        
         if (self.filteredResults.count > 0)
         ***REMOVED***
             for (YLPBusiness *selectedBusiness in self.filteredResults)
             ***REMOVED***
-                
-                
                 [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
-                     if (business.photos.count > 0)
-                     ***REMOVED***
-                         NSMutableArray *photosArray = [NSMutableArray array];
-                         for (NSString *photoStr in business.photos)
+                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                         
+                         if (business.photos.count > 0)
                          ***REMOVED***
-                             NSURL *url = [NSURL URLWithString:photoStr];
-                             NSData *imageData = [NSData dataWithContentsOfURL:url];
-                             UIImage *image = [UIImage imageNamed:@"placeholder"];
-                             if (imageData)
+                             NSMutableArray *photosArray = [NSMutableArray array];
+                             for (NSString *photoStr in business.photos)
                              ***REMOVED***
-                                 image = [UIImage imageWithData:imageData];
+                                 NSURL *url = [NSURL URLWithString:photoStr];
+                                 NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                 UIImage *image = [UIImage imageNamed:@"placeholder"];
+                                 if (imageData)
+                                 ***REMOVED***
+                                     image = [UIImage imageWithData:imageData];
+                                 ***REMOVED***
+                                 [photosArray addObject:image];
                              ***REMOVED***
-                             [photosArray addObject:image];
+                             
+                             business.photos = photosArray;
                          ***REMOVED***
                          
-                         business.photos = photosArray;
-                     ***REMOVED***
-                     
-                     [self.filteredArray addObject:business];
-                     
-                     
-                     if (self.filteredArray.count == self.filteredResults.count)
-                     ***REMOVED***
-                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                         [self.filteredArray addObject:business];
+                         
+                         
+                         if (self.filteredArray.count == self.filteredResults.count)
+                         ***REMOVED***
+                             [self _hideHUD];
+                             
                              NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
                              self.openCloseKeyValue = YES;
                              NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
                              [self.openNowButton setHidden:NO];
-
+                             
                              self.filteredResults = sortedArray;
                              self.filteredArrayCopy = sortedArray;
                              [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
                              [self sortArrayWithPredicates];
+                         ***REMOVED***
+                         
+                         if (error) ***REMOVED***
                              [self _hideHUD];
                              
-                         ***REMOVED***);
-                     ***REMOVED***
-
-                     
-                     if (error) ***REMOVED***
-                         
-                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-***REMOVED***                             [self _hideHUD];
-                             
-                             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
-                             
-                             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                             [alertController addAction:ok];
-                             
-                             [self presentViewController:alertController animated:YES completion:nil];
-                             
-                         ***REMOVED***);
-                     ***REMOVED***
-                     
+                             NSLog(@"Error %@", error.localizedDescription);
+                         ***REMOVED***
+                     ***REMOVED***);
                  ***REMOVED***];
             ***REMOVED***
-            
         ***REMOVED***
     ***REMOVED***
-
-
+    
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
-
+    
     self.tableView.estimatedRowHeight = 44.f;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
@@ -371,7 +350,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [layer2 setCornerRadius:10.0];
     [layer2 setBorderWidth:1.0];
     [layer2 setBorderColor:[[BVTStyles iconGreen] CGColor]];
-
+    
     CALayer * layer3 = [self.openNowButton layer];
     [layer3 setMasksToBounds:YES];
     [layer3 setCornerRadius:10.0];
@@ -400,41 +379,44 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.backChevron.enabled = NO;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     YLPBusiness *selectedBusiness = [self.filteredResults objectAtIndex:indexPath.row];
-
-                 
-                 [[AppDelegate sharedClient] reviewsForBusinessWithId:selectedBusiness.identifier
-                                                    completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
-                                                        if (error)
-                                                        ***REMOVED***
-                                                            
-                                                        ***REMOVED***
-                                                        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                                                            ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
-                                                            NSMutableArray *userPhotos = [NSMutableArray array];
-                                                            for (YLPReview *review in reviews.reviews)
-                                                            ***REMOVED***
-                                                                YLPUser *user = review.user;
-                                                                if (user.imageURL)
-                                                                ***REMOVED***
-                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
-                                                                    UIImage *image = [UIImage imageWithData:imageData];
-                                                                    [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
-                                                                ***REMOVED***
-                                                            ***REMOVED***
-                                                            selectedBusiness.reviews = reviews.reviews;
-                                                            selectedBusiness.userPhotosArray = userPhotos;
-
-                                                            [self _hideHUD];
-                                                            if (!self.didCancelRequest)
-                                                            ***REMOVED***
-                                                                ***REMOVED*** get biz photos here if we dont have them?
-                                                                [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
-                                                            ***REMOVED***
-                                                        ***REMOVED***);
-                                                    ***REMOVED***];
- 
+    
+    
+    [[AppDelegate sharedClient] reviewsForBusinessWithId:selectedBusiness.identifier
+                                       completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
+                                           dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                               
+                                               if (error)
+                                               ***REMOVED***
+                                                   [self _hideHUD];
+                                                   
+                                                   NSLog(@"Error %@", error.localizedDescription);
+                                               ***REMOVED***
+                                               ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
+                                               NSMutableArray *userPhotos = [NSMutableArray array];
+                                               for (YLPReview *review in reviews.reviews)
+                                               ***REMOVED***
+                                                   YLPUser *user = review.user;
+                                                   if (user.imageURL)
+                                                   ***REMOVED***
+                                                       NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+                                                       UIImage *image = [UIImage imageWithData:imageData];
+                                                       [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
+                                                   ***REMOVED***
+                                               ***REMOVED***
+                                               selectedBusiness.reviews = reviews.reviews;
+                                               selectedBusiness.userPhotosArray = userPhotos;
+                                               
+                                               [self _hideHUD];
+                                               if (!self.didCancelRequest)
+                                               ***REMOVED***
+                                                   ***REMOVED*** get biz photos here if we dont have them?
+                                                   [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
+                                               ***REMOVED***
+                                           ***REMOVED***);
+                                       ***REMOVED***];
+    
 ***REMOVED***
 
 - (void)_hideHUD
@@ -482,7 +464,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             ***REMOVED***
         ***REMOVED***);
     ***REMOVED***);
-
+    
     return cell;
 ***REMOVED***
 

@@ -22,7 +22,7 @@
 #import "BVTTableViewSectionHeaderView.h"
 
 @interface BVTSurpriseShoppingCartTableViewController ()
-    <BVTHUDViewDelegate>
+<BVTHUDViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *goButton;
@@ -60,7 +60,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     self.clearButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.goButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-
+    
     [self presentMessage];
 ***REMOVED***
 
@@ -89,7 +89,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     self.goButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.clearButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-
+    
     NSMutableArray *categoryArray = [NSMutableArray array];
     for (NSArray *subCat in array)
     ***REMOVED***
@@ -103,26 +103,20 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     ***REMOVED***
         [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:subCatTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
          (YLPSearch *searchResults, NSError *error)***REMOVED***
-             if (error)
-             ***REMOVED***
-
-                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 if (error)
+                 ***REMOVED***
                      [self _hideHUD];
-
-                     ***REMOVED*** code here
+                     
+                     NSLog(@"Error %@", error.localizedDescription);
+                     
                      [self.goButton setEnabled:YES];
                      [self.clearButton setEnabled:YES];
                      
                      self.goButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
                      self.clearButton.layer.borderColor = [[BVTStyles iconGreen] CGColor];
-                     
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", error] preferredStyle:UIAlertControllerStyleAlert];
-                     
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-                     [self presentViewController:alertController animated:YES completion:nil];
-                 ***REMOVED***);
-             ***REMOVED***
+                 ***REMOVED***
+             ***REMOVED***);
          ***REMOVED***];
     ***REMOVED***
 ***REMOVED***
@@ -242,7 +236,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewDidLoad];
     
-
+    
     self.tableView.sectionHeaderHeight = 44.f;
     
     self.resultsArray = [NSMutableArray array];
@@ -255,7 +249,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     [self.goButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     [self.clearButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-
+    
 ***REMOVED***
 
 - (void)viewWillAppear:(BOOL)animated
@@ -289,7 +283,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***
-
+                
                 if (isDuplicate == NO)
                 ***REMOVED***
                     if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", category]] lastObject])
@@ -320,7 +314,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                     
                     [self presentViewController:alertController animated:YES completion:nil];
                 ***REMOVED***);
-
             ***REMOVED***
             else
             ***REMOVED***
@@ -331,15 +324,12 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                     [dict setObject:array forKey:category];
                 ***REMOVED***
                 
-                [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
+                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                    [self _hideHUD];
+                    [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
+                ***REMOVED***);
             ***REMOVED***
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                ***REMOVED*** code here
-                [self _hideHUD];
-            ***REMOVED***);
         ***REMOVED***
-        
-        
     ***REMOVED***
 ***REMOVED***
 
@@ -392,7 +382,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     cell.textLabel.text = [valuesToDisplay objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.numberOfLines = 0;
-
+    
     return cell;
 ***REMOVED***
 
