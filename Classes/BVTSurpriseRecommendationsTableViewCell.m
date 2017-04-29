@@ -14,6 +14,7 @@
 @interface BVTSurpriseRecommendationsTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *ratingStarsView;
+@property (nonatomic, weak) IBOutlet UILabel *priceLabel;
 
 ***REMOVED***
 
@@ -120,6 +121,8 @@
     ***REMOVED***
     
     [self.ratingStarsView setImage:[UIImage imageNamed:ratingString]];
+    
+    self.priceLabel.text = business.price;
 ***REMOVED***
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -127,4 +130,6 @@
     [super setSelected:selected animated:animated];
     
     ***REMOVED*** Configure the view for the selected state
+***REMOVED***
+
 ***REMOVED***
