@@ -40,9 +40,8 @@
 @property (nonatomic, strong) NSArray *filteredArrayCopy;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) NSMutableArray *filteredArray;
-@property (nonatomic, strong) NSString *pricePredicate;
-@property (nonatomic, strong) NSString *distancePredicate;
-@property (nonatomic, strong) NSString *openClosePredicate;
+@property (nonatomic) double milesKeyValue;
+@property (nonatomic, strong) NSString *priceKeyValue;
 
 ***REMOVED***
 
@@ -54,100 +53,83 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapPriceButton:(id)sender
 ***REMOVED***
-    NSArray *sortedArray;
-    
     if ([self.priceButton.titleLabel.text isEqualToString:@"Any $"])
     ***REMOVED***
-        self.pricePredicate = @"$";
-        [self.priceButton setTitle:self.pricePredicate forState:UIControlStateNormal];
+        self.priceKeyValue = @"$";
+        [self.priceButton setTitle:@"$" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
     ***REMOVED***
-        self.pricePredicate = @"$$";
-        [self.priceButton setTitle:self.pricePredicate forState:UIControlStateNormal];
+        self.priceKeyValue = @"$$";
+        [self.priceButton setTitle:@"$$" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
     ***REMOVED***
-        self.pricePredicate = @"$$$";
-        [self.priceButton setTitle:self.pricePredicate forState:UIControlStateNormal];
+        self.priceKeyValue = @"$$$";
+        [self.priceButton setTitle:@"$$$" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
     ***REMOVED***
-        self.pricePredicate = @"$$$$";
-        [self.priceButton setTitle:self.pricePredicate forState:UIControlStateNormal];
+        self.priceKeyValue = @"$$$$";
+        [self.priceButton setTitle:@"$$$$" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
     ***REMOVED***
-        self.pricePredicate = @"Any $";
-        [self.priceButton setTitle:self.pricePredicate forState:UIControlStateNormal];
+        self.priceKeyValue = @"Any $";
+        [self.priceButton setTitle:@"Any $" forState:UIControlStateNormal];
     ***REMOVED***
     
-***REMOVED***    sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"price = %@", filterKey]];
-    
-***REMOVED***    NSPredicate *predicateCString = [NSPredicate predicateWithFormat:@"partCode == %@", [myFilter objectForKey:@"area3"]];
-***REMOVED***    NSPredicate *predicateDString = [NSPredicate predicateWithFormat:@"doorNo CONTAINS[cd] %@", [myFilter objectForKey:@"door"]];
-***REMOVED***    NSPredicate *predicateEString = [NSPredicate predicateWithFormat:@"doorDesc CONTAINS[cd] %@", [myFilter objectForKey:@"doorDesc"]];
-***REMOVED***    
-***REMOVED***    NSPredicate *compoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[predicateAreaString, predicateBString, predicateCString, predicateDString, predicateEString]];
-***REMOVED***    
-***REMOVED***    NSMutableArray *filteredArray = [NSMutableArray arrayWithArray:[currentInstalls filteredArrayUsingPredicate:compoundPredicate]];
-***REMOVED***    currentInstalls = [filteredArray mutableCopy];
-    
+    [self sortArrayWithPredicates];
 ***REMOVED***
 
-- (IBAction)didTapDistanceButton:(id)sender
+- (void)sortArrayWithPredicates
 ***REMOVED***
-    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 miles"])
+    NSPredicate *pricePredicate;
+    if (!self.milesKeyValue)
     ***REMOVED***
-        [self.distanceButton setTitle:@"10 miles" forState:UIControlStateNormal];
-    ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 miles"])
-    ***REMOVED***
-        [self.distanceButton setTitle:@"25 miles" forState:UIControlStateNormal];
-    ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 miles"])
-    ***REMOVED***
-        [self.distanceButton setTitle:@"50 miles" forState:UIControlStateNormal];
-    ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 miles"])
-    ***REMOVED***
-        [self.distanceButton setTitle:@"100 miles" forState:UIControlStateNormal];
-    ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 miles"])
-    ***REMOVED***
-        [self.distanceButton setTitle:@"5 miles" forState:UIControlStateNormal];
+        self.milesKeyValue = 5;
     ***REMOVED***
     
+    if (!self.priceKeyValue)
+    ***REMOVED***
+        self.priceKeyValue = @"Any $";
+    ***REMOVED***
+    
+    if ([self.priceKeyValue isEqualToString:@"Any $"])
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@ OR price = %@ OR price = %@ OR price = %@ OR price = %@", nil, @"$", @"$$", @"$$$", @"$$$$"];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
+    ***REMOVED***
 
-***REMOVED***    NSArray *array = [self.filteredArrayCopy filteredArrayUsingPredicate:[]
-***REMOVED***    CLLocationDistance meters = [newLocation distanceFromLocation:oldLocation];
-***REMOVED***
+    NSPredicate *distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
+    
+    NSPredicate *comboPredicate;
+***REMOVED***    if (self.openNowButton.hidden == NO)
+***REMOVED***    ***REMOVED***
+***REMOVED***        NSPredicate *openClosePredicate;
+***REMOVED***        if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
+***REMOVED***        ***REMOVED***
+***REMOVED***            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+***REMOVED***        ***REMOVED***
+***REMOVED***        else
+***REMOVED***        ***REMOVED***
+***REMOVED***            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
+***REMOVED***        ***REMOVED***
+***REMOVED***        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, openClosePredicate, distancePredicate]];
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+        comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: @[pricePredicate, distancePredicate]];
+***REMOVED***    ***REMOVED***
 
-- (IBAction)didTapOpenButton:(id)sender
-***REMOVED***
-        NSArray *sortedArray;
-    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
+    NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
+    self.filteredResults = sortedArray;
+    if (self.filteredResults.count == 0)
     ***REMOVED***
-        [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
-        sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)]];
-    ***REMOVED***
-    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
-    ***REMOVED***
-        [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
-
-    ***REMOVED***
-    
-    sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)]];
-    
-    
-***REMOVED***
-
-- (void)evaluateSortedItemsState:(NSArray *)items
-***REMOVED***
-    
-    if (items.count == 0)
-    ***REMOVED***
-        self.label.hidden = NO;
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
         if (!self.label)
         ***REMOVED***
             self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
@@ -158,14 +140,60 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             self.label.textAlignment = NSTextAlignmentCenter;
             self.label.textColor = [UIColor lightGrayColor];
         ***REMOVED***
+        
+        self.label.hidden = NO;
     ***REMOVED***
     else
     ***REMOVED***
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
         self.label.hidden = YES;
     ***REMOVED***
-    
-    
     [self.tableView reloadData];
+***REMOVED***
+
+- (IBAction)didTapDistanceButton:(id)sender
+***REMOVED***
+    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 miles"])
+    ***REMOVED***
+        self.milesKeyValue = 10;
+        [self.distanceButton setTitle:@"10 miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 miles"])
+    ***REMOVED***
+        self.milesKeyValue = 25;
+        [self.distanceButton setTitle:@"25 miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 miles"])
+    ***REMOVED***
+        self.milesKeyValue = 50;
+        [self.distanceButton setTitle:@"50 miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 miles"])
+    ***REMOVED***
+        self.milesKeyValue = 100;
+        [self.distanceButton setTitle:@"100 miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 miles"])
+    ***REMOVED***
+        self.milesKeyValue = 5;
+        [self.distanceButton setTitle:@"5 miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    [self sortArrayWithPredicates];
+***REMOVED***
+
+- (IBAction)didTapOpenButton:(id)sender
+***REMOVED***
+    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
+    ***REMOVED***
+        [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
+    ***REMOVED***
+        [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    [self sortArrayWithPredicates];
 ***REMOVED***
 
 - (IBAction)didTapStarSortIcon:(id)sender
@@ -197,7 +225,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
 
     
-    
     self.sortedArray = [NSMutableArray array];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
@@ -205,95 +232,32 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
+ 
+***REMOVED***
+
+- (void)viewDidAppear:(BOOL)animated
+***REMOVED***
+    [super viewDidAppear:animated];
     
-
-
-    
-***REMOVED***
-
-- (void) dealloc
-***REMOVED***
-    ***REMOVED*** If you don't remove yourself as an observer, the Notification Center
-    ***REMOVED*** will continue to try and send notification objects to the deallocated
-    ***REMOVED*** object.
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-***REMOVED***
-
-
-- (void)didReceiveBusinessesNotification:(NSNotification *)notification
-***REMOVED***
-    if ([[notification name] isEqualToString:@"BVTReceivedBusinessesIdNotification"])
-    ***REMOVED***
-        YLPBusiness *business = notification.object;
-        if (business.photos.count > 0)
-        ***REMOVED***
-            NSMutableArray *photosArray = [NSMutableArray array];
-            for (NSString *photoStr in business.photos)
-            ***REMOVED***
-                NSURL *url = [NSURL URLWithString:photoStr];
-                NSData *imageData = [NSData dataWithContentsOfURL:url];
-                UIImage *image = [UIImage imageWithData:imageData];
-                [photosArray addObject:image];
-            ***REMOVED***
-            
-            business.photos = photosArray;
-        ***REMOVED***
-        
-        [self.filteredArray addObject:business];
-        
-        
-        if (self.filteredArray.count == self.filteredResults.count)
-        ***REMOVED***
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-                NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
-                self.filteredResults = sortedArray;
-                [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
-                [self.tableView reloadData];
-                [self _hideHUD];
-                
-                [self.openNowButton setHidden:NO];
-
-***REMOVED***                [self performSegueWithIdentifier:kShowSubCategorySegue sender:@[ self.selectionTitle, sortedArray ]];
-            ***REMOVED***);
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
-
-
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-
-***REMOVED***
-    
+    [self sortArrayWithPredicates];
 ***REMOVED***
 
 - (void)viewDidLoad
 ***REMOVED***
     
     [super viewDidLoad];
+    
+
+    [self.openNowButton setHidden:YES];
 
     self.filteredArrayCopy = self.filteredResults;
-
     
-
-
-    
-    
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredArrayCopy.count];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
     
     if (!self.cachedDetails)
     ***REMOVED***
         self.cachedDetails = [NSMutableDictionary dictionary];
     ***REMOVED***
-    
-    [self.openNowButton setHidden:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveBusinessesNotification:)
-                                                 name:@"BVTReceivedBusinessesIdNotification"
-                                               object:nil];
     
     NSArray *details = [self.cachedDetails valueForKey:self.subCategoryTitle];
     if (details.count > 0)
@@ -308,18 +272,48 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
         if (self.filteredResults.count > 0)
         ***REMOVED***
-***REMOVED***            self.hud = [BVTHUDView hudWithView:self.navigationController.view];
-***REMOVED***            self.hud.delegate = self;
-***REMOVED***            
-***REMOVED***            self.didCancelRequest = NO;
-***REMOVED***            self.tableView.userInteractionEnabled = NO;
-***REMOVED***            self.backChevron.enabled = NO;
             for (YLPBusiness *selectedBusiness in self.filteredResults)
             ***REMOVED***
                 
                 
                 [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
+                     if (business.photos.count > 0)
+                     ***REMOVED***
+                         NSMutableArray *photosArray = [NSMutableArray array];
+                         for (NSString *photoStr in business.photos)
+                         ***REMOVED***
+                             NSURL *url = [NSURL URLWithString:photoStr];
+                             NSData *imageData = [NSData dataWithContentsOfURL:url];
+                             UIImage *image = [UIImage imageNamed:@"placeholder"];
+                             if (imageData)
+                             ***REMOVED***
+                                 image = [UIImage imageWithData:imageData];
+                             ***REMOVED***
+                             [photosArray addObject:image];
+                         ***REMOVED***
+                         
+                         business.photos = photosArray;
+                     ***REMOVED***
+                     
+                     [self.filteredArray addObject:business];
+                     
+                     
+                     if (self.filteredArray.count == self.filteredResults.count)
+                     ***REMOVED***
+                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                             NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+                             NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
+                             self.filteredResults = sortedArray;
+                             self.filteredArrayCopy = sortedArray;
+                             [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
+                             [self sortArrayWithPredicates];
+                             [self _hideHUD];
+                             
+                             [self.openNowButton setHidden:NO];
+                         ***REMOVED***);
+                     ***REMOVED***
+
                      
                      if (error) ***REMOVED***
                          

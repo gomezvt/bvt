@@ -28,9 +28,9 @@
             YLPBusiness *business = [[YLPBusiness alloc] initWithDictionary:responseDict];
             completionHandler(business, nil);
             
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"BVTReceivedBusinessesIdNotification"
-             object:business];
+***REMOVED***            [[NSNotificationCenter defaultCenter]
+***REMOVED***             postNotificationName:@"BVTReceivedBusinessesIdNotification"
+***REMOVED***             object:business];
         ***REMOVED***
     ***REMOVED***];
 ***REMOVED***
