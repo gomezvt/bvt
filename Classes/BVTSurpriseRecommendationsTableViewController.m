@@ -166,6 +166,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             ***REMOVED***);
         ***REMOVED***);
         
+        cell.openCloseLabel.text = @"";
         [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
