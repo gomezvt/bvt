@@ -42,7 +42,7 @@
 @property (nonatomic, strong) NSMutableArray *filteredArray;
 @property (nonatomic) double milesKeyValue;
 @property (nonatomic, strong) NSString *priceKeyValue;
-@property (nonatomic) BOOL openCloseKeyValue;
+@property (nonatomic, strong) NSString *openCloseKeyValue;
 
 ***REMOVED***
 
@@ -92,6 +92,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.priceKeyValue = @"Any $";
     ***REMOVED***
     
+    if (!self.openCloseKeyValue)
+    ***REMOVED***
+        self.openCloseKeyValue = @"Open or closed";
+    ***REMOVED***
+    
     NSMutableArray *arrayPred = [NSMutableArray array];
     if ([self.priceKeyValue isEqualToString:@"Any $"])
     ***REMOVED***
@@ -111,11 +116,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.distanceButton.hidden = NO;
         if (self.milesKeyValue == 0)
         ***REMOVED***
-            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", 5];
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= 5"];
         ***REMOVED***
         else
         ***REMOVED***
-            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %d", self.milesKeyValue];
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %g", self.milesKeyValue];
         ***REMOVED***
         
         [arrayPred addObject:distancePredicate];
@@ -128,13 +133,17 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     NSPredicate *openClosePredicate;
     if (self.openNowButton.hidden == NO)
     ***REMOVED***
-        if (self.openCloseKeyValue == YES)
+        if ([self.openCloseKeyValue isEqualToString:@"Open"])
         ***REMOVED***
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
         ***REMOVED***
-        else
+        else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
         ***REMOVED***
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
+        ***REMOVED***
+        else if ([self.openCloseKeyValue isEqualToString:@"Open or closed"])
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
         ***REMOVED***
         
         [arrayPred addObject:openClosePredicate];
@@ -204,12 +213,17 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
     ***REMOVED***
-        self.openCloseKeyValue = YES;
+        self.openCloseKeyValue = @"Open";
         [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
     ***REMOVED***
     else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
     ***REMOVED***
-        self.openCloseKeyValue = NO;
+        self.openCloseKeyValue = @"Open or closed";
+        [self.openNowButton setTitle:@"Open or closed" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open or closed"])
+    ***REMOVED***
+        self.openCloseKeyValue = @"Closed";
         [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
     ***REMOVED***
     
@@ -330,10 +344,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              [self _hideHUD];
                              
                              NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-                             self.openCloseKeyValue = YES;
                              NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
                              [self.openNowButton setHidden:NO];
-                             
                              self.filteredResults = sortedArray;
                              self.filteredArrayCopy = sortedArray;
                              [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
@@ -466,6 +478,46 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
     cell.thumbNailView.image = image;
+    
+    if (self.openNowButton.hidden == NO)
+    ***REMOVED***
+        cell.openCloseLabel.hidden = NO;
+        
+        if ([self.openCloseKeyValue isEqualToString:@"Open or closed"])
+        ***REMOVED***
+            if (business.isOpenNow)
+            ***REMOVED***
+                cell.openCloseLabel.text = @"Open";
+            ***REMOVED***
+            else
+            ***REMOVED***
+                cell.openCloseLabel.text = @"Closed";
+            ***REMOVED***
+        ***REMOVED***
+        else
+        ***REMOVED***
+            cell.openCloseLabel.text = self.openCloseKeyValue;
+        ***REMOVED***
+        
+        if ([cell.openCloseLabel.text isEqualToString:@"Open"])
+        ***REMOVED***
+            cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+        ***REMOVED***
+        
+        if ([cell.openCloseLabel.text isEqualToString:@"Closed"])
+        ***REMOVED***
+            cell.openCloseLabel.textColor = [UIColor redColor];
+        ***REMOVED***
+        
+        if ([cell.openCloseLabel.text isEqualToString:@"Open or closed"])
+        ***REMOVED***
+            cell.openCloseLabel.textColor = [UIColor lightGrayColor];
+        ***REMOVED***
+    ***REMOVED***
+    else
+    ***REMOVED***
+        cell.openCloseLabel.hidden = YES;
+    ***REMOVED***
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
