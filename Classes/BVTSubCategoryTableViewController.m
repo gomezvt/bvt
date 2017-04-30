@@ -94,7 +94,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     if (!self.openCloseKeyValue)
     ***REMOVED***
-        self.openCloseKeyValue = @"Open or closed";
+        self.openCloseKeyValue = @"Open/Closed";
     ***REMOVED***
     
     NSMutableArray *arrayPred = [NSMutableArray array];
@@ -141,7 +141,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
         ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Open or closed"])
+        else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
         ***REMOVED***
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
         ***REMOVED***
@@ -180,30 +180,30 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapDistanceButton:(id)sender
 ***REMOVED***
-    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 miles"])
+    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 Miles"])
     ***REMOVED***
         self.milesKeyValue = 10;
-        [self.distanceButton setTitle:@"10 miles" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"10 Miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 miles"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 Miles"])
     ***REMOVED***
         self.milesKeyValue = 25;
-        [self.distanceButton setTitle:@"25 miles" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"25 Miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 miles"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 Miles"])
     ***REMOVED***
         self.milesKeyValue = 50;
-        [self.distanceButton setTitle:@"50 miles" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"50 Miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 miles"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 Miles"])
     ***REMOVED***
         self.milesKeyValue = 100;
-        [self.distanceButton setTitle:@"100 miles" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"100 Miles" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 miles"])
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 Miles"])
     ***REMOVED***
         self.milesKeyValue = 5;
-        [self.distanceButton setTitle:@"5 miles" forState:UIControlStateNormal];
+        [self.distanceButton setTitle:@"5 Miles" forState:UIControlStateNormal];
     ***REMOVED***
     
     [self sortArrayWithPredicates];
@@ -218,10 +218,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
     ***REMOVED***
-        self.openCloseKeyValue = @"Open or closed";
-        [self.openNowButton setTitle:@"Open or closed" forState:UIControlStateNormal];
+        self.openCloseKeyValue = @"Open/Closed";
+        [self.openNowButton setTitle:@"Open/Closed" forState:UIControlStateNormal];
     ***REMOVED***
-    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open or closed"])
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open/Closed"])
     ***REMOVED***
         self.openCloseKeyValue = @"Closed";
         [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
@@ -483,7 +483,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         cell.openCloseLabel.hidden = NO;
         
-        if ([self.openCloseKeyValue isEqualToString:@"Open or closed"])
+        if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
         ***REMOVED***
             if (business.isOpenNow)
             ***REMOVED***
@@ -509,7 +509,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             cell.openCloseLabel.textColor = [UIColor redColor];
         ***REMOVED***
         
-        if ([cell.openCloseLabel.text isEqualToString:@"Open or closed"])
+        if ([cell.openCloseLabel.text isEqualToString:@"Open/Closed"])
         ***REMOVED***
             cell.openCloseLabel.textColor = [UIColor lightGrayColor];
         ***REMOVED***
