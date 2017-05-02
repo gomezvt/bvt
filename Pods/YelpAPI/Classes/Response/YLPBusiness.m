@@ -54,10 +54,10 @@
         _price = businessDict[@"price"];
          _open_now = businessDict[@"is_open_now"];
         ***REMOVED*** BusinessWithID returned values
-        id hoursItem = businessDict[@"hours"];
-        if ([hoursItem isKindOfClass:[NSArray class]])
+        self.hoursItem = businessDict[@"hours"];
+        if ([self.hoursItem isKindOfClass:[NSArray class]])
         ***REMOVED***
-            NSArray *hoursArray = (NSArray *)hoursItem;
+            NSArray *hoursArray = (NSArray *)self.hoursItem;
             if ([[hoursArray lastObject] isKindOfClass:[NSDictionary class]])
             ***REMOVED***
                 NSDictionary *hoursDict = [hoursArray lastObject];
