@@ -297,44 +297,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         self.cachedDetails = [[NSMutableArray alloc] init];
     ***REMOVED***
     
-    if (self.filteredResults.count > 0)
-    ***REMOVED***
-        for (YLPBusiness *selectedBusiness in self.filteredResults)
-        ***REMOVED***
-            if (![[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", selectedBusiness.phone]] lastObject])
-            ***REMOVED***
-                [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
-                 (YLPBusiness *business, NSError *error) ***REMOVED***
-                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                         
-                         if (business.photos.count > 0)
-                         ***REMOVED***
-                             NSMutableArray *photosArray = [NSMutableArray array];
-                             for (NSString *photoStr in business.photos)
-                             ***REMOVED***
-                                 NSURL *url = [NSURL URLWithString:photoStr];
-                                 NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                 UIImage *image = [UIImage imageNamed:@"placeholder"];
-                                 if (imageData)
-                                 ***REMOVED***
-                                     image = [UIImage imageWithData:imageData];
-                                 ***REMOVED***
-                                 [photosArray addObject:image];
-                             ***REMOVED***
-                             
-                             business.photos = photosArray;
-                         ***REMOVED***
-                         
-                         if (business)
-                         ***REMOVED***
-                             [self.cachedDetails addObject:business];
-                         ***REMOVED***
-                     ***REMOVED***);
-                 ***REMOVED***];
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-    
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"Cell"];
     
@@ -451,6 +413,72 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     UIImage *image = [UIImage imageNamed:@"placeholder"];
     cell.thumbNailView.image = image;
  
+    if (![[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", business.phone]] lastObject])
+    ***REMOVED***
+        [[AppDelegate sharedClient] businessWithId:business.identifier completionHandler:^
+         (YLPBusiness *business, NSError *error) ***REMOVED***
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 
+                 if (business.photos.count > 0)
+                 ***REMOVED***
+                     NSMutableArray *photosArray = [NSMutableArray array];
+                     for (NSString *photoStr in business.photos)
+                     ***REMOVED***
+                         NSURL *url = [NSURL URLWithString:photoStr];
+                         NSData *imageData = [NSData dataWithContentsOfURL:url];
+                         UIImage *image = [UIImage imageNamed:@"placeholder"];
+                         if (imageData)
+                         ***REMOVED***
+                             image = [UIImage imageWithData:imageData];
+                         ***REMOVED***
+                         [photosArray addObject:image];
+                     ***REMOVED***
+                     
+                     business.photos = photosArray;
+                 ***REMOVED***
+                 
+                 if (business)
+                 ***REMOVED***
+                     [self.cachedDetails addObject:business];
+                 ***REMOVED***
+                 
+                 if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
+                 ***REMOVED***
+                     if (business.isOpenNow)
+                     ***REMOVED***
+                         cell.openCloseLabel.text = @"Open";
+                     ***REMOVED***
+                     else
+                     ***REMOVED***
+                         cell.openCloseLabel.text = @"Closed";
+                     ***REMOVED***
+                 ***REMOVED***
+                 else
+                 ***REMOVED***
+                     cell.openCloseLabel.text = self.openCloseKeyValue;
+                 ***REMOVED***
+                 
+                 if ([cell.openCloseLabel.text isEqualToString:@"Open"])
+                 ***REMOVED***
+                     cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                 ***REMOVED***
+                 
+                 if ([cell.openCloseLabel.text isEqualToString:@"Closed"])
+                 ***REMOVED***
+                     cell.openCloseLabel.textColor = [UIColor redColor];
+                 ***REMOVED***
+                 
+                 if ([cell.openCloseLabel.text isEqualToString:@"Open/Closed"])
+                 ***REMOVED***
+                     cell.openCloseLabel.textColor = [UIColor lightGrayColor];
+                 ***REMOVED***
+                 
+                 [self sortArrayWithPredicates];
+             ***REMOVED***);
+         ***REMOVED***];
+    ***REMOVED***
+    else
+    ***REMOVED***
         if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
         ***REMOVED***
             if (business.isOpenNow)
@@ -481,7 +509,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
             cell.openCloseLabel.textColor = [UIColor lightGrayColor];
         ***REMOVED***
-
+    ***REMOVED***
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
