@@ -37,7 +37,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *priceButton;
 @property (nonatomic, weak) IBOutlet UIButton *distanceButton;
 @property (nonatomic, weak) IBOutlet UIButton *openNowButton;
-@property (nonatomic, strong) NSArray *filteredArrayCopy;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) NSMutableArray *filteredArray;
 @property (nonatomic) double milesKeyValue;
@@ -137,7 +136,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
     ***REMOVED***
-        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
     ***REMOVED***
     else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
     ***REMOVED***
@@ -148,7 +147,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[arrayPred copy]];
     
-    NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
+    NSArray *sortedArray = [self.filteredResults filteredArrayUsingPredicate:comboPredicate];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.sortedArray.count];
+
     self.filteredResults = sortedArray;
     if (self.filteredResults.count == 0)
     ***REMOVED***
@@ -279,6 +280,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
+    
     AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!appDel.userLocation)
     ***REMOVED***
@@ -288,9 +291,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         [self.distanceButton setHidden:NO];
     ***REMOVED***
-    self.filteredArrayCopy = self.filteredResults;
-    
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
     
     if (!self.cachedDetails)
     ***REMOVED***
@@ -328,6 +328,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          if (business)
                          ***REMOVED***
                              [self.cachedDetails addObject:business];
+                         ***REMOVED***
+                         YLPBusiness *last = [self.filteredResults lastObject];
+                         if ([business.name isEqualToString:last.name])
+                         ***REMOVED***
+                             self.filteredResults = self.cachedDetails;
                          ***REMOVED***
                      ***REMOVED***);
                  ***REMOVED***];
