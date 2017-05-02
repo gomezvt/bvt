@@ -131,25 +131,22 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     
     NSPredicate *openClosePredicate;
-    if (self.openNowButton.hidden == NO)
+    if ([self.openCloseKeyValue isEqualToString:@"Open"])
     ***REMOVED***
-        if ([self.openCloseKeyValue isEqualToString:@"Open"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
-        ***REMOVED***
-        
-        [arrayPred addObject:openClosePredicate];
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(NO)];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
     ***REMOVED***
     
-    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates: [arrayPred copy]];
+    [arrayPred addObject:openClosePredicate];
+    
+    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[arrayPred copy]];
     
     NSArray *sortedArray = [self.filteredArrayCopy filteredArrayUsingPredicate:comboPredicate];
     self.filteredResults = sortedArray;
@@ -282,8 +279,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
-    [self.openNowButton setHidden:YES];
-    
     AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!appDel.userLocation)
     ***REMOVED***
@@ -299,23 +294,14 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     if (!self.cachedDetails)
     ***REMOVED***
-        self.cachedDetails = [NSMutableDictionary dictionary];
+        self.cachedDetails = [[NSMutableArray alloc] init];
     ***REMOVED***
     
-    NSArray *details = [self.cachedDetails valueForKey:self.subCategoryTitle];
-    if (details.count > 0)
+    if (self.filteredResults.count > 0)
     ***REMOVED***
-        self.filteredResults = details;
-        [self.openNowButton setHidden:NO];
-        
-    ***REMOVED***
-    else
-    ***REMOVED***
-        self.filteredArray = [NSMutableArray array];
-        
-        if (self.filteredResults.count > 0)
+        for (YLPBusiness *selectedBusiness in self.filteredResults)
         ***REMOVED***
-            for (YLPBusiness *selectedBusiness in self.filteredResults)
+            if (![[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", selectedBusiness.phone]] lastObject])
             ***REMOVED***
                 [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
@@ -341,26 +327,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          
                          if (business)
                          ***REMOVED***
-                             [self.filteredArray addObject:business];
-                         ***REMOVED***
-                         
-                         if (self.filteredArray.count == self.filteredResults.count)
-                         ***REMOVED***
-                             [self _hideHUD];
-                             
-                             NSArray *descriptor = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-                             NSArray *sortedArray = [self.filteredArray sortedArrayUsingDescriptors:descriptor];
-                             [self.openNowButton setHidden:NO];
-                             self.filteredResults = sortedArray;
-                             self.filteredArrayCopy = sortedArray;
-                             [self.cachedDetails setObject:self.filteredResults forKey:self.subCategoryTitle];
-                             [self sortArrayWithPredicates];
-                         ***REMOVED***
-                         
-                         if (error) ***REMOVED***
-                             [self _hideHUD];
-                             
-                             NSLog(@"Error %@", error.localizedDescription);
+                             [self.cachedDetails addObject:business];
                          ***REMOVED***
                      ***REMOVED***);
                  ***REMOVED***];
@@ -483,11 +450,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
     cell.thumbNailView.image = image;
-    
-    if (self.openNowButton.hidden == NO)
-    ***REMOVED***
-        cell.openCloseLabel.hidden = NO;
-        
+ 
         if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
         ***REMOVED***
             if (business.isOpenNow)
@@ -518,12 +481,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
             cell.openCloseLabel.textColor = [UIColor lightGrayColor];
         ***REMOVED***
-    ***REMOVED***
-    else
-    ***REMOVED***
-        cell.openCloseLabel.hidden = YES;
-    ***REMOVED***
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];

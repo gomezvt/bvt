@@ -27,7 +27,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 @implementation BVTExploreViewController
 
-- (void)didTapBackWithDetails:(NSMutableDictionary *)details
+- (void)didTapBackWithDetails:(NSMutableArray *)details
 ***REMOVED***
     self.cachedDetails = details;
 ***REMOVED***
