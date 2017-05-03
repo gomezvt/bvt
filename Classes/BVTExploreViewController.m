@@ -13,7 +13,9 @@
 #import "BVTHeaderTitleView.h"
 #import "BVTStyles.h"
 
-@interface BVTExploreViewController ()<BVTCategoryTableViewControllerDelegate>
+
+
+@interface BVTExploreViewController () ***REMOVED***  <BVTCategoryTableViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 
@@ -27,10 +29,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 @implementation BVTExploreViewController
 
-- (void)didTapBackWithDetails:(NSMutableArray *)details
-***REMOVED***
-    self.cachedDetails = details;
-***REMOVED***
+***REMOVED***- (void)didTapBackWithDetails:(NSMutableArray *)details
+***REMOVED******REMOVED***
+***REMOVED***    self.cachedDetails = details;
+***REMOVED******REMOVED***
 
 #pragma mark - View Life Cycle
 
@@ -88,8 +90,8 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     BVTCategoryTableViewController *vc = [segue destinationViewController];
     vc.categoryTitle = sender;
-    vc.delegate = self;
-    vc.cachedDetails = self.cachedDetails;
+***REMOVED***    vc.delegate = self;
+***REMOVED***    vc.cachedDetails = self.cachedDetails;
 ***REMOVED***
 
 ***REMOVED***

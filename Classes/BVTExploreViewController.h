@@ -10,6 +10,6 @@
 
 @interface BVTExploreViewController : UIViewController
 
-@property (nonatomic, strong) NSMutableArray *cachedDetails;
+***REMOVED***@property (nonatomic, strong) NSMutableArray *cachedDetails;
 
 ***REMOVED***
