@@ -175,7 +175,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      
                      BVTSubCategoryTableViewController *subCat = [self.storyboard instantiateViewControllerWithIdentifier:@"SubCat"];
                      subCat.subCategoryTitle = selectionTitle;
-***REMOVED***                     subCat.filteredResults = sortedArray;
+                     subCat.filteredResults = sortedArray;
 ***REMOVED***                     subCat.cachedDetails = self.cachedDetails;
 ***REMOVED***                     subCat.delegate = self;
                      
