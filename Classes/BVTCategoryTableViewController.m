@@ -22,7 +22,7 @@
 
 
 @interface BVTCategoryTableViewController ()
-<BVTHUDViewDelegate>***REMOVED***BVTSubCategoryTableViewControllerDelegate>
+<BVTHUDViewDelegate, BVTSubCategoryTableViewControllerDelegate>
 
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -54,10 +54,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
 ***REMOVED***
 
-***REMOVED***- (void)didTapBackWithDetails:(NSMutableArray *)details
-***REMOVED******REMOVED***
-***REMOVED***    self.cachedDetails = details;
-***REMOVED******REMOVED***
+- (void)didTapBackWithDetails:(NSMutableDictionary *)details
+***REMOVED***
+    self.cachedDetails = details;
+***REMOVED***
 
 - (void)viewDidLoad
 ***REMOVED***
@@ -176,8 +176,8 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      BVTSubCategoryTableViewController *subCat = [self.storyboard instantiateViewControllerWithIdentifier:@"SubCat"];
                      subCat.subCategoryTitle = selectionTitle;
                      subCat.filteredResults = sortedArray;
-***REMOVED***                     subCat.cachedDetails = self.cachedDetails;
-***REMOVED***                     subCat.delegate = self;
+                     subCat.cachedDetails = self.cachedDetails;
+                     subCat.delegate = self;
                      
                      [self.navigationController pushViewController:subCat animated:YES];
                  ***REMOVED***
@@ -237,10 +237,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
-***REMOVED***    if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
-***REMOVED***    ***REMOVED***
-***REMOVED***        [self.delegate didTapBackWithDetails:self.cachedDetails];
-***REMOVED***    ***REMOVED***
+    if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
+    ***REMOVED***
+        [self.delegate didTapBackWithDetails:self.cachedDetails];
+    ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
 ***REMOVED***
 

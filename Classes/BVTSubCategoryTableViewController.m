@@ -22,13 +22,10 @@
 #import "BVTStyles.h"
 #import "YLPReview.h"
 #import "YLPUser.h"
-#import "BVTCache.h"
 
 @interface BVTSubCategoryTableViewController ()
 <BVTHUDViewDelegate>
-***REMOVED***
-    BVTCache *cache;
-***REMOVED***
+
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
@@ -46,9 +43,14 @@
 @property (nonatomic, strong) NSString *priceKeyValue;
 @property (nonatomic, strong) NSString *openCloseKeyValue;
 @property (nonatomic, strong) NSArray *detailsArray;
+@property (nonatomic, strong) NSArray *displayArray;
+@property (nonatomic) BOOL gotDetails;
+@property (nonatomic, strong) NSArray *originalFilteredResults;
+@property (nonatomic, strong) NSArray *originalDisplayResults;
 
 ***REMOVED***
 
+static NSInteger originalCount;
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
 static NSString *const kShowDetailSegue = @"ShowDetail";
@@ -153,36 +155,78 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     
     NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[arrayPred copy]];
-    
-    NSArray *sortedArray = [self.detailsArray filteredArrayUsingPredicate:comboPredicate];
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)sortedArray.count];
+    NSArray *sortedArray;
 
-    NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-    NSArray *sortedToUse = [sortedArray sortedArrayUsingDescriptors: @[nameDescriptor]];
-    
-    
-    self.filteredResults = [sortedToUse copy];
-    if (self.filteredResults.count == 0)
+    if (self.gotDetails)
     ***REMOVED***
-        self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
-        if (!self.label)
-        ***REMOVED***
-            self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
-            self.label.text = @"No sorted results found";
-            [self.view addSubview:self.label];
-            self.label.center = self.tableView.center;
-            self.tableView.separatorColor = [UIColor clearColor];
-            self.label.textAlignment = NSTextAlignmentCenter;
-            self.label.textColor = [UIColor lightGrayColor];
-        ***REMOVED***
+        NSArray *values = self.cachedDetails[self.subCategoryTitle];
+        self.displayArray = values;
+       sortedArray = [self.displayArray filteredArrayUsingPredicate:comboPredicate];
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)sortedArray.count];
         
-        self.label.hidden = NO;
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+        NSArray *sortedToUse = [sortedArray sortedArrayUsingDescriptors: @[nameDescriptor]];
+        
+        
+        self.displayArray = [sortedToUse copy];
+        if (self.displayArray.count == 0)
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
+            if (!self.label)
+            ***REMOVED***
+                self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
+                self.label.text = @"No sorted results found";
+                [self.view addSubview:self.label];
+                self.label.center = self.tableView.center;
+                self.tableView.separatorColor = [UIColor clearColor];
+                self.label.textAlignment = NSTextAlignmentCenter;
+                self.label.textColor = [UIColor lightGrayColor];
+            ***REMOVED***
+            
+            self.label.hidden = NO;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.self.displayArray.count];
+            self.label.hidden = YES;
+        ***REMOVED***
+
     ***REMOVED***
     else
     ***REMOVED***
-        self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
-        self.label.hidden = YES;
+      sortedArray  = [self.originalFilteredResults filteredArrayUsingPredicate:comboPredicate];
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)sortedArray.count];
+        
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+        NSArray *sortedToUse = [sortedArray sortedArrayUsingDescriptors: @[nameDescriptor]];
+        
+        
+        self.filteredResults = [sortedToUse copy];
+        if (self.filteredResults.count == 0)
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
+            if (!self.label)
+            ***REMOVED***
+                self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
+                self.label.text = @"No sorted results found";
+                [self.view addSubview:self.label];
+                self.label.center = self.tableView.center;
+                self.tableView.separatorColor = [UIColor clearColor];
+                self.label.textAlignment = NSTextAlignmentCenter;
+                self.label.textColor = [UIColor lightGrayColor];
+            ***REMOVED***
+            
+            self.label.hidden = NO;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
+            self.label.hidden = YES;
+        ***REMOVED***
+
     ***REMOVED***
+    
+
     
     [self.tableView reloadData];
 ***REMOVED***
@@ -248,19 +292,36 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     self.starSortIcon.selected = ![self.starSortIcon isSelected];
     
-    
-    
-    if (self.starSortIcon.isSelected)
+    if (self.gotDetails)
     ***REMOVED***
-        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-        self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
-        
+        if (self.starSortIcon.isSelected)
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+            self.displayArray = [[self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            
+        ***REMOVED***
+        else
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+            self.displayArray = [[self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        ***REMOVED***
     ***REMOVED***
     else
     ***REMOVED***
-        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-        self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        if (self.starSortIcon.isSelected)
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+            self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            
+        ***REMOVED***
+        else
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+            self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        ***REMOVED***
     ***REMOVED***
+    
+
     
     [self.tableView reloadData];
 ***REMOVED***
@@ -285,15 +346,17 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
-    [self.openNowButton setHidden:YES];
+    self.originalFilteredResults = self.filteredResults;
     
-    self.detailsArray = [self.filteredResults copy];
-
+    originalCount = self.filteredResults.count;
     
-    if (!cache)
+    
+    if (!self.cachedDetails)
     ***REMOVED***
-        cache = [[BVTCache alloc] init];
+        self.cachedDetails = [[NSMutableDictionary alloc] init];
     ***REMOVED***
+    
+***REMOVED***    self.displayArray = [self.filteredResults copy];
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
     
@@ -307,56 +370,71 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         [self.distanceButton setHidden:NO];
     ***REMOVED***
     
-    if (self.filteredResults.count > 0)
+    NSArray *values = self.cachedDetails[self.subCategoryTitle];
+    if (values.count == originalCount)
     ***REMOVED***
-        NSMutableArray *bizAdd = [NSMutableArray array];
-        for (YLPBusiness *selectedBusiness in self.filteredResults)
-        ***REMOVED***
-            YLPBusiness *cachedBiz = [cache objectForKey:self.subCategoryTitle];
-            if (![cachedBiz.phone isEqualToString:selectedBusiness.phone])
-            ***REMOVED***
-                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+        [self.openNowButton setHidden:NO];
+        self.displayArray = values;
+***REMOVED***        self.displayArray = values;
+        self.gotDetails = YES;
 
-                [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
-                 (YLPBusiness *business, NSError *error) ***REMOVED***
-                     
-                         if (business.photos.count > 0)
-                         ***REMOVED***
-                             NSMutableArray *photosArray = [NSMutableArray array];
-                             for (NSString *photoStr in business.photos)
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.gotDetails = NO;
+        if (self.filteredResults.count > 0)
+        ***REMOVED***
+            [self.openNowButton setHidden:YES];
+
+            NSMutableArray *bizAdd = [NSMutableArray array];
+            for (YLPBusiness *selectedBusiness in self.filteredResults)
+            ***REMOVED***
+                NSArray *values = self.cachedDetails[self.subCategoryTitle];
+                if (![[values filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", selectedBusiness.phone]] lastObject])
+                ***REMOVED***
+                    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                        
+                        [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+                         (YLPBusiness *business, NSError *error) ***REMOVED***
+                             
+                             if (business.photos.count > 0)
                              ***REMOVED***
-                                 NSURL *url = [NSURL URLWithString:photoStr];
-                                 NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                 UIImage *image = [UIImage imageNamed:@"placeholder"];
-                                 if (imageData)
+                                 NSMutableArray *photosArray = [NSMutableArray array];
+                                 for (NSString *photoStr in business.photos)
                                  ***REMOVED***
-                                     image = [UIImage imageWithData:imageData];
+                                     NSURL *url = [NSURL URLWithString:photoStr];
+                                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                     UIImage *image = [UIImage imageNamed:@"placeholder"];
+                                     if (imageData)
+                                     ***REMOVED***
+                                         image = [UIImage imageWithData:imageData];
+                                     ***REMOVED***
+                                     [photosArray addObject:image];
                                  ***REMOVED***
-                                 [photosArray addObject:image];
+                                 
+                                 business.photos = photosArray;
                              ***REMOVED***
                              
-                             business.photos = photosArray;
-                         ***REMOVED***
-                         
-                         if (business)
-                         ***REMOVED***
-                             [bizAdd addObject:business];
-                             [cache setObject:business forKey:self.subCategoryTitle];
-                             if (bizAdd.count == self.filteredResults.count)
+                             if (business)
                              ***REMOVED***
-                                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                 [bizAdd addObject:business];
+                                 if (bizAdd.count == originalCount)
+                                 ***REMOVED***
+                                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                         [self.cachedDetails setObject:bizAdd forKey:self.subCategoryTitle];
+                                         self.gotDetails = YES;
+                                         self.displayArray = bizAdd;
+                                         [self.openNowButton setHidden:NO];
+                                     ***REMOVED***);
+                                 ***REMOVED***
+                             ***REMOVED***
+                         ***REMOVED***];
+                    ***REMOVED***);
+                ***REMOVED***
+    ***REMOVED***
+    
+            
 
-                                 self.detailsArray = [bizAdd copy];
-                                 [self.openNowButton setHidden:NO];
-                                 [self sortArrayWithPredicates];
-                                 
-                                     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.detailsArray.count];
-                                 ***REMOVED***);
-                             ***REMOVED***
-                         ***REMOVED***
-                 ***REMOVED***];
-                ***REMOVED***);
-            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
     
@@ -408,8 +486,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
-    YLPBusiness *cachedBiz = [cache objectForKey:self.subCategoryTitle];
-    if ([cachedBiz.phone isEqualToString:business.phone])
+    NSArray *values = self.cachedDetails[self.subCategoryTitle];
+
+    
+    YLPBusiness *cachedBiz = [[values filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", business.phone]] lastObject];
+    if (cachedBiz)
     ***REMOVED***
         business = cachedBiz;
     ***REMOVED***
@@ -466,7 +547,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    return self.filteredResults.count;
+    NSInteger i = 0;
+    if (self.gotDetails)
+    ***REMOVED***
+        i = self.displayArray.count;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        i = self.filteredResults.count;
+    ***REMOVED***
+    return i;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -474,12 +564,24 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
     
-    YLPBusiness *business = [self.filteredResults objectAtIndex:indexPath.row];
-    YLPBusiness *cachedBiz = [cache objectForKey:self.subCategoryTitle];
-    if ([cachedBiz.phone isEqualToString:business.phone])
+    YLPBusiness *business;
+    
+
+    if (self.gotDetails)
     ***REMOVED***
-        business = cachedBiz;
+        business = [self.displayArray objectAtIndex:indexPath.row];
+
+***REMOVED***        YLPBusiness *cachedBiz = [[values filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", business.phone]] lastObject];
+***REMOVED***        if (cachedBiz)
+***REMOVED***        ***REMOVED***
+***REMOVED***            business = cachedBiz;
+***REMOVED***        ***REMOVED***
     ***REMOVED***
+    else
+    ***REMOVED***
+        business = [self.filteredResults objectAtIndex:indexPath.row];
+    ***REMOVED***
+
     cell.business = business;
     
     UIImage *image = [UIImage imageNamed:@"placeholder"];
@@ -523,10 +625,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (IBAction)didTapBack:(id)sender
 ***REMOVED***
-***REMOVED***    if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
-***REMOVED***    ***REMOVED***
-***REMOVED***        [self.delegate didTapBackWithDetails:self.cachedDetails];
-***REMOVED***    ***REMOVED***
+    if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
+    ***REMOVED***
+        [self.delegate didTapBackWithDetails:self.cachedDetails];
+    ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
 ***REMOVED***
 
