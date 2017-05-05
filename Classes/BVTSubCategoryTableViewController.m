@@ -151,10 +151,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
         ***REMOVED***
         
-        [arrayPred addObject:openClosePredicate];
+        if (openClosePredicate)
+        ***REMOVED***
+            [arrayPred addObject:openClosePredicate];
+        ***REMOVED***
     ***REMOVED***
     
-    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[arrayPred copy]];
+    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
 
     if (self.gotDetails)
     ***REMOVED***
@@ -284,13 +287,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         if (self.starSortIcon.isSelected)
         ***REMOVED***
             NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-            self.displayArray = [[self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            self.displayArray = [self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]];
             
         ***REMOVED***
         else
         ***REMOVED***
             NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-            self.displayArray = [[self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            self.displayArray = [self.displayArray sortedArrayUsingDescriptors: @[nameDescriptor]];
         ***REMOVED***
     ***REMOVED***
     else
@@ -298,13 +301,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         if (self.starSortIcon.isSelected)
         ***REMOVED***
             NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-            self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            self.filteredResults = [self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]];
             
         ***REMOVED***
         else
         ***REMOVED***
             NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-            self.filteredResults = [[self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+            self.filteredResults = [self.filteredResults sortedArrayUsingDescriptors: @[nameDescriptor]];
         ***REMOVED***
     ***REMOVED***
     
@@ -346,8 +349,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         self.cachedDetails = [[NSMutableDictionary alloc] init];
     ***REMOVED***
-    
-***REMOVED***    self.displayArray = [self.filteredResults copy];
     
     self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
     

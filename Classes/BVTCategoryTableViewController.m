@@ -161,7 +161,18 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                  ***REMOVED***
                      if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", selectionTitle]] lastObject] && biz.closed == NO)
                      ***REMOVED***
-                         [filteredArray addObject:biz];
+                         if (filteredArray.count > 0)
+                         ***REMOVED***
+                             if (![[filteredArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", biz.phone]] lastObject])
+                             ***REMOVED***
+                                 [filteredArray addObject:biz];
+                             ***REMOVED***
+                         ***REMOVED***
+                         else
+                         ***REMOVED***
+                             [filteredArray addObject:biz];
+
+                         ***REMOVED***
                      ***REMOVED***
                  ***REMOVED***
                  
