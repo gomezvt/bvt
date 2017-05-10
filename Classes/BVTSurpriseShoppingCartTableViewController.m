@@ -332,67 +332,68 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                 
                 for (NSString *category in self.subCategories)
                 ***REMOVED***
-                    
-                    NSMutableArray *ar = [NSMutableArray array];
-                    for (i = 0; [self.resultsArray count]; i++)
-                    ***REMOVED***
-                        NSDictionary *d = [self.resultsArray objectAtIndex:arc4random()%[self.resultsArray count]];
-                        YLPBusiness *biz = [[d allValues] lastObject];
-                        if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", category]] lastObject])
-                        ***REMOVED***
-                            if (ar.count >= 1)
-                            ***REMOVED***
-                                YLPBusiness *biz1;
-                                YLPBusiness *biz2;
-                                if (ar.count == 1)
-                                ***REMOVED***
-                                    NSDictionary *dict1 = [ar objectAtIndex:0];
-                                    biz1 = [[dict1 allValues] lastObject];
-                                    if (![biz.phone isEqualToString:biz1.phone])
-                                    ***REMOVED***
-                                        [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
-                                    ***REMOVED***
-                                ***REMOVED***
-                                else if (ar.count == 2)
-                                ***REMOVED***
-                                    NSDictionary *dict1 = [ar objectAtIndex:0];
-                                    biz1 = [[dict1 allValues] lastObject];
-                                    
-                                    
-                                    NSDictionary *dict2 = [ar objectAtIndex:1];
-                                    biz2 = [[dict2 allValues] lastObject];
-                                    
-                                    if (![biz.phone isEqualToString:biz1.phone] && ![biz.phone isEqualToString:biz2.phone])
-                                    ***REMOVED***
-                                        [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
-                                        
-                                        break;
-                                    ***REMOVED***
-                                ***REMOVED***
-                            ***REMOVED***
-                            else
-                            ***REMOVED***
-                                [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
-                            ***REMOVED***
-                        ***REMOVED***
-                        ***REMOVED***
-                        
-
-                    
-                    
-                    NSArray *array = [ar filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[cd] %K", category]];
+                    NSArray *array = [self.resultsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[cd] %K", category]];
                     
  
                     
                     ***REMOVED*** TODO:figure out sorting here
                     [dict setObject:array forKey:category];
                 ***REMOVED***
+                
+                for (NSString *key in [dict allKeys])
+                ***REMOVED***
+                    NSArray *values = [dict valueForKey:key];
+                    if (values.count > 3)
+                    ***REMOVED***
+                        NSDictionary *values1 = [values objectAtIndex:arc4random()%[values count]];
+                        YLPBusiness *biz = [[values1 allValues] lastObject];
+                        
+                        NSDictionary *values2 = [values objectAtIndex:arc4random()%[values count]];
+                        YLPBusiness *biz2 = [[values2 allValues] lastObject];
+                        
+                        NSDictionary *values3 = [values objectAtIndex:arc4random()%[values count]];
+                        YLPBusiness *biz3 = [[values3 allValues] lastObject];
+                        
+                        if (![biz isKindOfClass:[NSNull class]] && ![biz2 isKindOfClass:[NSNull class]] && ![biz3 isKindOfClass:[NSNull class]])
+                        ***REMOVED***
+                            if ([biz.phone isEqualToString:biz2.phone] || [biz.phone isEqualToString:biz3.phone] ||
+                                [biz2.phone isEqualToString:biz.phone] || [biz2.phone isEqualToString:biz3.phone] ||
+                                [biz3.phone isEqualToString:biz.phone] || [biz3.phone isEqualToString:biz2.phone])
+                            ***REMOVED***
+                                return;
+                            ***REMOVED***
+                            
+                            NSMutableArray *ar2 = [NSMutableArray array];
+                            [ar2 addObject:biz];
+                            [ar2 addObject:biz2];
+                            [ar2 addObject:biz3];
+                            
+                            NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+                            NSArray *sortedArray2 = [ar2 sortedArrayUsingDescriptors: @[descriptor]];
+                            
+                            NSMutableArray *ar = [NSMutableArray array];
+                            for (YLPBusiness *biz in sortedArray2)
+                            ***REMOVED***
+                                [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
+                            ***REMOVED***
+                            
+                            if (ar.count == 3)
+                            ***REMOVED***
+                                [dict setValue:ar forKey:key];
+                            ***REMOVED***
+                        ***REMOVED***
+                        
+                    ***REMOVED***
+                ***REMOVED***
+                
+                [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
+                
+                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                    [self _hideHUD];
+                ***REMOVED***);
             ***REMOVED***
             
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                [self _hideHUD];
-                [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
-            ***REMOVED***);
+
         ***REMOVED***
     ***REMOVED***
 ***REMOVED***

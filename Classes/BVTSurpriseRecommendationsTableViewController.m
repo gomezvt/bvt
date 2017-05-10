@@ -55,6 +55,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super awakeFromNib];
     
+
+    
     self.orderedDict = [NSMutableDictionary dictionary];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
@@ -90,6 +92,42 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+
+***REMOVED***    for (NSString *key in self.businessOptions)
+***REMOVED***    ***REMOVED***
+***REMOVED***        NSArray *values = [[self.businessOptions allValues] valueForKey:key];
+***REMOVED***        NSArray *values2 = [values lastObject];
+***REMOVED***        
+***REMOVED***        YLPBusiness *biz = [values2 objectAtIndex:arc4random()%[values2 count]];
+***REMOVED***        YLPBusiness *biz2 = [values2 objectAtIndex:arc4random()%[values2 count]];
+***REMOVED***        YLPBusiness *biz3 = [values2 objectAtIndex:arc4random()%[values2 count]];
+***REMOVED***        
+***REMOVED***        if (![biz isKindOfClass:[NSNull class]] && ![biz2 isKindOfClass:[NSNull class]] && ![biz3 isKindOfClass:[NSNull class]])
+***REMOVED***        ***REMOVED***
+***REMOVED***            if ([biz.phone isEqualToString:biz2.phone] || [biz.phone isEqualToString:biz3.phone] ||
+***REMOVED***                [biz2.phone isEqualToString:biz.phone] || [biz2.phone isEqualToString:biz3.phone] ||
+***REMOVED***                [biz3.phone isEqualToString:biz.phone] || [biz3.phone isEqualToString:biz2.phone])
+***REMOVED***            ***REMOVED***
+***REMOVED***                return;
+***REMOVED***            ***REMOVED***
+***REMOVED***            
+***REMOVED***            NSMutableArray *ar = [NSMutableArray array];
+***REMOVED***            [ar addObject:biz];
+***REMOVED***            [ar addObject:biz2];
+***REMOVED***            [ar addObject:biz3];
+***REMOVED***
+***REMOVED***            NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+***REMOVED***            NSArray *sortedArray2 = [ar sortedArrayUsingDescriptors: @[descriptor]];
+***REMOVED***            
+***REMOVED***            NSMutableArray *ar2 = [NSMutableArray array];
+***REMOVED***            for (YLPBusiness *biz in sortedArray2)
+***REMOVED***            ***REMOVED***
+***REMOVED***                [ar2 addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
+***REMOVED***            ***REMOVED***
+***REMOVED***            
+***REMOVED***            [self.businessOptions setValue:ar2 forKey:key];
+***REMOVED***        ***REMOVED***
+***REMOVED***    ***REMOVED***
     
     self.tableView.sectionHeaderHeight = 44.f;
     
