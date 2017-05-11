@@ -142,7 +142,18 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
      (YLPSearch *searchResults, NSError *error)***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              ***REMOVED*** code here
-             if (searchResults.businesses.count == 0)
+             if (error)
+             ***REMOVED***
+                 [self _hideHUD];
+                 
+                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                 
+                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                 [alertController addAction:ok];
+                 
+                 [self presentViewController:alertController animated:YES completion:nil];
+             ***REMOVED***
+             else if (searchResults.businesses.count == 0)
              ***REMOVED***
                  [self _hideHUD];
                  
@@ -203,13 +214,6 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      
                      [self presentViewController:alertController animated:YES completion:nil];
                  ***REMOVED***
-             ***REMOVED***
-             
-             if (error)
-             ***REMOVED***
-                 [self _hideHUD];
-                 
-                 NSLog(@"Error %@", error.localizedDescription);
              ***REMOVED***
          ***REMOVED***);
      ***REMOVED***];
