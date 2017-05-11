@@ -61,6 +61,12 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     [super viewWillAppear:animated];
     
+    NSArray *previousValues = [self.catDict objectForKey:self.categoryTitle];
+    if (previousValues.count > 0)
+    ***REMOVED***
+        self.mut = [previousValues mutableCopy];
+    ***REMOVED***
+    
     ***REMOVED*** Reload table either way, especially in the case if we come back from
     ***REMOVED*** shopping cart after all items have been deleted and we need to clear checkmarks
     [self.tableView reloadData];
@@ -105,7 +111,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 
 - (void)didTapBackWithCategories:(NSMutableDictionary *)categories
 ***REMOVED***
-    self.catDict = self.catDict;
+    self.catDict = categories;
 ***REMOVED***
 
 - (void)viewDidLoad
@@ -182,11 +188,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
 ***REMOVED***
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *previousValues = [self.catDict objectForKey:self.categoryTitle];
-    if (previousValues.count > 0)
-    ***REMOVED***
-        self.mut = [previousValues mutableCopy];
-    ***REMOVED***
+
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *category = [categories objectAtIndex:indexPath.row];
