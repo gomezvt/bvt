@@ -194,6 +194,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         
         if (!cachedBiz)
         ***REMOVED***
+            __weak typeof(self) weakSelf = self;
             [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
              (YLPBusiness *business, NSError *error) ***REMOVED***
                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -217,9 +218,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          business.photos = photosArray;
                      ***REMOVED***
                      
-                     if (![self.cachedDetails containsObject:business])
+                     if (![weakSelf.cachedDetails containsObject:business])
                      ***REMOVED***
-                         [self.cachedDetails addObject:business];
+                         [weakSelf.cachedDetails addObject:business];
                      ***REMOVED***
                      
                      if (!business.hoursItem)
@@ -305,23 +306,24 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     if (cachedBiz)
     ***REMOVED***
         selectedBusiness = cachedBiz;
+        __weak typeof(self) weakSelf = self;
         [[AppDelegate sharedClient] reviewsForBusinessWithId:selectedBusiness.identifier
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                    if (error) ***REMOVED***
-                                                       [self _hideHud];
+                                                       [weakSelf _hideHud];
                                                        
                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
                                                        
                                                        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                                                        [alertController addAction:ok];
                                                        
-                                                       [self presentViewController:alertController animated:YES completion:nil];
+                                                       [weakSelf presentViewController:alertController animated:YES completion:nil];
                                                        
                                                    ***REMOVED***
                                                    else
                                                    ***REMOVED***
-                                                       [self _hideHud];
+                                                       [weakSelf _hideHud];
                                                        
                                                        ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
                                                        NSMutableArray *userPhotos = [NSMutableArray array];
@@ -341,9 +343,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                        selectedBusiness.reviews = reviews.reviews;
                                                        selectedBusiness.userPhotosArray = userPhotos;
                                                        
-                                                       if (!self.didCancelRequest)
+                                                       if (!weakSelf.didCancelRequest)
                                                        ***REMOVED***
-                                                           [self performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
+                                                           [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
                                                        ***REMOVED***
                                                    ***REMOVED***
                                                    
@@ -353,18 +355,19 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     else
     ***REMOVED***
+        __weak typeof(self) weakSelf = self;
         [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  if (error) ***REMOVED***
-                     [self _hideHud];
+                     [weakSelf _hideHud];
                      
                      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
                      
                      UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                      [alertController addAction:ok];
                      
-                     [self presentViewController:alertController animated:YES completion:nil];
+                     [weakSelf presentViewController:alertController animated:YES completion:nil];
                  ***REMOVED***
                  else
                  ***REMOVED***
@@ -391,7 +394,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                                 if (error) ***REMOVED***
-                                                                    [self _hideHud];
+                                                                    [weakSelf _hideHud];
                                                                     
                                                                     
                                                                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
@@ -399,12 +402,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                                                                     [alertController addAction:ok];
                                                                     
-                                                                    [self presentViewController:alertController animated:YES completion:nil];
+                                                                    [weakSelf presentViewController:alertController animated:YES completion:nil];
                                                                     
                                                                 ***REMOVED***
                                                                 else
                                                                 ***REMOVED***
-                                                                    [self _hideHud];
+                                                                    [weakSelf _hideHud];
                                                                     
                                                                     ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
                                                                     NSMutableArray *userPhotos = [NSMutableArray array];
@@ -424,9 +427,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                     business.reviews = reviews.reviews;
                                                                     business.userPhotosArray = userPhotos;
                                                                     
-                                                                    if (!self.didCancelRequest)
+                                                                    if (!weakSelf.didCancelRequest)
                                                                     ***REMOVED***
-                                                                        [self performSegueWithIdentifier:kShowDetailSegue sender:business];
+                                                                        [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:business];
                                                                     ***REMOVED***
                                                                 ***REMOVED***
                                                                 
