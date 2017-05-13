@@ -125,13 +125,24 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 
 ***REMOVED***    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *mapsQueryString;
-***REMOVED***    if ([self.selectedBusiness.location.address firstObject])
+    
+***REMOVED***    if (![self.selectedBusiness.location.address firstObject])
 ***REMOVED***    ***REMOVED***
-***REMOVED***            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@,address=%@&z=20&t=s", self.selectedBusiness.name, [self.selectedBusiness.location.address firstObject]];
+***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
 ***REMOVED***    ***REMOVED***
-***REMOVED***    else
+***REMOVED***    else***REMOVED***
+            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
 ***REMOVED***    ***REMOVED***
-            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@,qs11=%f,%f,near=%f,%f&z=20&t=s", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.longitude];
+
+
+    
+    
+    
+    
+    
+
+***REMOVED***    ***REMOVED***
+***REMOVED***            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@,qs11=%f,%f,near=%f,%f&z=20&t=s", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.longitude];
 ***REMOVED***    ***REMOVED***
 
 
