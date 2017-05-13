@@ -131,7 +131,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
 ***REMOVED***    ***REMOVED***
 ***REMOVED***    else***REMOVED***
-            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&nearll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
 ***REMOVED***    ***REMOVED***
 
 
