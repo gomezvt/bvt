@@ -131,7 +131,30 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
 ***REMOVED***    ***REMOVED***
 ***REMOVED***    else***REMOVED***
-            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&nearll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+    if (location.address.count > 0)
+
+    ***REMOVED***
+        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&nearll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+    ***REMOVED***
+    else if (location.address.count == 0 && location.coordinate)
+    ***REMOVED***
+        
+            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+    ***REMOVED***
+    else
+    ***REMOVED***
+                mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
+    ***REMOVED***
+***REMOVED***    else if (location.address == 0 && location.coordinate)
+***REMOVED***    ***REMOVED***
+***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
+***REMOVED***
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
+***REMOVED***        
+***REMOVED***    ***REMOVED***
 ***REMOVED***    ***REMOVED***
 
 
@@ -156,8 +179,16 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***        mapsQueryString = [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&near=%f,%f", self.selectedBusiness.name, latitude,longitude];
 ***REMOVED***
 ***REMOVED***    ***REMOVED***
-    
-    NSString *filteredString = [mapsQueryString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSString *filteredString;
+
+    if ([mapsQueryString containsString:@" "])
+    ***REMOVED***
+        filteredString = [mapsQueryString stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        filteredString = mapsQueryString;
+    ***REMOVED***
     NSURL *url = [NSURL URLWithString:filteredString];
     [[UIApplication sharedApplication] openURL:url options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
         NSLog(@"");
