@@ -484,51 +484,112 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.backChevron.enabled = NO;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    YLPBusiness *business;   
+    __weak typeof(self) weakSelf = self;
+
+    YLPBusiness *business;
     if (self.gotDetails)
     ***REMOVED***
         business = [self.displayArray objectAtIndex:indexPath.row];
+        [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
+                                           completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
+                                               dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                   
+                                                   if (error)
+                                                   ***REMOVED***
+                                                       [weakSelf _hideHUD];
+                                                       
+                                                       NSLog(@"Error %@", error.localizedDescription);
+                                                   ***REMOVED***
+                                                   ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
+                                                   NSMutableArray *userPhotos = [NSMutableArray array];
+                                                   for (YLPReview *review in reviews.reviews)
+                                                   ***REMOVED***
+                                                       YLPUser *user = review.user;
+                                                       if (user.imageURL)
+                                                       ***REMOVED***
+                                                           NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+                                                           UIImage *image = [UIImage imageWithData:imageData];
+                                                           [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
+                                                       ***REMOVED***
+                                                   ***REMOVED***
+                                                   business.reviews = reviews.reviews;
+                                                   business.userPhotosArray = userPhotos;
+                                                   
+                                                   [weakSelf _hideHUD];
+                                                   if (!weakSelf.didCancelRequest)
+                                                   ***REMOVED***
+                                                       ***REMOVED*** get biz photos here if we dont have them?
+                                                       [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:business];
+                                                   ***REMOVED***
+                                               ***REMOVED***);
+                                           ***REMOVED***];
     ***REMOVED***
     else
     ***REMOVED***
+        __weak typeof(self) weakSelf = self;
         business = [self.filteredResults objectAtIndex:indexPath.row];
-    ***REMOVED***
+
+        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+            
+            [[AppDelegate sharedClient] businessWithId:business.identifier completionHandler:^
+             (YLPBusiness *detailBiz, NSError *error) ***REMOVED***
+                 
+                 if (detailBiz.photos.count > 0)
+                 ***REMOVED***
+                     NSMutableArray *photosArray = [NSMutableArray array];
+                     for (NSString *photoStr in detailBiz.photos)
+                     ***REMOVED***
+                         NSURL *url = [NSURL URLWithString:photoStr];
+                         NSData *imageData = [NSData dataWithContentsOfURL:url];
+                         UIImage *image = [UIImage imageNamed:@"placeholder"];
+                         if (imageData)
+                         ***REMOVED***
+                             image = [UIImage imageWithData:imageData];
+                         ***REMOVED***
+                         [photosArray addObject:image];
+                     ***REMOVED***
+                     
+                     detailBiz.photos = photosArray;
+                 ***REMOVED***
+                 
+                 [[AppDelegate sharedClient] reviewsForBusinessWithId:detailBiz.identifier
+                                                    completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
+                                                        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                            
+                                                            if (error)
+                                                            ***REMOVED***
+                                                                [weakSelf _hideHUD];
+                                                                
+                                                                NSLog(@"Error %@", error.localizedDescription);
+                                                            ***REMOVED***
+                                                            ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
+                                                            NSMutableArray *userPhotos = [NSMutableArray array];
+                                                            for (YLPReview *review in reviews.reviews)
+                                                            ***REMOVED***
+                                                                YLPUser *user = review.user;
+                                                                if (user.imageURL)
+                                                                ***REMOVED***
+                                                                    NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
+                                                                    UIImage *image = [UIImage imageWithData:imageData];
+                                                                    [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
+                                                                ***REMOVED***
+                                                            ***REMOVED***
+                                                            detailBiz.reviews = reviews.reviews;
+                                                            detailBiz.userPhotosArray = userPhotos;
+                                                            
+                                                            [weakSelf _hideHUD];
+                                                            if (!weakSelf.didCancelRequest)
+                                                            ***REMOVED***
+                                                                ***REMOVED*** get biz photos here if we dont have them?
+                                                                [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:detailBiz];
+                                                            ***REMOVED***
+                                                        ***REMOVED***);
+                                                    ***REMOVED***];
+             ***REMOVED***];
+        ***REMOVED***);
+                       ***REMOVED***
     
-    __weak typeof(self) weakSelf = self;
-    [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
-                                       completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
-                                           dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                                               
-                                               if (error)
-                                               ***REMOVED***
-                                                   [weakSelf _hideHUD];
-                                                   
-                                                   NSLog(@"Error %@", error.localizedDescription);
-                                               ***REMOVED***
-                                               ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
-                                               NSMutableArray *userPhotos = [NSMutableArray array];
-                                               for (YLPReview *review in reviews.reviews)
-                                               ***REMOVED***
-                                                   YLPUser *user = review.user;
-                                                   if (user.imageURL)
-                                                   ***REMOVED***
-                                                       NSData *imageData = [NSData dataWithContentsOfURL:user.imageURL];
-                                                       UIImage *image = [UIImage imageWithData:imageData];
-                                                       [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
-                                                   ***REMOVED***
-                                               ***REMOVED***
-                                               business.reviews = reviews.reviews;
-                                               business.userPhotosArray = userPhotos;
-                                               
-                                               [weakSelf _hideHUD];
-                                               if (!weakSelf.didCancelRequest)
-                                               ***REMOVED***
-                                                   ***REMOVED*** get biz photos here if we dont have them?
-                                                   [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:business];
-                                               ***REMOVED***
-                                           ***REMOVED***);
-                                       ***REMOVED***];
+
     
 ***REMOVED***
 
