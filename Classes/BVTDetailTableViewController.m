@@ -122,63 +122,16 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 - (void)displayGoogleMaps
 ***REMOVED***
     YLPLocation *location = self.selectedBusiness.location;
-
-***REMOVED***    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *mapsQueryString;
-    
-***REMOVED***    if (![self.selectedBusiness.location.address firstObject])
-***REMOVED***    ***REMOVED***
-***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
-***REMOVED***    ***REMOVED***
-***REMOVED***    else***REMOVED***
-    if (location.address.count > 0)
-
+    if (location.coordinate.latitude && location.coordinate.longitude)
     ***REMOVED***
         mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&nearll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
-    ***REMOVED***
-    else if (location.address.count == 0 && location.coordinate)
-    ***REMOVED***
-        
-            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
     ***REMOVED***
     else
     ***REMOVED***
                 mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
     ***REMOVED***
-***REMOVED***    else if (location.address == 0 && location.coordinate)
-***REMOVED***    ***REMOVED***
-***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&ll=%f,%f", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude];
-***REMOVED***
-***REMOVED***    ***REMOVED***
-***REMOVED***    else
-***REMOVED***    ***REMOVED***
-***REMOVED***        mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@", self.selectedBusiness.name];
-***REMOVED***        
-***REMOVED***    ***REMOVED***
-***REMOVED***    ***REMOVED***
-
-
     
-    
-    
-    
-    
-
-***REMOVED***    ***REMOVED***
-***REMOVED***            mapsQueryString =  [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@,qs11=%f,%f,near=%f,%f&z=20&t=s", self.selectedBusiness.name, location.coordinate.latitude, location.coordinate.longitude, location.coordinate.latitude, location.coordinate.longitude];
-***REMOVED***    ***REMOVED***
-
-
-***REMOVED***    if (appDel.userLocation)
-***REMOVED***    ***REMOVED***
-***REMOVED***        CLLocation *userLoc = appDel.userLocation;
-***REMOVED***        CLLocationCoordinate2D coordinate = [userLoc coordinate];
-***REMOVED***        
-***REMOVED***        CGFloat latitude = coordinate.latitude;
-***REMOVED***        CGFloat longitude = coordinate.longitude;
-***REMOVED***        mapsQueryString = [NSString stringWithFormat:@"http:***REMOVED***maps.apple.com/?q=%@&near=%f,%f", self.selectedBusiness.name, latitude,longitude];
-***REMOVED***
-***REMOVED***    ***REMOVED***
     NSString *filteredString;
 
     if ([mapsQueryString containsString:@" "])
