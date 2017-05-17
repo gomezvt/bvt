@@ -47,6 +47,7 @@
 		64A3386C1EA6F48E0061CA83 /* BVTTableViewSectionHeaderView.m in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64A3386B1EA6F48E0061CA83 /* BVTTableViewSectionHeaderView.m */; ***REMOVED***;
 		64A3386E1EA706640061CA83 /* BVTTableViewSectionHeaderView.xib in Resources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64A3386D1EA706640061CA83 /* BVTTableViewSectionHeaderView.xib */; ***REMOVED***;
 		64A338711EA7067F0061CA83 /* BVTHUDView.m in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64A338701EA7067F0061CA83 /* BVTHUDView.m */; ***REMOVED***;
+		64A481081EC94E6800A80600 /* BVTTabBarController.m in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64A481071EC94E6800A80600 /* BVTTabBarController.m */; ***REMOVED***;
 		64B990CE1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.m in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64B990CD1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.m */; ***REMOVED***;
 		64B990CF1E99D5190002EE4E /* BVTSurpriseRecommendationsTableViewController.h in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64B990CC1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.h */; ***REMOVED***;
 		64C88B4E1E5545CF00ECA06B /* BVTPresentationTableViewController.m in Sources */ = ***REMOVED***isa = PBXBuildFile; fileRef = 64C88B4D1E5545CF00ECA06B /* BVTPresentationTableViewController.m */; ***REMOVED***;
@@ -140,6 +141,8 @@
 		64A3386D1EA706640061CA83 /* BVTTableViewSectionHeaderView.xib */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BVTTableViewSectionHeaderView.xib; path = Classes/BVTTableViewSectionHeaderView.xib; sourceTree = "<group>"; ***REMOVED***;
 		64A3386F1EA7067F0061CA83 /* BVTHUDView.h */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVTHUDView.h; path = Classes/BVTHUDView.h; sourceTree = SOURCE_ROOT; ***REMOVED***;
 		64A338701EA7067F0061CA83 /* BVTHUDView.m */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BVTHUDView.m; path = Classes/BVTHUDView.m; sourceTree = SOURCE_ROOT; ***REMOVED***;
+		64A481061EC94E6800A80600 /* BVTTabBarController.h */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVTTabBarController.h; path = Classes/BVTTabBarController.h; sourceTree = SOURCE_ROOT; ***REMOVED***;
+		64A481071EC94E6800A80600 /* BVTTabBarController.m */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BVTTabBarController.m; path = Classes/BVTTabBarController.m; sourceTree = SOURCE_ROOT; ***REMOVED***;
 		64B990CC1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.h */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVTSurpriseRecommendationsTableViewController.h; path = /Users/gomez/Developer/bvt/Classes/BVTSurpriseRecommendationsTableViewController.h; sourceTree = "<absolute>"; ***REMOVED***;
 		64B990CD1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.m */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BVTSurpriseRecommendationsTableViewController.m; path = Classes/BVTSurpriseRecommendationsTableViewController.m; sourceTree = SOURCE_ROOT; ***REMOVED***;
 		64C88B4C1E5545CF00ECA06B /* BVTPresentationTableViewController.h */ = ***REMOVED***isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BVTPresentationTableViewController.h; path = Classes/BVTPresentationTableViewController.h; sourceTree = SOURCE_ROOT; ***REMOVED***;
@@ -337,6 +340,8 @@
 			children = (
 				64C88B4C1E5545CF00ECA06B /* BVTPresentationTableViewController.h */,
 				64C88B4D1E5545CF00ECA06B /* BVTPresentationTableViewController.m */,
+				64A481061EC94E6800A80600 /* BVTTabBarController.h */,
+				64A481071EC94E6800A80600 /* BVTTabBarController.m */,
 				64A3386F1EA7067F0061CA83 /* BVTHUDView.h */,
 				64A338701EA7067F0061CA83 /* BVTHUDView.m */,
 				64C88B4B1E55418E00ECA06B /* Categories */,
@@ -544,6 +549,7 @@
 				64B990CE1E99D45C0002EE4E /* BVTSurpriseRecommendationsTableViewController.m in Sources */,
 				6441120C1E2D345600C3ED18 /* BVTAboutTableViewController.m in Sources */,
 				64C88B4E1E5545CF00ECA06B /* BVTPresentationTableViewController.m in Sources */,
+				64A481081EC94E6800A80600 /* BVTTabBarController.m in Sources */,
 				643B4DAF1E2CB2C300951303 /* main.m in Sources */,
 				64908A7C1E494E6100BC6884 /* BVTYelpCategoryTableViewCell.m in Sources */,
 				644112151E2D345600C3ED18 /* BVTSurpriseCategoryTableViewController.m in Sources */,
