@@ -63,6 +63,8 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
 ***REMOVED***
     [super viewDidLoad];
     
+    self.tableView.tableFooterView = [UIView new];
+    
     categories = @[ ];
     
     self.titleLabel.text = self.categoryTitle;
