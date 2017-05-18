@@ -1,33 +1,39 @@
 ***REMOVED***
   "images" : [
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "20x20",
+      "idiom" : "iphone",
+      "filename" : "2-2.png",
       "scale" : "2x"
     ***REMOVED***,
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "20x20",
+      "idiom" : "iphone",
+      "filename" : "2-1.png",
       "scale" : "3x"
     ***REMOVED***,
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "2.png",
       "scale" : "2x"
     ***REMOVED***,
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "bvt_icon@x3-1.png",
       "scale" : "3x"
     ***REMOVED***,
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "bvt_icon@x2-2.png",
       "scale" : "2x"
     ***REMOVED***,
     ***REMOVED***
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "bvt_icon@x2-1.png",
       "scale" : "3x"
     ***REMOVED***,
     ***REMOVED***
