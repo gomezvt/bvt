@@ -444,13 +444,17 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                             [dict setValue:ar forKey:key];
                         ***REMOVED***
                         
-                        if (key == [allkeys lastObject])
+                        if (!self.didCancelRequest)
                         ***REMOVED***
-                            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                                [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
-                                
-                                [self _hideHUD];
-                            ***REMOVED***);
+                            if (key == [allkeys lastObject])
+                            ***REMOVED***
+                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                    
+                                    [self _hideHUD];
+                                    
+                                    [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
+                                ***REMOVED***);
+                            ***REMOVED***
                         ***REMOVED***
                     ***REMOVED***
                 ***REMOVED***

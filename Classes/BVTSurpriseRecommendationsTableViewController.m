@@ -333,8 +333,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                    ***REMOVED***
                                                    else
                                                    ***REMOVED***
-                                                       [weakSelf _hideHud];
-                                                       
                                                        ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
                                                        NSMutableArray *userPhotos = [NSMutableArray array];
                                                        for (YLPReview *review in reviews.reviews)
@@ -355,6 +353,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                        
                                                        if (!weakSelf.didCancelRequest)
                                                        ***REMOVED***
+                                                           [weakSelf _hideHud];
+
                                                            [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
                                                        ***REMOVED***
                                                    ***REMOVED***
@@ -417,8 +417,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                 ***REMOVED***
                                                                 else
                                                                 ***REMOVED***
-                                                                    [weakSelf _hideHud];
-                                                                    
                                                                     ***REMOVED*** *** Get review user photos in advance if they exist, to display from Presentation VC
                                                                     NSMutableArray *userPhotos = [NSMutableArray array];
                                                                     for (YLPReview *review in reviews.reviews)
@@ -439,6 +437,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                     
                                                                     if (!weakSelf.didCancelRequest)
                                                                     ***REMOVED***
+                                                                        [weakSelf _hideHud];
+
                                                                         [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:business];
                                                                     ***REMOVED***
                                                                 ***REMOVED***
