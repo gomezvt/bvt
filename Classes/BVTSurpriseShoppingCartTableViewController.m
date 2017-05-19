@@ -331,6 +331,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
             ***REMOVED***
                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                     ***REMOVED*** code here
+                    [self _hideHUD];
                     [self.goButton setEnabled:YES];
                     [self.clearButton setEnabled:YES];
                     
