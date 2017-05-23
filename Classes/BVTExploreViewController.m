@@ -67,14 +67,61 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     return kBVTCategories.count;
 ***REMOVED***
 
+***REMOVED***- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED******REMOVED***
+***REMOVED***    return CGSizeMake(84, 84);
+***REMOVED******REMOVED***
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     BVTExploreCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
     cell.titleLabel.text = [kBVTCategories objectAtIndex:indexPath.row];
     
+    if (indexPath.row == 0)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iMuseum"];
+    ***REMOVED***
+    else if (indexPath.row == 1)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iCoffee"];
+    ***REMOVED***
+    else if (indexPath.row == 2)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iMusic"];
+    ***REMOVED***
+    else if (indexPath.row == 3)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iHotels"];
+    ***REMOVED***
+    else if (indexPath.row == 4)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iRecreation"];
+    ***REMOVED***
+    else if (indexPath.row == 5)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iBars"];
+    ***REMOVED***
+    else if (indexPath.row == 6)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iEat"];
+    ***REMOVED***
+    else if (indexPath.row == 7)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iShopping"];
+    ***REMOVED***
+    else if (indexPath.row == 8)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iTours"];
+    ***REMOVED***
+    else if (indexPath.row == 9)
+    ***REMOVED***
+        cell.menuItemView.image = [UIImage imageNamed:@"iTravel"];
+    ***REMOVED***
+    
     return cell;
 ***REMOVED***
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***

@@ -47,6 +47,7 @@
 @property (nonatomic) BOOL gotDetails;
 @property (nonatomic, strong) NSArray *originalFilteredResults;
 @property (nonatomic, strong) NSArray *originalDisplayResults;
+@property (nonatomic) BOOL isLargePhone;
 
 ***REMOVED***
 
@@ -336,6 +337,18 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
+    CGRect mainScreen = [[UIScreen mainScreen] bounds];
+    NSLog(@"HEIGHT %f. WIDTH %f", mainScreen.size.height, mainScreen.size.width);
+    
+    if (mainScreen.size.width > 375.f)
+    ***REMOVED***
+        self.isLargePhone = YES;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.isLargePhone = NO;
+    ***REMOVED***
+    
     self.tableView.tableFooterView = [UIView new];
 
     
@@ -428,6 +441,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          [weakSelf.cachedDetails setObject:weakSelf.displayArray forKey:weakSelf.subCategoryTitle];
                                          weakSelf.gotDetails = YES;
                                          [weakSelf.openNowButton setHidden:NO];
+                                         [weakSelf sortArrayWithPredicates];
                                      ***REMOVED***);
                                  ***REMOVED***
                              ***REMOVED***
@@ -628,6 +642,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+
     cell.tag = indexPath.row;
     
     YLPBusiness *business;
@@ -641,25 +657,49 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         business = [self.filteredResults objectAtIndex:indexPath.row];
     ***REMOVED***
 
-    cell.business = business;
-    
-    UIImage *image = [UIImage imageNamed:@"placeholder"];
-    cell.thumbNailView.image = image;
- 
-    if (!business.hoursItem)
+    if (!self.isLargePhone)
     ***REMOVED***
-        cell.openCloseLabel.text = @"";
-    ***REMOVED***
-    else if (business.isOpenNow)
-    ***REMOVED***
-        cell.openCloseLabel.text = @"Open";
-        cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+        cell.openCloseLabel.hidden = YES;
+        cell.secondaryOpenCloseLabel.hidden = NO;
+        
+        if (!business.hoursItem)
+        ***REMOVED***
+            cell.secondaryOpenCloseLabel.text = @"";
+        ***REMOVED***
+        else if (business.isOpenNow)
+        ***REMOVED***
+            cell.secondaryOpenCloseLabel.text = @"Open Now";
+            cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+        ***REMOVED***
+        else
+        ***REMOVED***
+            cell.secondaryOpenCloseLabel.text = @"Closed Now";
+            cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+        ***REMOVED***
     ***REMOVED***
     else
     ***REMOVED***
-        cell.openCloseLabel.text = @"Closed";
-        cell.openCloseLabel.textColor = [UIColor redColor];
+        cell.openCloseLabel.hidden = NO;
+        cell.secondaryOpenCloseLabel.hidden = YES;
+        
+        if (!business.hoursItem)
+        ***REMOVED***
+            cell.openCloseLabel.text = @"";
+        ***REMOVED***
+        else if (business.isOpenNow)
+        ***REMOVED***
+            cell.openCloseLabel.text = @"Open Now";
+            cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+        ***REMOVED***
+        else
+        ***REMOVED***
+            cell.openCloseLabel.text = @"Closed Now";
+            cell.openCloseLabel.textColor = [UIColor redColor];
+        ***REMOVED***
+        
     ***REMOVED***
+    
+    cell.business = business;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
@@ -672,6 +712,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                 ***REMOVED***
                     UIImage *image = [UIImage imageWithData:imageData];
                     cell.thumbNailView.image = image;
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***);
