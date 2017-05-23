@@ -18,6 +18,7 @@
 @interface BVTExploreViewController () <BVTCategoryTableViewControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
+@property (nonatomic) BOOL isLargePhone;
 
 ***REMOVED***
 
@@ -53,6 +54,18 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     UINib *cellNib = [UINib nibWithNibName:kCollectionViewCellNib bundle:nil];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Cell"];
+    
+    CGRect mainScreen = [[UIScreen mainScreen] bounds];
+    NSLog(@"HEIGHT %f. WIDTH %f", mainScreen.size.height, mainScreen.size.width);
+    
+    if (mainScreen.size.width > 375.f)
+    ***REMOVED***
+        self.isLargePhone = YES;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.isLargePhone = NO;
+    ***REMOVED***
 ***REMOVED***
 
 #pragma mark - CollectionView Delegate
@@ -67,10 +80,19 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     return kBVTCategories.count;
 ***REMOVED***
 
-***REMOVED***- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-***REMOVED******REMOVED***
-***REMOVED***    return CGSizeMake(84, 84);
-***REMOVED******REMOVED***
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED***
+    CGSize size;
+    if (self.isLargePhone)
+    ***REMOVED***
+        size = CGSizeMake(100, 150);
+    ***REMOVED***
+    else
+    ***REMOVED***
+        size = CGSizeMake(80, 120);
+    ***REMOVED***
+    return size;
+***REMOVED***
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
@@ -78,6 +100,22 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     cell.titleLabel.text = [kBVTCategories objectAtIndex:indexPath.row];
     
+
+    if (self.isLargePhone)
+    ***REMOVED***
+        cell.imageWidth.constant = 84.f;
+        cell.imageHeight.constant = 84.f;
+        cell.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        [cell.titleLabel sizeToFit];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        cell.imageWidth.constant = 64.f;
+        cell.imageHeight.constant = 64.f;
+        cell.titleLabel.font = [UIFont systemFontOfSize:12.f];
+        [cell.titleLabel sizeToFit];
+    ***REMOVED***
+
     if (indexPath.row == 0)
     ***REMOVED***
         cell.menuItemView.image = [UIImage imageNamed:@"iMuseum"];
@@ -122,6 +160,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     return cell;
 ***REMOVED***
 
+***REMOVED***- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+***REMOVED******REMOVED***
+***REMOVED***    return CGSizeMake(CGRectGetWidth(collectionView.frame), (CGRectGetHeight(collectionView.frame)));
+***REMOVED******REMOVED***
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***

@@ -69,11 +69,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     self.titleLabel.text = self.categoryTitle;
     
-    if ([self.categoryTitle isEqualToString:@"Arts and Museums"])
+    if ([self.categoryTitle isEqualToString:@"Arts & Museums"])
     ***REMOVED***
         categories = kArtsMuseums;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Coffee, Sweets, and Bakeries"])
+    else if ([self.categoryTitle isEqualToString:@"Coffee, Sweets, & Bakeries"])
     ***REMOVED***
         categories = kCoffeeSweetsBakeries;
     ***REMOVED***
@@ -85,11 +85,11 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     ***REMOVED***
         categories = kHotelsHostelsBB;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Entertainment and Recreation"])
+    else if ([self.categoryTitle isEqualToString:@"Entertainment & Recreation"])
     ***REMOVED***
         categories = kEntertainmentRecreation;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Bars and Lounges"])
+    else if ([self.categoryTitle isEqualToString:@"Bars & Lounges"])
     ***REMOVED***
         categories = kBarsLounges;
     ***REMOVED***
@@ -101,7 +101,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     ***REMOVED***
         categories = kShopping;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Tours and Festivals"])
+    else if ([self.categoryTitle isEqualToString:@"Tours & Festivals"])
     ***REMOVED***
         categories = kToursFestivals;
     ***REMOVED***
