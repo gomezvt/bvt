@@ -660,19 +660,24 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     if (!self.isLargePhone)
     ***REMOVED***
         cell.openCloseLabel.hidden = YES;
-        cell.secondaryOpenCloseLabel.hidden = NO;
         
         if (!business.hoursItem)
         ***REMOVED***
+            cell.secondaryHeightConstraint.constant = 0.f;
+
             cell.secondaryOpenCloseLabel.text = @"";
         ***REMOVED***
         else if (business.isOpenNow)
         ***REMOVED***
+            cell.secondaryHeightConstraint.constant = 16.f;
+
             cell.secondaryOpenCloseLabel.text = @"Open Now";
             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
         ***REMOVED***
         else
         ***REMOVED***
+            cell.secondaryHeightConstraint.constant = 16.f;
+
             cell.secondaryOpenCloseLabel.text = @"Closed Now";
             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
         ***REMOVED***
@@ -700,7 +705,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     
     cell.business = business;
-    
+    cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
         ***REMOVED*** Your Background work
         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
@@ -712,10 +717,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                 ***REMOVED***
                     UIImage *image = [UIImage imageWithData:imageData];
                     cell.thumbNailView.image = image;
-                ***REMOVED***
-                else
-                ***REMOVED***
-                    cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***);
