@@ -141,12 +141,6 @@
     [self.ratingStarsView setImage:[UIImage imageNamed:ratingString]];
 ***REMOVED***
 
-- (void)prepareForReuse
-***REMOVED***
-    self.openCloseLabel.text = @"";
-    self.secondaryOpenCloseLabel.text = @"";
-***REMOVED***
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 ***REMOVED***
     [super setSelected:selected animated:animated];

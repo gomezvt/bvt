@@ -107,6 +107,47 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
         cell.imageHeight.constant = 84.f;
         cell.titleLabel.font = [UIFont systemFontOfSize:15.f];
         [cell.titleLabel sizeToFit];
+        
+        if (indexPath.row == 0)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iMuseum"];
+        ***REMOVED***
+        else if (indexPath.row == 1)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iCoffee"];
+        ***REMOVED***
+        else if (indexPath.row == 2)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iMusic"];
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iHotels"];
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iRecreation"];
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iBars"];
+        ***REMOVED***
+        else if (indexPath.row == 6)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iEat"];
+        ***REMOVED***
+        else if (indexPath.row == 7)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iShopping"];
+        ***REMOVED***
+        else if (indexPath.row == 8)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iTours"];
+        ***REMOVED***
+        else if (indexPath.row == 9)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"iTravel"];
+        ***REMOVED***
     ***REMOVED***
     else
     ***REMOVED***
@@ -114,48 +155,50 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
         cell.imageHeight.constant = 64.f;
         cell.titleLabel.font = [UIFont systemFontOfSize:12.f];
         [cell.titleLabel sizeToFit];
+        
+        if (indexPath.row == 0)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isMuseum"];
+        ***REMOVED***
+        else if (indexPath.row == 1)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isCoffee"];
+        ***REMOVED***
+        else if (indexPath.row == 2)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isMusic"];
+        ***REMOVED***
+        else if (indexPath.row == 3)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isHotels"];
+        ***REMOVED***
+        else if (indexPath.row == 4)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isRecreation"];
+        ***REMOVED***
+        else if (indexPath.row == 5)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isBars"];
+        ***REMOVED***
+        else if (indexPath.row == 6)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isEat"];
+        ***REMOVED***
+        else if (indexPath.row == 7)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isShopping"];
+        ***REMOVED***
+        else if (indexPath.row == 8)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isTours"];
+        ***REMOVED***
+        else if (indexPath.row == 9)
+        ***REMOVED***
+            cell.menuItemView.image = [UIImage imageNamed:@"isTravel"];
+        ***REMOVED***
     ***REMOVED***
 
-    if (indexPath.row == 0)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iMuseum"];
-    ***REMOVED***
-    else if (indexPath.row == 1)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iCoffee"];
-    ***REMOVED***
-    else if (indexPath.row == 2)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iMusic"];
-    ***REMOVED***
-    else if (indexPath.row == 3)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iHotels"];
-    ***REMOVED***
-    else if (indexPath.row == 4)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iRecreation"];
-    ***REMOVED***
-    else if (indexPath.row == 5)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iBars"];
-    ***REMOVED***
-    else if (indexPath.row == 6)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iEat"];
-    ***REMOVED***
-    else if (indexPath.row == 7)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iShopping"];
-    ***REMOVED***
-    else if (indexPath.row == 8)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iTours"];
-    ***REMOVED***
-    else if (indexPath.row == 9)
-    ***REMOVED***
-        cell.menuItemView.image = [UIImage imageNamed:@"iTravel"];
-    ***REMOVED***
+    
     
     return cell;
 ***REMOVED***
