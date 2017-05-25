@@ -705,22 +705,34 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     
     cell.business = business;
-    cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-        ***REMOVED*** Your Background work
-        NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-            ***REMOVED*** Update your UI
-            if (cell.tag == indexPath.row)
-            ***REMOVED***
-                if (imageData)
+    if (business.bizThumbNail)
+    ***REMOVED***
+        cell.thumbNailView.image = business.bizThumbNail;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+            ***REMOVED*** Your Background work
+            NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                ***REMOVED*** Update your UI
+                if (cell.tag == indexPath.row)
                 ***REMOVED***
-                    UIImage *image = [UIImage imageWithData:imageData];
-                    cell.thumbNailView.image = image;
+                    if (imageData)
+                    ***REMOVED***
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        business.bizThumbNail = image;
+                        cell.thumbNailView.image = image;
+                    ***REMOVED***
+                    else
+                    ***REMOVED***
+                        business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                    ***REMOVED***
                 ***REMOVED***
-            ***REMOVED***
+            ***REMOVED***);
         ***REMOVED***);
-    ***REMOVED***);
+    ***REMOVED***
     
     return cell;
 ***REMOVED***

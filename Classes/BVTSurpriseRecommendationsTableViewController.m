@@ -184,22 +184,15 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         cell.business = biz;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.numberOfLines = 0;
-        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-            ***REMOVED*** Your Background work
-            NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                ***REMOVED*** Update your UI
-                if (cell.tag == indexPath.row)
-                ***REMOVED***
-                    if (imageData)
-                    ***REMOVED***
-                        UIImage *image = [UIImage imageWithData:imageData];
-                        cell.thumbNailView.image = image;
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***);
-        ***REMOVED***);
+        
+        if (biz.bizThumbNail)
+        ***REMOVED***
+            cell.thumbNailView.image = biz.bizThumbNail;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        ***REMOVED***
         
         if (!self.isLargePhone)
         ***REMOVED***
@@ -241,6 +234,27 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          
                          business.photos = photosArray;
                      ***REMOVED***
+                     
+                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                         ***REMOVED*** Your Background work
+                         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                             ***REMOVED*** Update your UI
+                             if (cell.tag == indexPath.row)
+                             ***REMOVED***
+                                 if (imageData)
+                                 ***REMOVED***
+                                     UIImage *image = [UIImage imageWithData:imageData];
+                                     business.bizThumbNail = image;
+                                     cell.thumbNailView.image = image;
+                                 ***REMOVED***
+                                 else
+                                 ***REMOVED***
+                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                 ***REMOVED***
+                             ***REMOVED***
+                         ***REMOVED***);
+                     ***REMOVED***);
                      
                      if (![weakSelf.cachedDetails containsObject:business])
                      ***REMOVED***
