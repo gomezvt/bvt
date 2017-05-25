@@ -184,30 +184,36 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
     if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
-
-        NSString *key = [[self.catDict allKeys] objectAtIndex:indexPath.section];
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+
+        NSArray *sort = [[[self.catDict allKeys] sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
+        NSString *key = [sort objectAtIndex:indexPath.section];
         NSMutableArray *sortedArray2 = [[self.subCategories sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
 
         NSString *category = [sortedArray2 objectAtIndex:indexPath.row];
 
         [sortedArray2 removeObject:category];
         [self.subCategories removeObject:category];
-        [self.catDict setValue:self.subCategories forKey:key];
+        
+        NSMutableArray *array = [[[self.catDict valueForKey:key] sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
+        NSString *cat = [array objectAtIndex:indexPath.row];
+
+        [array removeObject:cat];
+        
+        
+        [self.catDict setValue:array forKey:key];
         if ([self.delegate respondsToSelector:@selector(didRemoveObjectsFromArray:)])
         ***REMOVED***
             [self.delegate didRemoveObjectsFromArray:self.subCategories];
         ***REMOVED***
         
-        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView reloadData];
-        ***REMOVED***);
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadData];
         
         [self evaluateButtonStateForButton:self.goButton];
         [self evaluateButtonStateForButton:self.clearButton];
         
-
+        
         if (sortedArray2.count == 0)
         ***REMOVED***
             [self presentMessage];
