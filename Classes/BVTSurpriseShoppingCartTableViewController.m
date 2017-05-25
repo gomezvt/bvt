@@ -207,8 +207,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
             [self.delegate didRemoveObjectsFromArray:self.subCategories];
         ***REMOVED***
         
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView reloadData];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]
+                      withRowAnimation:UITableViewRowAnimationFade];
         
         [self evaluateButtonStateForButton:self.goButton];
         [self evaluateButtonStateForButton:self.clearButton];
