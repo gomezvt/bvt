@@ -145,7 +145,7 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     
     categories = @[ ];
     
-    if ([self.categoryTitle isEqualToString:@"Arts & Museums"])
+    if ([self.categoryTitle isEqualToString:@"Arts, Museums, & Music"])
     ***REMOVED***
         categories = kArtsMuseums;
     ***REMOVED***
@@ -153,10 +153,10 @@ static NSString *const kCheckMarkGraphic = @"green_check";
     ***REMOVED***
         categories = kCoffeeSweetsBakeries;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Music"])
-    ***REMOVED***
-        categories = kMusic;
-    ***REMOVED***
+***REMOVED***    else if ([self.categoryTitle isEqualToString:@"Music"])
+***REMOVED***    ***REMOVED***
+***REMOVED***        categories = kMusic;
+***REMOVED***    ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Hotels, Hostels, Bed & Breakfast"])
     ***REMOVED***
         categories = kHotelsHostelsBB;

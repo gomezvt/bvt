@@ -61,10 +61,14 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     if (mainScreen.size.width > 375.f)
     ***REMOVED***
         self.isLargePhone = YES;
+        
+        [self.collectionView setContentInset:UIEdgeInsetsMake(10.f,10.f,10.f,10.f)];
     ***REMOVED***
     else
     ***REMOVED***
         self.isLargePhone = NO;
+        
+        [self.collectionView setContentInset:UIEdgeInsetsZero];
     ***REMOVED***
 ***REMOVED***
 
@@ -116,35 +120,35 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iCoffee"];
         ***REMOVED***
+***REMOVED***        else if (indexPath.row == 2)
+***REMOVED***        ***REMOVED***
+***REMOVED***            cell.menuItemView.image = [UIImage imageNamed:@"iMusic"];
+***REMOVED***        ***REMOVED***
         else if (indexPath.row == 2)
-        ***REMOVED***
-            cell.menuItemView.image = [UIImage imageNamed:@"iMusic"];
-        ***REMOVED***
-        else if (indexPath.row == 3)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iHotels"];
         ***REMOVED***
-        else if (indexPath.row == 4)
+        else if (indexPath.row == 3)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iRecreation"];
         ***REMOVED***
-        else if (indexPath.row == 5)
+        else if (indexPath.row == 4)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iBars"];
         ***REMOVED***
-        else if (indexPath.row == 6)
+        else if (indexPath.row == 5)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iEat"];
         ***REMOVED***
-        else if (indexPath.row == 7)
+        else if (indexPath.row == 6)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iShopping"];
         ***REMOVED***
-        else if (indexPath.row == 8)
+        else if (indexPath.row == 7)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iTours"];
         ***REMOVED***
-        else if (indexPath.row == 9)
+        else if (indexPath.row == 8)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"iTravel"];
         ***REMOVED***
@@ -164,35 +168,35 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isCoffee"];
         ***REMOVED***
+***REMOVED***        else if (indexPath.row == 2)
+***REMOVED***        ***REMOVED***
+***REMOVED***            cell.menuItemView.image = [UIImage imageNamed:@"isMusic"];
+***REMOVED***        ***REMOVED***
         else if (indexPath.row == 2)
-        ***REMOVED***
-            cell.menuItemView.image = [UIImage imageNamed:@"isMusic"];
-        ***REMOVED***
-        else if (indexPath.row == 3)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isHotels"];
         ***REMOVED***
-        else if (indexPath.row == 4)
+        else if (indexPath.row == 3)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isRecreation"];
         ***REMOVED***
-        else if (indexPath.row == 5)
+        else if (indexPath.row == 4)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isBars"];
         ***REMOVED***
-        else if (indexPath.row == 6)
+        else if (indexPath.row == 5)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isEat"];
         ***REMOVED***
-        else if (indexPath.row == 7)
+        else if (indexPath.row == 6)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isShopping"];
         ***REMOVED***
-        else if (indexPath.row == 8)
+        else if (indexPath.row == 7)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isTours"];
         ***REMOVED***
-        else if (indexPath.row == 9)
+        else if (indexPath.row == 8)
         ***REMOVED***
             cell.menuItemView.image = [UIImage imageNamed:@"isTravel"];
         ***REMOVED***

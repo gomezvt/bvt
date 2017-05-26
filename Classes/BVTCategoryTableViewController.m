@@ -69,7 +69,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
     self.titleLabel.text = self.categoryTitle;
     
-    if ([self.categoryTitle isEqualToString:@"Arts & Museums"])
+    if ([self.categoryTitle isEqualToString:@"Arts, Museums, & Music"])
     ***REMOVED***
         categories = kArtsMuseums;
     ***REMOVED***
@@ -77,10 +77,10 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     ***REMOVED***
         categories = kCoffeeSweetsBakeries;
     ***REMOVED***
-    else if ([self.categoryTitle isEqualToString:@"Music"])
-    ***REMOVED***
-        categories = kMusic;
-    ***REMOVED***
+***REMOVED***    else if ([self.categoryTitle isEqualToString:@"Music"])
+***REMOVED***    ***REMOVED***
+***REMOVED***        categories = kMusic;
+***REMOVED***    ***REMOVED***
     else if ([self.categoryTitle isEqualToString:@"Hotels, Hostels, Bed & Breakfast"])
     ***REMOVED***
         categories = kHotelsHostelsBB;
