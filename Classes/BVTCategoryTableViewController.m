@@ -176,7 +176,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
                      ***REMOVED***
                          if (filteredArray.count > 0)
                          ***REMOVED***
-                             if (![[filteredArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", biz.phone]] lastObject])
+                             if (![filteredArray containsObject:biz])
                              ***REMOVED***
                                  [filteredArray addObject:biz];
                              ***REMOVED***
