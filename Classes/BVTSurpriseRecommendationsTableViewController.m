@@ -185,6 +185,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.numberOfLines = 0;
         
+        cell.openCloseLabel.text = @"";
+        cell.secondaryOpenCloseLabel.text = @"";
+        
         if (biz.bizThumbNail)
         ***REMOVED***
             cell.thumbNailView.image = biz.bizThumbNail;
@@ -192,22 +195,28 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         else
         ***REMOVED***
             cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                ***REMOVED*** Your Background work
+                NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                    ***REMOVED*** Update your UI
+                    if (cell.tag == indexPath.row)
+                    ***REMOVED***
+                        if (imageData)
+                        ***REMOVED***
+                            UIImage *image = [UIImage imageWithData:imageData];
+                            biz.bizThumbNail = image;
+                            cell.thumbNailView.image = image;
+                        ***REMOVED***
+                        else
+                        ***REMOVED***
+                            biz.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***);
+            ***REMOVED***);
         ***REMOVED***
-        
-        if (!self.isLargePhone)
-        ***REMOVED***
-            cell.openCloseLabel.hidden = YES;
-            cell.secondaryOpenCloseLabel.text = @"";
-            cell.secondaryHeightConstraint.constant = 14.f;
-        ***REMOVED***
-        else
-        ***REMOVED***
-            cell.openCloseLabel.hidden = NO;
-            cell.openCloseLabel.text = @"";
-            cell.secondaryHeightConstraint.constant = 0.f;
 
-        ***REMOVED***
-        
         if (!cachedBiz)
         ***REMOVED***
             __weak typeof(self) weakSelf = self;
@@ -235,27 +244,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          business.photos = photosArray;
                      ***REMOVED***
                      
-                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                         ***REMOVED*** Your Background work
-                         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-                         dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                             ***REMOVED*** Update your UI
-                             if (cell.tag == indexPath.row)
-                             ***REMOVED***
-                                 if (imageData)
-                                 ***REMOVED***
-                                     UIImage *image = [UIImage imageWithData:imageData];
-                                     business.bizThumbNail = image;
-                                     cell.thumbNailView.image = image;
-                                 ***REMOVED***
-                                 else
-                                 ***REMOVED***
-                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                                 ***REMOVED***
-                             ***REMOVED***
-                         ***REMOVED***);
-                     ***REMOVED***);
-                     
                      if (![weakSelf.cachedDetails containsObject:business])
                      ***REMOVED***
                          if (business)
@@ -268,55 +256,34 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          
                          if (!self.isLargePhone)
                          ***REMOVED***
-                             if (!business.hoursItem)
+                             if (business.isOpenNow)
                              ***REMOVED***
-                                 cell.secondaryHeightConstraint.constant = 0.f;
-
-***REMOVED***                                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
-                             ***REMOVED***
-                             else if (business.isOpenNow)
-                             ***REMOVED***
-                                 cell.secondaryHeightConstraint.constant = 14.f;
-
                                  cell.secondaryOpenCloseLabel.text = @"Open Now";
                                  cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                              ***REMOVED***
-                             else
+                             else if (business.hoursItem && !business.isOpenNow)
                              ***REMOVED***
-                                 cell.secondaryHeightConstraint.constant = 14.f;
-
                                  cell.secondaryOpenCloseLabel.text = @"Closed Now";
                                  cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                              ***REMOVED***
+                             
+                             [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                          ***REMOVED***
                          else
                          ***REMOVED***
-                             if (!business.hoursItem)
-                             ***REMOVED***
-                                 cell.openCloseLabel.text = @"";
-                             ***REMOVED***
-                             else if (business.isOpenNow)
+                             if (business.isOpenNow)
                              ***REMOVED***
                                  cell.openCloseLabel.text = @"Open Now";
                                  cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                              ***REMOVED***
-                             else
+                             else if (business.hoursItem && !business.isOpenNow)
                              ***REMOVED***
                                  cell.openCloseLabel.text = @"Closed Now";
                                  cell.openCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                              ***REMOVED***
+                             
+                             [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                          ***REMOVED***
-
-
                      ***REMOVED***);
                  ***REMOVED***];
             ***REMOVED***);
@@ -325,55 +292,31 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
             if (!self.isLargePhone)
             ***REMOVED***
-                if (!cachedBiz.hoursItem)
+                if (cachedBiz.isOpenNow)
                 ***REMOVED***
-                    cell.secondaryHeightConstraint.constant = 0.f;
-***REMOVED***                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
-                ***REMOVED***
-                else if (cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.secondaryHeightConstraint.constant = 14.f;
-
                     cell.secondaryOpenCloseLabel.text = @"Open Now";
                     cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                 ***REMOVED***
-                else
+                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
                 ***REMOVED***
-                    cell.secondaryHeightConstraint.constant = 14.f;
-
                     cell.secondaryOpenCloseLabel.text = @"Closed Now";
                     cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                 ***REMOVED***
             ***REMOVED***
             else
             ***REMOVED***
-                if (!cachedBiz.hoursItem)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"";
-                ***REMOVED***
-                else if (cachedBiz.isOpenNow)
+                if (cachedBiz.isOpenNow)
                 ***REMOVED***
                     cell.openCloseLabel.text = @"Open Now";
                     cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                 ***REMOVED***
-                else
+                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
                 ***REMOVED***
                     cell.openCloseLabel.text = @"Closed Now";
                     cell.openCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
                 ***REMOVED***
-                
             ***REMOVED***
         ***REMOVED***
-        
     ***REMOVED***
     
     return cell;

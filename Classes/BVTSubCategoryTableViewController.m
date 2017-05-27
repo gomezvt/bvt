@@ -643,7 +643,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-
     cell.tag = indexPath.row;
     
     YLPBusiness *business;
@@ -656,47 +655,31 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
         business = [self.filteredResults objectAtIndex:indexPath.row];
     ***REMOVED***
+    
+    cell.openCloseLabel.text = @"";
+    cell.secondaryOpenCloseLabel.text = @"";
 
     if (!self.isLargePhone)
     ***REMOVED***
-        cell.openCloseLabel.hidden = YES;
-        
-        if (!business.hoursItem)
+        if (business.isOpenNow)
         ***REMOVED***
-            cell.secondaryHeightConstraint.constant = 0.f;
-
-            cell.secondaryOpenCloseLabel.text = @"";
-        ***REMOVED***
-        else if (business.isOpenNow)
-        ***REMOVED***
-            cell.secondaryHeightConstraint.constant = 16.f;
-
             cell.secondaryOpenCloseLabel.text = @"Open Now";
             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
         ***REMOVED***
-        else
+        else if (business.hoursItem && !business.isOpenNow)
         ***REMOVED***
-            cell.secondaryHeightConstraint.constant = 16.f;
-
             cell.secondaryOpenCloseLabel.text = @"Closed Now";
             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
         ***REMOVED***
     ***REMOVED***
     else
     ***REMOVED***
-        cell.openCloseLabel.hidden = NO;
-        cell.secondaryOpenCloseLabel.hidden = YES;
-        
-        if (!business.hoursItem)
-        ***REMOVED***
-            cell.openCloseLabel.text = @"";
-        ***REMOVED***
-        else if (business.isOpenNow)
+        if (business.isOpenNow)
         ***REMOVED***
             cell.openCloseLabel.text = @"Open Now";
             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
         ***REMOVED***
-        else
+        else if (business.hoursItem && !business.isOpenNow)
         ***REMOVED***
             cell.openCloseLabel.text = @"Closed Now";
             cell.openCloseLabel.textColor = [UIColor redColor];
