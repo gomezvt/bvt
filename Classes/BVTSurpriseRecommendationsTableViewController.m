@@ -31,12 +31,12 @@
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic) BOOL didCancelRequest;
 @property (nonatomic, strong) NSMutableDictionary *orderedDict;
-@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
+***REMOVED***@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
 @property (nonatomic) BOOL isLargePhone;
 
 ***REMOVED***
 
-static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
+***REMOVED***static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
 
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
@@ -50,6 +50,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
     [self.hud removeFromSuperview];
+***REMOVED***
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+***REMOVED***
+    return 44.f;
 ***REMOVED***
 
 - (void)awakeFromNib
@@ -66,8 +71,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
     
-    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
-    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
+***REMOVED***    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
+***REMOVED***    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
 ***REMOVED***
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -176,7 +181,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         NSArray *sortedArray2 = [tempArray sortedArrayUsingDescriptors: @[descriptor]];
         
         YLPBusiness *biz = [sortedArray2 objectAtIndex:indexPath.row];
-        YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", biz.phone]] lastObject];
+        YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
         if (cachedBiz)
         ***REMOVED***
             biz = cachedBiz;
@@ -361,7 +366,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     NSArray *sortedArray = [tempArray sortedArrayUsingDescriptors: @[descriptor2]];
     
     YLPBusiness *selectedBusiness = [sortedArray objectAtIndex:indexPath.row];
-    YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"phone = %@", selectedBusiness.phone]] lastObject];
+    YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", selectedBusiness.identifier]] lastObject];
     if (cachedBiz)
     ***REMOVED***
         selectedBusiness = cachedBiz;

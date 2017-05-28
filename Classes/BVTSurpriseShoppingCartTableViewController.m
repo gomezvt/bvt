@@ -19,7 +19,7 @@
 #import "YLPLocation.h"
 #import "YLPClient+Search.h"
 #import "BVTHUDView.h"
-#import "BVTTableViewSectionHeaderView.h"
+***REMOVED***#import "BVTTableViewSectionHeaderView.h"
 #import "YLPLocation.h"
 #import "YLPCoordinate.h"
 
@@ -35,13 +35,13 @@
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *backChevron;
 @property (nonatomic, strong) NSMutableArray *subCategories;
 @property (nonatomic, strong) NSMutableArray *resultsArray;
-@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
+***REMOVED***@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
 
 ***REMOVED***
 
 static int i = 0;
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
-static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
+***REMOVED***static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
 
 @implementation BVTSurpriseShoppingCartTableViewController
 
@@ -223,6 +223,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     ***REMOVED***
 ***REMOVED***
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+***REMOVED***
+    return 44.f;
+***REMOVED***
+
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];
@@ -233,8 +238,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
     
-    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
-    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
+***REMOVED***    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
+***REMOVED***    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
 ***REMOVED***
 
 - (void)evaluateButtonStateForButton:(UIButton *)button
