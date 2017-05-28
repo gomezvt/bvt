@@ -50,6 +50,8 @@
 @property (nonatomic, strong) NSArray *recentSearches;
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet UIView *titleView;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 
 ***REMOVED***
 
@@ -91,6 +93,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewDidLoad];
     
+    self.titleView.hidden = YES;
     [self.view bringSubviewToFront:self.label];
     
     UINib *cellNib = [UINib nibWithNibName:kThumbNailCell bundle:nil];
@@ -111,24 +114,24 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+***REMOVED***- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+***REMOVED******REMOVED***
+***REMOVED***    return @"Search Results";
+***REMOVED******REMOVED***
 ***REMOVED***
-    return @"Search Results";
-***REMOVED***
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-***REMOVED***
-    CGFloat height;
-    if (self.recentSearches.count == 0)
-    ***REMOVED***
-        height = 0.f;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        height = 44.f;
-    ***REMOVED***
-    return height;
-***REMOVED***
+***REMOVED***- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+***REMOVED******REMOVED***
+***REMOVED***    CGFloat height;
+***REMOVED***    if (self.recentSearches.count == 0)
+***REMOVED***    ***REMOVED***
+***REMOVED***        height = 0.f;
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+***REMOVED***        height = 44.f;
+***REMOVED***    ***REMOVED***
+***REMOVED***    return height;
+***REMOVED******REMOVED***
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
@@ -191,8 +194,10 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
              else if (searchResults.businesses.count > 0)
              ***REMOVED***
                  [weakSelf _hideHUD];
-                 
+                 weakSelf.titleView.hidden = NO;
                  weakSelf.label.hidden = YES;
+                 weakSelf.titleLabel.text = [NSString stringWithFormat:@"Search Results (%lu)", (unsigned long)searchResults.businesses.count];
+                 
                  NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
                  NSArray *sortedArray = [searchResults.businesses sortedArrayUsingDescriptors: @[descriptor]];
                  
@@ -206,7 +211,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
      ***REMOVED***];
 
     [searchBar resignFirstResponder];
-    searchBar.text = @"";
+***REMOVED***    searchBar.text = @"";
     searchBar.showsCancelButton = NO;
 ***REMOVED***
 
