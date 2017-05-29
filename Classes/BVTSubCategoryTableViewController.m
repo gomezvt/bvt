@@ -484,7 +484,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
     [self.hud removeFromSuperview];
-    
 ***REMOVED***
 
 #pragma mark - TableView Delegate

@@ -39,7 +39,7 @@ NSString *const star_five_mini          = @"star_five_mini.png";
 
 + (UIColor *)iconGreen
 ***REMOVED***
-    return [UIColor colorWithRed:75.f/255 green:124.f/255 blue:89.f/255 alpha:1.f];
+    return [UIColor colorWithRed:75.f/255 green:125.f/255 blue:90.f/255 alpha:1.f];
 ***REMOVED***
 
 + (UIColor *)buttonBorder
