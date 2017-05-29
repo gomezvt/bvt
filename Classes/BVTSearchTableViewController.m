@@ -52,6 +52,21 @@
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UIView *titleView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UIView *sortView;
+@property (nonatomic, weak) IBOutlet UIButton *starButton;
+
+@property (nonatomic, weak) IBOutlet UIButton *priceButton;
+@property (nonatomic, weak) IBOutlet UIButton *distanceButton;
+@property (nonatomic, weak) IBOutlet UIButton *openNowButton;
+@property (nonatomic) double milesKeyValue;
+@property (nonatomic, strong) NSString *priceKeyValue;
+@property (nonatomic, strong) NSString *openCloseKeyValue;
+@property (nonatomic, strong) NSArray *originalDisplayResults;
+@property (nonatomic) BOOL gotDetails;
+@property (nonatomic, strong) NSArray *detailsArray;
+@property (nonatomic, strong) NSArray *originalDetailsArray;
+
+@property (nonatomic) BOOL isLargePhone;
 
 ***REMOVED***
 
@@ -82,6 +97,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
 ***REMOVED***
 
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar;
+***REMOVED***
+    searchBar.showsCancelButton = NO;
+***REMOVED***
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar;
 ***REMOVED***
     searchBar.showsCancelButton = NO;
@@ -93,6 +113,53 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewDidLoad];
     
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+
+    
+    CGRect mainScreen = [[UIScreen mainScreen] bounds];
+    NSLog(@"HEIGHT %f. WIDTH %f", mainScreen.size.height, mainScreen.size.width);
+    
+    if (mainScreen.size.width > 375.f)
+    ***REMOVED***
+        self.isLargePhone = YES;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.isLargePhone = NO;
+    ***REMOVED***
+
+    
+    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (!appDel.userLocation)
+    ***REMOVED***
+        [self.distanceButton setHidden:YES];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        [self.distanceButton setHidden:NO];
+    ***REMOVED***
+    
+    CALayer * layer = [self.priceButton layer];
+    [layer setMasksToBounds:YES];
+    [layer setCornerRadius:10.0];
+    [layer setBorderWidth:1.0];
+    [layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
+    
+    CALayer * layer2 = [self.distanceButton layer];
+    [layer2 setMasksToBounds:YES];
+    [layer2 setCornerRadius:10.0];
+    [layer2 setBorderWidth:1.0];
+    [layer2 setBorderColor:[[BVTStyles iconGreen] CGColor]];
+    
+    CALayer * layer3 = [self.openNowButton layer];
+    [layer3 setMasksToBounds:YES];
+    [layer3 setCornerRadius:10.0];
+    [layer3 setBorderWidth:1.0];
+    [layer3 setBorderColor:[[BVTStyles iconGreen] CGColor]];
+
+    
+    self.starButton.hidden = YES;
+    self.sortView.hidden = YES;
     self.titleView.hidden = YES;
     [self.view bringSubviewToFront:self.label];
     
@@ -104,34 +171,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     if (self.recentSearches.count == 0)
     ***REMOVED***
-        self.label.text = @"Perform a search to get started.";
+        self.label.text = @"Go ahead and search away.";
     ***REMOVED***
-***REMOVED***    self.tableView.sectionHeaderHeight = 44.f;
-
-***REMOVED***    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
-***REMOVED***    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
-    
+ 
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
-
-***REMOVED***- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-***REMOVED******REMOVED***
-***REMOVED***    return @"Search Results";
-***REMOVED******REMOVED***
-***REMOVED***
-***REMOVED***- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-***REMOVED******REMOVED***
-***REMOVED***    CGFloat height;
-***REMOVED***    if (self.recentSearches.count == 0)
-***REMOVED***    ***REMOVED***
-***REMOVED***        height = 0.f;
-***REMOVED***    ***REMOVED***
-***REMOVED***    else
-***REMOVED***    ***REMOVED***
-***REMOVED***        height = 44.f;
-***REMOVED***    ***REMOVED***
-***REMOVED***    return height;
-***REMOVED******REMOVED***
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
@@ -182,20 +226,16 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                  
                  weakSelf.label.hidden = NO;
                  weakSelf.label.text = @"No search results found.";
-                 
-***REMOVED***                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No search results found" message:@"Please select another category" preferredStyle:UIAlertControllerStyleAlert];
-***REMOVED***                 
-***REMOVED***                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-***REMOVED***                 [alertController addAction:ok];
-***REMOVED***                 
-***REMOVED***                 [weakSelf presentViewController:alertController animated:YES completion:nil];
-***REMOVED***                 
              ***REMOVED***
              else if (searchResults.businesses.count > 0)
              ***REMOVED***
                  [weakSelf _hideHUD];
+                 weakSelf.starButton.hidden = NO;
+                 weakSelf.sortView.hidden = NO;
                  weakSelf.titleView.hidden = NO;
+
                  weakSelf.label.hidden = YES;
+                 weakSelf.originalDisplayResults = searchResults.businesses;
                  weakSelf.titleLabel.text = [NSString stringWithFormat:@"Search Results (%lu)", (unsigned long)searchResults.businesses.count];
                  
                  NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
@@ -204,21 +244,107 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                  weakSelf.recentSearches = sortedArray;
                  [weakSelf.tableView reloadData];
                  
-***REMOVED***                 [weakSelf.tableView setSectionHeaderHeight:44.f];
+                 if (self.recentSearches.count > 0)
+                 ***REMOVED***
+                     [self.openNowButton setHidden:YES];
+                     
+                     NSMutableArray *bizAdd = [NSMutableArray array];
+                     for (YLPBusiness *selectedBusiness in self.recentSearches)
+                     ***REMOVED***
 
+                         [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+                          (YLPBusiness *business, NSError *error) ***REMOVED***
+                              
+                              if (business.photos.count > 0)
+                              ***REMOVED***
+                                  NSMutableArray *photosArray = [NSMutableArray array];
+                                  for (NSString *photoStr in business.photos)
+                                  ***REMOVED***
+                                      NSURL *url = [NSURL URLWithString:photoStr];
+                                      NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                      UIImage *image = [UIImage imageNamed:@"placeholder"];
+                                      if (imageData)
+                                      ***REMOVED***
+                                          image = [UIImage imageWithData:imageData];
+                                      ***REMOVED***
+                                      [photosArray addObject:image];
+                                  ***REMOVED***
+                                  
+                                  business.photos = photosArray;
+                              ***REMOVED***
+                              
+                              if (business)
+                              ***REMOVED***
+                                  [bizAdd addObject:business];
+                                  
+                                  if (bizAdd.count == weakSelf.recentSearches.count)
+                                  ***REMOVED***
+                                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                          NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+                                          weakSelf.detailsArray = [bizAdd sortedArrayUsingDescriptors: @[nameDescriptor]];
+                                          
+                                          weakSelf.gotDetails = YES;
+                                          [weakSelf.openNowButton setHidden:NO];
+                                          weakSelf.originalDetailsArray = weakSelf.detailsArray;
+                                          [weakSelf sortArrayWithPredicates];
+                                      ***REMOVED***);
+                                  ***REMOVED***
+                              ***REMOVED***
+                          ***REMOVED***];
+                     ***REMOVED***
+                 ***REMOVED***
              ***REMOVED***
          ***REMOVED***);
      ***REMOVED***];
 
     [searchBar resignFirstResponder];
-***REMOVED***    searchBar.text = @"";
     searchBar.showsCancelButton = NO;
+***REMOVED***
+
+- (IBAction)didTapStarSortIcon:(id)sender
+***REMOVED***
+    self.starButton.selected = ![self.starButton isSelected];
+    
+    if (self.gotDetails)
+    ***REMOVED***
+        if (self.starButton.isSelected)
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+            self.detailsArray = [self.detailsArray sortedArrayUsingDescriptors: @[nameDescriptor]];
+            
+        ***REMOVED***
+        else
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+            self.detailsArray = [self.detailsArray sortedArrayUsingDescriptors: @[nameDescriptor]];
+        ***REMOVED***
+    ***REMOVED***
+    else
+    ***REMOVED***
+        if (self.starButton.isSelected)
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+            self.recentSearches = [self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]];
+            
+        ***REMOVED***
+        else
+        ***REMOVED***
+            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+            self.recentSearches = [self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]];
+        ***REMOVED***
+    ***REMOVED***
+    
+    
+    
+    [self.tableView reloadData];
 ***REMOVED***
 
 #pragma mark - TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
     self.didCancelRequest = NO;
@@ -331,19 +457,63 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    return self.recentSearches.count;
+    NSInteger i = 0;
+    if (self.gotDetails)
+    ***REMOVED***
+        i = self.detailsArray.count;
+    ***REMOVED***
+    else
+    ***REMOVED***
+        i = self.recentSearches.count;
+    ***REMOVED***
+    return i;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
+    YLPBusiness *biz;
+    if (self.gotDetails)
+    ***REMOVED***
+        biz = [self.detailsArray objectAtIndex:indexPath.row];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        biz =  [self.recentSearches objectAtIndex:indexPath.row];
+    ***REMOVED***
     
-    YLPBusiness *biz =  [self.recentSearches objectAtIndex:indexPath.row];
     cell.business = biz;
-    
+
     cell.openCloseLabel.text = @"";
     cell.secondaryOpenCloseLabel.text = @"";
+    
+    if (!self.isLargePhone)
+    ***REMOVED***
+        if (biz.isOpenNow)
+        ***REMOVED***
+            cell.secondaryOpenCloseLabel.text = @"Open Now";
+            cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+        ***REMOVED***
+        else if (biz.hoursItem && !biz.isOpenNow)
+        ***REMOVED***
+            cell.secondaryOpenCloseLabel.text = @"Closed Now";
+            cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+        ***REMOVED***
+    ***REMOVED***
+    else
+    ***REMOVED***
+        if (biz.isOpenNow)
+        ***REMOVED***
+            cell.openCloseLabel.text = @"Open Now";
+            cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+        ***REMOVED***
+        else if (biz.hoursItem && !biz.isOpenNow)
+        ***REMOVED***
+            cell.openCloseLabel.text = @"Closed Now";
+            cell.openCloseLabel.textColor = [UIColor redColor];
+        ***REMOVED***
+    ***REMOVED***
     
     if (biz.bizThumbNail)
     ***REMOVED***
@@ -375,6 +545,208 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     ***REMOVED***
     
     return cell;
+***REMOVED***
+
+- (IBAction)didTapPriceButton:(id)sender
+***REMOVED***
+    if ([self.priceButton.titleLabel.text isEqualToString:@"Any $"])
+    ***REMOVED***
+        self.priceKeyValue = @"$";
+        [self.priceButton setTitle:@"$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$"])
+    ***REMOVED***
+        self.priceKeyValue = @"$$";
+        [self.priceButton setTitle:@"$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$"])
+    ***REMOVED***
+        self.priceKeyValue = @"$$$";
+        [self.priceButton setTitle:@"$$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$"])
+    ***REMOVED***
+        self.priceKeyValue = @"$$$$";
+        [self.priceButton setTitle:@"$$$$" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.priceButton.titleLabel.text isEqualToString:@"$$$$"])
+    ***REMOVED***
+        self.priceKeyValue = @"Any $";
+        [self.priceButton setTitle:@"Any $" forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    [self sortArrayWithPredicates];
+***REMOVED***
+
+- (void)sortArrayWithPredicates
+***REMOVED***
+    NSPredicate *pricePredicate;
+    
+    NSMutableArray *arrayPred = [NSMutableArray array];
+    if (!self.priceKeyValue)
+    ***REMOVED***
+        self.priceKeyValue = @"Any $";
+    ***REMOVED***
+    
+    if ([self.priceKeyValue isEqualToString:@"Any $"])
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@ OR price = %@ OR price = %@ OR price = %@ OR price = %@", nil, @"$", @"$$", @"$$$", @"$$$$"];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
+    ***REMOVED***
+    
+    [arrayPred addObject:pricePredicate];
+    
+    NSPredicate *distancePredicate;
+    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDel.userLocation)
+    ***REMOVED***
+        self.distanceButton.hidden = NO;
+        if (self.milesKeyValue == 0)
+        ***REMOVED***
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles >= 0"];
+        ***REMOVED***
+        else
+        ***REMOVED***
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %g", self.milesKeyValue];
+        ***REMOVED***
+        
+        [arrayPred addObject:distancePredicate];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.distanceButton.hidden = YES;
+    ***REMOVED***
+    
+    NSPredicate *openClosePredicate;
+    if (self.openNowButton.hidden == NO)
+    ***REMOVED***
+        if (!self.openCloseKeyValue)
+        ***REMOVED***
+            self.openCloseKeyValue = @"Open/Closed";
+        ***REMOVED***
+        
+        if ([self.openCloseKeyValue isEqualToString:@"Open"])
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+        ***REMOVED***
+        else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
+        ***REMOVED***
+        else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
+        ***REMOVED***
+            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
+        ***REMOVED***
+        
+        if (openClosePredicate)
+        ***REMOVED***
+            [arrayPred addObject:openClosePredicate];
+        ***REMOVED***
+    ***REMOVED***
+    
+    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
+    
+    if (self.gotDetails)
+    ***REMOVED***
+***REMOVED***        NSArray *values = self.cachedDetails[self.subCategoryTitle];
+        
+        self.detailsArray = [self.originalDetailsArray filteredArrayUsingPredicate:comboPredicate];
+        self.titleLabel.text = [NSString stringWithFormat:@"Search Results (%lu)", (unsigned long)self.detailsArray.count];
+        
+        if (self.detailsArray.count == 0)
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"Search Results (0)"];
+
+                self.label.text = @"No sorted results found.";
+
+            
+            self.label.hidden = NO;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"Search Results (%lu)", (unsigned long)self.detailsArray.count];
+            self.label.hidden = YES;
+        ***REMOVED***
+        
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.recentSearches  = [self.originalDisplayResults filteredArrayUsingPredicate:comboPredicate];
+
+        if (self.recentSearches.count == 0)
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"Search Results (0)"];
+            self.label.text = @"No sorted results found.";
+            self.label.hidden = NO;
+        ***REMOVED***
+        else
+        ***REMOVED***
+            self.titleLabel.text = [NSString stringWithFormat:@"Search Results (%lu)", (unsigned long)self.recentSearches.count];
+            self.label.hidden = YES;
+        ***REMOVED***
+    ***REMOVED***
+    
+    [self.tableView reloadData];
+***REMOVED***
+
+- (IBAction)didTapDistanceButton:(id)sender
+***REMOVED***
+    if ([self.distanceButton.titleLabel.text isEqualToString:@"5 Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 10;
+        [self.distanceButton setTitle:@"10 Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"10 Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 25;
+        [self.distanceButton setTitle:@"25 Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"25 Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 50;
+        [self.distanceButton setTitle:@"50 Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"50 Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 100;
+        [self.distanceButton setTitle:@"100 Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"100 Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 0;
+        [self.distanceButton setTitle:@"Any Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.distanceButton.titleLabel.text isEqualToString:@"Any Miles"])
+    ***REMOVED***
+        self.milesKeyValue = 5;
+        [self.distanceButton setTitle:@"5 Miles" forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    [self sortArrayWithPredicates];
+***REMOVED***
+
+- (IBAction)didTapOpenButton:(id)sender
+***REMOVED***
+    if ([self.openNowButton.titleLabel.text isEqualToString:@"Closed"])
+    ***REMOVED***
+        self.openCloseKeyValue = @"Open";
+        [self.openNowButton setTitle:@"Open" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open"])
+    ***REMOVED***
+        self.openCloseKeyValue = @"Open/Closed";
+        [self.openNowButton setTitle:@"Open/Closed" forState:UIControlStateNormal];
+    ***REMOVED***
+    else if ([self.openNowButton.titleLabel.text isEqualToString:@"Open/Closed"])
+    ***REMOVED***
+        self.openCloseKeyValue = @"Closed";
+        [self.openNowButton setTitle:@"Closed" forState:UIControlStateNormal];
+    ***REMOVED***
+    
+    [self sortArrayWithPredicates];
 ***REMOVED***
 
 ***REMOVED***

@@ -62,7 +62,13 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     ***REMOVED***
         self.isLargePhone = YES;
         
-        [self.collectionView setContentInset:UIEdgeInsetsMake(10.f,10.f,10.f,10.f)];
+        [self.collectionView setContentInset:UIEdgeInsetsMake(50.f,10.f,50.f,10.f)];
+    ***REMOVED***
+    else if (mainScreen.size.width == 375.f)
+    ***REMOVED***
+        self.isLargePhone = NO;
+        
+        [self.collectionView setContentInset:UIEdgeInsetsMake(50.f, 5.f, 50.f, 5.f)];
     ***REMOVED***
     else
     ***REMOVED***
