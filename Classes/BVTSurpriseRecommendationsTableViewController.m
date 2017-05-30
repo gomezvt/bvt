@@ -266,8 +266,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  cell.secondaryOpenCloseLabel.text = @"Closed Now";
                                  cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
                              ***REMOVED***
-                             
-                             [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                          ***REMOVED***
                          else
                          ***REMOVED***
@@ -281,8 +279,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  cell.openCloseLabel.text = @"Closed Now";
                                  cell.openCloseLabel.textColor = [UIColor redColor];
                              ***REMOVED***
-                             
-                             [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                         ***REMOVED***
+                         
+                         if (biz == [tempArray lastObject])
+                         ***REMOVED***
+                             [tableView reloadSections:[NSIndexSet indexSetWithIndex:[indexPath section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+                             NSLog(@"SECTION %ld", (long)indexPath.section);
                          ***REMOVED***
                      ***REMOVED***);
                  ***REMOVED***];
