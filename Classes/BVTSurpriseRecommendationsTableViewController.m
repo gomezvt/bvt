@@ -52,11 +52,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     [self.hud removeFromSuperview];
 ***REMOVED***
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-***REMOVED***
-    return 44.f;
-***REMOVED***
-
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];

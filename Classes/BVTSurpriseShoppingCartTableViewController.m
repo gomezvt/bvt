@@ -223,10 +223,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     ***REMOVED***
 ***REMOVED***
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-***REMOVED***
-    return 44.f;
-***REMOVED***
+***REMOVED***- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+***REMOVED******REMOVED***
+***REMOVED***    return 44.f;
+***REMOVED******REMOVED***
 
 - (void)awakeFromNib
 ***REMOVED***
