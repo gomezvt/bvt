@@ -74,6 +74,7 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
+    i = 0;
     self.didCancelRequest = YES;
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
@@ -420,10 +421,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                 [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
                             ***REMOVED***
                             
-                            if (ar.count == 3)
-                            ***REMOVED***
+***REMOVED***                            if (ar.count == 3)
+***REMOVED***                            ***REMOVED***
                                 [dict setValue:ar forKey:key];
-                            ***REMOVED***
+***REMOVED***                            ***REMOVED***
                         ***REMOVED***
                         else if (values.count == 3)
                         ***REMOVED***
@@ -471,10 +472,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                     [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
                                 ***REMOVED***
                                 
-                                if (ar.count == 3)
-                                ***REMOVED***
+***REMOVED***                                if (ar.count == 3)
+***REMOVED***                                ***REMOVED***
                                     [dict setValue:ar forKey:key];
-                                ***REMOVED***
+***REMOVED***                                ***REMOVED***
                             ***REMOVED***
                         ***REMOVED***
                         else if (values.count == 2)
@@ -504,10 +505,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                     [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
                                 ***REMOVED***
                                 
-                                if (ar.count == 2)
-                                ***REMOVED***
+***REMOVED***                                if (ar.count == 2)
+***REMOVED***                                ***REMOVED***
                                     [dict setValue:ar forKey:key];
-                                ***REMOVED***
+***REMOVED***                                ***REMOVED***
                             ***REMOVED***
 
                         ***REMOVED***

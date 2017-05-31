@@ -252,8 +252,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          ***REMOVED***
                      ***REMOVED***
                      
-                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                         
+                     if (cell.tag == indexPath.row)
+                     ***REMOVED***
                          if (!self.isLargePhone)
                          ***REMOVED***
                              if (business.isOpenNow)
@@ -280,14 +280,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  cell.openCloseLabel.textColor = [UIColor redColor];
                              ***REMOVED***
                          ***REMOVED***
-                         
-                         if (biz == [tempArray lastObject])
-                         ***REMOVED***
-                             [tableView reloadSections:[NSIndexSet indexSetWithIndex:[indexPath section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                     ***REMOVED***
 
-                             NSLog(@"SECTION %ld", (long)indexPath.section);
-                         ***REMOVED***
-                     ***REMOVED***);
                  ***REMOVED***];
             ***REMOVED***);
         ***REMOVED***
