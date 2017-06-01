@@ -113,6 +113,11 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     __block BOOL didError = NO;
     for (NSString *subCatTitle in categoryArray)
     ***REMOVED***
+        if (didError)
+        ***REMOVED***
+            break;
+        ***REMOVED***
+        
         [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:subCatTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
          (YLPSearch *searchResults, NSError *error)***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
