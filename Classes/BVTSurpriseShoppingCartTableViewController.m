@@ -139,11 +139,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                  ***REMOVED***
              ***REMOVED***);
          ***REMOVED***];
-        
-        if (didError)
-        ***REMOVED***
-            break;
-        ***REMOVED***
     ***REMOVED***
 ***REMOVED***
 
@@ -310,6 +305,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 ***REMOVED***
     [super viewWillAppear:animated];
     
+    [self.tempArray removeAllObjects];
+    
     [self evaluateButtonStateForButton:self.goButton];
     [self evaluateButtonStateForButton:self.clearButton];
 ***REMOVED***
@@ -367,8 +364,6 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
             ***REMOVED***
             else
             ***REMOVED***
-                
-                
                 for (NSString *category in self.subCategories)
                 ***REMOVED***
                     NSArray *array = [self.resultsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[cd] %K", category]];
