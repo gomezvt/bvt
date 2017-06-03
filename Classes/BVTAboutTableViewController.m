@@ -129,7 +129,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         if (indexPath.row == 0)
         ***REMOVED***
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"Several years in the making, Burlingtonian was created by Greg, a native Vermonter, to serve as a homegrown hub for tourism and travel information for people in and around the Burlington, VT area.";
+            cell.textLabel.text = @"Burlingtonian was created by Greg, a native Vermonter, to serve as a homegrown hub for tourism and travel information for people in and around the Burlington, VT area.";
         ***REMOVED***
         else if (indexPath.row == 1)
         ***REMOVED***
@@ -138,7 +138,12 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         ***REMOVED***
         else if (indexPath.row == 2)
         ***REMOVED***
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"Version 2.0.0";
+        ***REMOVED***
+        else
+        ***REMOVED***
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         ***REMOVED***
     ***REMOVED***
     else
