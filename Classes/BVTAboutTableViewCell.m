@@ -15,6 +15,16 @@
     ***REMOVED*** Initialization code
 ***REMOVED***
 
+- (IBAction)didTapYelpButton:(id)sender
+***REMOVED***
+    
+***REMOVED***
+
+- (IBAction)didTapFBButton:(id)sender
+***REMOVED***
+    
+***REMOVED***
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
     [super setSelected:selected animated:animated];
 

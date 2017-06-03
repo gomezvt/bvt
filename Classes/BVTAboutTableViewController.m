@@ -85,7 +85,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 ***REMOVED***
-    return 3;
+    return 2;
 ***REMOVED***
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -95,10 +95,6 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     if (section == 0)
     ***REMOVED***
         rows = 4;
-    ***REMOVED***
-    else if (section == 1)
-    ***REMOVED***
-        rows = 2;
     ***REMOVED***
     else
     ***REMOVED***
@@ -125,10 +121,6 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
             identifier = @"AboutCell";
         ***REMOVED***
     ***REMOVED***
-    else if (indexPath.section == 1)
-    ***REMOVED***
-        identifier = @"AboutCell";
-    ***REMOVED***
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
@@ -151,32 +143,6 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         else if (indexPath.row == 2)
         ***REMOVED***
             cell.textLabel.text = @"Version 2.0.0";
-        ***REMOVED***
-        else
-        ***REMOVED***
-            BVTAboutTableViewCell *aboutCell = (BVTAboutTableViewCell *)cell;
-            aboutCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            aboutCell.label.text = @"Powered";
-            aboutCell.aboutImageView.image = [UIImage imageNamed:@"yelp_mini"];
-            aboutCell.imageViewWidth.constant = 61.f;
-        ***REMOVED***
-    ***REMOVED***
-    else if (indexPath.section == 1)
-    ***REMOVED***
-        BVTAboutTableViewCell *aboutCell = (BVTAboutTableViewCell *)cell;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        if (indexPath.row == 0)
-        ***REMOVED***
-            aboutCell.aboutImageView.image = [UIImage imageNamed:@"twitter"];
-            aboutCell.imageViewWidth.constant = 37.f;
-
-            aboutCell.label.text = @"Follow us";
-        ***REMOVED***
-        else
-        ***REMOVED***
-            aboutCell.aboutImageView.image = [UIImage imageNamed:@"fb"];
-            aboutCell.label.text = @"Like us";
-            aboutCell.imageViewWidth.constant = 30.f;
         ***REMOVED***
     ***REMOVED***
     else
