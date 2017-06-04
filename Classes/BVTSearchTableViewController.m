@@ -218,13 +218,18 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
              if (error)
              ***REMOVED***
                  [weakSelf _hideHUD];
+
+                 NSString *string = error.userInfo[@"NSDebugDescription"];
                  
-                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                 
-                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                 [alertController addAction:ok];
-                 
-                 [weakSelf presentViewController:alertController animated:YES completion:nil];
+                 if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                 ***REMOVED***
+                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                     
+                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                     [alertController addAction:ok];
+                     
+                     [weakSelf presentViewController:alertController animated:YES completion:nil];
+                 ***REMOVED***
              ***REMOVED***
              else if (searchResults.businesses.count == 0)
              ***REMOVED***
@@ -268,13 +273,18 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                               if (error)
                               ***REMOVED***
                                   [weakSelf _hideHUD];
+
+                                  NSString *string = error.userInfo[@"NSDebugDescription"];
                                   
-                                  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                                  
-                                  UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                                  [alertController addAction:ok];
-                                  
-                                  [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                  if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                                  ***REMOVED***
+                                      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                      
+                                      UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                                      [alertController addAction:ok];
+                                      
+                                      [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                  ***REMOVED***
                               ***REMOVED***
                               else if (business.photos.count > 0)
                               ***REMOVED***
@@ -384,14 +394,20 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  if (error) ***REMOVED***
+                     
                      [weakSelf _hideHUD];
-    
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-    
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-    
-                     [weakSelf presentViewController:alertController animated:YES completion:nil];
+
+                     NSString *string = error.userInfo[@"NSDebugDescription"];
+                     
+                     if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                     ***REMOVED***
+                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                         
+                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                         [alertController addAction:ok];
+                         
+                         [weakSelf presentViewController:alertController animated:YES completion:nil];
+                     ***REMOVED***
                  ***REMOVED***
                  else
                  ***REMOVED***
@@ -418,16 +434,20 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                                 if (error) ***REMOVED***
+                                                                    
                                                                     [weakSelf _hideHUD];
-    
-    
-                                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-    
-                                                                    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                                                                    [alertController addAction:ok];
-    
-                                                                    [weakSelf presentViewController:alertController animated:YES completion:nil];
-    
+
+                                                                    NSString *string = error.userInfo[@"NSDebugDescription"];
+                                                                    
+                                                                    if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                                                                    ***REMOVED***
+                                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                                                        
+                                                                        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                                                                        [alertController addAction:ok];
+                                                                        
+                                                                        [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                                                    ***REMOVED***
                                                                 ***REMOVED***
                                                                 else
                                                                 ***REMOVED***

@@ -369,15 +369,20 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                    if (error) ***REMOVED***
+                                                       
                                                        [weakSelf _hideHud];
                                                        
-                                                       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                                       NSString *string = error.userInfo[@"NSDebugDescription"];
                                                        
-                                                       UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                                                       [alertController addAction:ok];
-                                                       
-                                                       [weakSelf presentViewController:alertController animated:YES completion:nil];
-                                                       
+                                                       if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                                                       ***REMOVED***
+                                                           UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                                           
+                                                           UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                                                           [alertController addAction:ok];
+                                                           
+                                                           [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                                       ***REMOVED***
                                                    ***REMOVED***
                                                    else
                                                    ***REMOVED***
@@ -418,14 +423,20 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  if (error) ***REMOVED***
+                     
                      [weakSelf _hideHud];
+
+                     NSString *string = error.userInfo[@"NSDebugDescription"];
                      
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                     
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-                     
-                     [weakSelf presentViewController:alertController animated:YES completion:nil];
+                     if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                     ***REMOVED***
+                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                         
+                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                         [alertController addAction:ok];
+                         
+                         [weakSelf presentViewController:alertController animated:YES completion:nil];
+                     ***REMOVED***
                  ***REMOVED***
                  else
                  ***REMOVED***
@@ -452,16 +463,20 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                                 if (error) ***REMOVED***
+                                                                    
                                                                     [weakSelf _hideHud];
                                                                     
+                                                                    NSString *string = error.userInfo[@"NSDebugDescription"];
                                                                     
-                                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                                                                    
-                                                                    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                                                                    [alertController addAction:ok];
-                                                                    
-                                                                    [weakSelf presentViewController:alertController animated:YES completion:nil];
-                                                                    
+                                                                    if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."])
+                                                                    ***REMOVED***
+                                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                                                        
+                                                                        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                                                                        [alertController addAction:ok];
+                                                                        
+                                                                        [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                                                    ***REMOVED***
                                                                 ***REMOVED***
                                                                 else
                                                                 ***REMOVED***
