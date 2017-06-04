@@ -10,8 +10,9 @@
 #import "BVTHeaderTitleView.h"
 #import "BVTAboutTableViewCell.h"
 #import "BVTStyles.h"
+#import <MessageUI/MessageUI.h>
 
-@interface BVTAboutTableViewController ()
+@interface BVTAboutTableViewController () <UINavigationControllerDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) BVTHeaderTitleView *headerTitleView;
 
@@ -100,10 +101,44 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     return rows;
 ***REMOVED***
 
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0 && indexPath.row == 1)
+    ***REMOVED***
+        [self performSegueWithIdentifier:@"ShowDisclaimer" sender:nil];
+    ***REMOVED***
+    else if (indexPath.section == 1)
+    ***REMOVED***
+        if (indexPath.row == 1)
+        ***REMOVED***
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https:***REMOVED***itunes.apple.com/us/app/burlingtonian-live-like-a-local-in-vermont/id581817418?mt=8"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+                
+                NSLog(@"");
+            ***REMOVED***];
+        ***REMOVED***
+        else if (indexPath.row == 2)
+        ***REMOVED***
+            MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
+            mail.mailComposeDelegate = self;
+            [mail setSubject:@"Burlingtonian Feedback"];
+            [mail setMessageBody:@"" isHTML:NO];
+            [mail setToRecipients:@[@"greg@theburlingtonian.com"]];
+            
+            [self presentViewController:mail animated:YES completion:nil];
+        ***REMOVED***
+    ***REMOVED***
+***REMOVED***
 
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError *)error;
+***REMOVED***
+    [self dismissViewControllerAnimated:YES completion:nil];
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

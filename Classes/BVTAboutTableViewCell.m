@@ -17,12 +17,16 @@
 
 - (IBAction)didTapYelpButton:(id)sender
 ***REMOVED***
-    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http:***REMOVED***yelp.com"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
 ***REMOVED***
 
 - (IBAction)didTapFBButton:(id)sender
 ***REMOVED***
-    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http:***REMOVED***www.facebook.com/theburlingtonian"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+        NSLog(@"");
+    ***REMOVED***];
 ***REMOVED***
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
