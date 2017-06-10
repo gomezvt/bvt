@@ -157,10 +157,6 @@ static NSString *const kReviewsCellID = @"BVTReviewsPhotoCellIdentifier";
         photoCell.tag = indexPath.row;
 
         UIImage *image = [self.business.photos objectAtIndex:indexPath.row];
-        if (!image)
-        ***REMOVED***
-            image = [UIImage imageNamed:@"placeholder"];
-        ***REMOVED***
         photoCell.photoView.image = image;
     ***REMOVED***
  
