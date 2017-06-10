@@ -441,10 +441,27 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              
                              if (business)
                              ***REMOVED***
-                                 [bizAdd addObject:business];
-                                 if (bizAdd.count == originalCount)
-                                 ***REMOVED***
+                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                                     ***REMOVED*** Your Background work
+                                     NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
                                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                         ***REMOVED*** Update your UI
+
+                                             if (imageData)
+                                             ***REMOVED***
+                                                 UIImage *image = [UIImage imageWithData:imageData];
+                                                 business.bizThumbNail = image;
+                                             ***REMOVED***
+                                             else
+                                             ***REMOVED***
+                                                 business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                             ***REMOVED***
+                                     ***REMOVED***);
+                                     
+                                     [bizAdd addObject:business];
+                                     if (bizAdd.count == originalCount)
+                                     ***REMOVED***
+                                                                              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                          NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
                                          weakSelf.displayArray = [bizAdd sortedArrayUsingDescriptors: @[nameDescriptor]];
                                          
@@ -452,8 +469,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          weakSelf.gotDetails = YES;
                                          [weakSelf.openNowButton setHidden:NO];
                                          [weakSelf sortArrayWithPredicates];
-                                     ***REMOVED***);
-                                 ***REMOVED***
+                                                                              ***REMOVED***);
+                                     ***REMOVED***
+                                 ***REMOVED***);
+                                 
+
                              ***REMOVED***
                          ***REMOVED***];
                     ***REMOVED***);
@@ -557,9 +577,10 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                        business.reviews = reviews.reviews;
                                                        business.userPhotosArray = userPhotos;
                                                        
-                                                       [weakSelf _hideHUD];
                                                        if (!weakSelf.didCancelRequest)
                                                        ***REMOVED***
+                                                           [weakSelf _hideHUD];
+
                                                            ***REMOVED*** get biz photos here if we dont have them?
                                                            [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:business];
                                                        ***REMOVED***
@@ -704,10 +725,32 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     if (self.gotDetails)
     ***REMOVED***
         business = [self.displayArray objectAtIndex:indexPath.row];
+        cell.thumbNailView.image = business.bizThumbNail;
     ***REMOVED***
     else
     ***REMOVED***
         business = [self.filteredResults objectAtIndex:indexPath.row];
+        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+            ***REMOVED*** Your Background work
+            NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                ***REMOVED*** Update your UI
+                if (cell.tag == indexPath.row)
+                ***REMOVED***
+                    if (imageData)
+                    ***REMOVED***
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        business.bizThumbNail = image;
+                        cell.thumbNailView.image = image;
+                    ***REMOVED***
+                    else
+                    ***REMOVED***
+                        business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***);
+        ***REMOVED***);
     ***REMOVED***
     
     cell.openCloseLabel.text = @"";
@@ -742,34 +785,34 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     
     cell.business = business;
-    if (business.bizThumbNail)
-    ***REMOVED***
-        cell.thumbNailView.image = business.bizThumbNail;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-            ***REMOVED*** Your Background work
-            NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                ***REMOVED*** Update your UI
-                if (cell.tag == indexPath.row)
-                ***REMOVED***
-                    if (imageData)
-                    ***REMOVED***
-                        UIImage *image = [UIImage imageWithData:imageData];
-                        business.bizThumbNail = image;
-                        cell.thumbNailView.image = image;
-                    ***REMOVED***
-                    else
-                    ***REMOVED***
-                        business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***);
-        ***REMOVED***);
-    ***REMOVED***
+***REMOVED***    if (business.bizThumbNail)
+***REMOVED***    ***REMOVED***
+***REMOVED***        cell.thumbNailView.image = business.bizThumbNail;
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+***REMOVED***        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+***REMOVED***        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+***REMOVED***            ***REMOVED*** Your Background work
+***REMOVED***            NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+***REMOVED***            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***                ***REMOVED*** Update your UI
+***REMOVED***                if (cell.tag == indexPath.row)
+***REMOVED***                ***REMOVED***
+***REMOVED***                    if (imageData)
+***REMOVED***                    ***REMOVED***
+***REMOVED***                        UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***                        business.bizThumbNail = image;
+***REMOVED***                        cell.thumbNailView.image = image;
+***REMOVED***                    ***REMOVED***
+***REMOVED***                    else
+***REMOVED***                    ***REMOVED***
+***REMOVED***                        business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+***REMOVED***                    ***REMOVED***
+***REMOVED***                ***REMOVED***
+***REMOVED***            ***REMOVED***);
+***REMOVED***        ***REMOVED***);
+***REMOVED***    ***REMOVED***
     
     return cell;
 ***REMOVED***
