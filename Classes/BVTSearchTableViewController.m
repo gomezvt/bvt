@@ -258,16 +258,24 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
              ***REMOVED***
                  [weakSelf _hideHUD];
                  
-                 weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[weakSelf.searchBar.text capitalizedString]];
-                 if (!weakSelf.gotDetails)
+                 NSString *term = weakSelf.searchBar.text;
+                 weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[term capitalizedString]];
+                 if (weakSelf.gotDetails)
                  ***REMOVED***
-                     weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[weakSelf.searchBar.text lowercaseString]];
+                     weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:[term capitalizedString]];
                  ***REMOVED***
-                 
+                 else
+                 ***REMOVED***
+                     weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[term lowercaseString]];
+                     if (weakSelf.gotDetails)
+                     ***REMOVED***
+                         weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:[term lowercaseString]];
+                     ***REMOVED***
+                 ***REMOVED***
+
                  if (weakSelf.gotDetails)
                  ***REMOVED***
                      weakSelf.openNowButton.hidden = NO;
-                     weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:weakSelf.searchBar.text];
                  ***REMOVED***
                  else
                  ***REMOVED***
