@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad ***REMOVED***
     [super viewDidLoad];
+    
+    [self.tabBar setTintColor:[BVTStyles tabBarTint]];
         
     ***REMOVED*** Do any additional setup after loading the view.
 ***REMOVED***

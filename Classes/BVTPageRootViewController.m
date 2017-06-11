@@ -43,11 +43,11 @@
         ***REMOVED***
             self.images = @[@"Tutorial_Explore_6_7", @"Tutorial_Search_6_7.png", @"Tutorial_Surprise_6_7.png"];
         ***REMOVED***
-        else
+        else if (mainScreen.size.width == 320.f)
         ***REMOVED***
-            self.images = @[@"Tutorial_Explore_SE.png", @"Tutorial_Search_SE.png", @"Tutorial_Surprise_SE.png"];
+            ***REMOVED*** iPhone 4S, iPhone 5, iPhone 5S, iPhone SE
+            self.images = @[@"Tutorial_Explore_Small.png", @"Tutorial_Search_Small.png", @"Tutorial_Surprise_Small.png"];
         ***REMOVED***
-        
         
         ***REMOVED*** Create page view controller
         self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];

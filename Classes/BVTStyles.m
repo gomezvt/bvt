@@ -32,6 +32,11 @@ NSString *const star_five_mini          = @"star_five_mini.png";
 
 @implementation BVTStyles
 
++ (UIColor *)tabBarTint
+***REMOVED***
+    return [UIColor colorWithRed:0.f/255 green:145.f/255 blue:0.f/255 alpha:1.f];
+***REMOVED***
+
 + (UIColor *)lightGray
 ***REMOVED***
     return [UIColor colorWithRed:153.f/255 green:153.f/255 blue:153.f/255 alpha:1.f];
