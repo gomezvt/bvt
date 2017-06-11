@@ -171,7 +171,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     if (self.recentSearches.count == 0)
     ***REMOVED***
-        self.label.text = @"No recent search results.";
+        self.label.text = @"Go ahead, search away...";
     ***REMOVED***
  
     self.tableView.estimatedRowHeight = 44.f;
@@ -182,6 +182,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 - (void)didTapHUDCancelButton
 ***REMOVED***
     self.didCancelRequest = YES;
+    self.searchBar.userInteractionEnabled = YES;
     self.tableView.userInteractionEnabled = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
 
@@ -211,6 +212,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.gotDetails = NO;
     self.tableView.userInteractionEnabled = NO;
     self.tabBarController.tabBar.userInteractionEnabled = NO;
+    self.searchBar.userInteractionEnabled = NO;
 
     self.didSelectBiz = NO;
     
@@ -306,6 +308,21 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                               
                               if (business)
                               ***REMOVED***
+                                  NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+                                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                      ***REMOVED*** Update your UI
+                                      
+                                      if (imageData)
+                                      ***REMOVED***
+                                          UIImage *image = [UIImage imageWithData:imageData];
+                                          business.bizThumbNail = image;
+                                      ***REMOVED***
+                                      else
+                                      ***REMOVED***
+                                          business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                      ***REMOVED***
+                                  ***REMOVED***);
+                                  
                                   [bizAdd addObject:business];
                                   
                                   if (bizAdd.count == weakSelf.recentSearches.count)
@@ -490,6 +507,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     self.tableView.userInteractionEnabled = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
+    self.searchBar.userInteractionEnabled = YES;
 
     [self.hud removeFromSuperview];
 ***REMOVED***
@@ -520,11 +538,10 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
-    YLPBusiness *biz;
-    if (self.gotDetails)
+    YLPBusiness *biz = [self.detailsArray objectAtIndex:indexPath.row];
+    if (biz)
     ***REMOVED***
         self.openNowButton.hidden = NO;
-        biz = [self.detailsArray objectAtIndex:indexPath.row];
     ***REMOVED***
     else
     ***REMOVED***
