@@ -538,10 +538,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
-    YLPBusiness *biz = [self.detailsArray objectAtIndex:indexPath.row];
-    if (biz)
+    YLPBusiness *biz;
+    if (self.gotDetails)
     ***REMOVED***
         self.openNowButton.hidden = NO;
+        biz = [self.detailsArray objectAtIndex:indexPath.row];
     ***REMOVED***
     else
     ***REMOVED***
