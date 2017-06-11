@@ -67,6 +67,7 @@
 @property (nonatomic, strong) NSArray *originalDetailsArray;
 @property (nonatomic) BOOL didSelectBiz;
 @property (nonatomic) BOOL isLargePhone;
+@property (nonatomic, strong) NSMutableDictionary *cacheDict;
 
 ***REMOVED***
 
@@ -112,6 +113,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
+    
+    self.cacheDict = [[NSMutableDictionary alloc] init];
     
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 
@@ -216,6 +219,8 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
     self.didSelectBiz = NO;
     
+    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+
     __weak typeof(self) weakSelf = self;
     [[AppDelegate sharedClient] searchWithLocation:@"Burlington, VT" term:searchBar.text limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
      (YLPSearch *searchResults, NSError *error)***REMOVED***
@@ -253,6 +258,18 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
              ***REMOVED***
                  [weakSelf _hideHUD];
                  
+                 weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:weakSelf.searchBar.text];
+                 
+                 if (weakSelf.gotDetails)
+                 ***REMOVED***
+                     weakSelf.openNowButton.hidden = NO;
+                     weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:weakSelf.searchBar.text];
+                 ***REMOVED***
+                 else
+                 ***REMOVED***
+                     weakSelf.openNowButton.hidden = YES;
+                 ***REMOVED***
+                 
                  weakSelf.label.hidden = YES;
                  weakSelf.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (%lu)", (unsigned long)searchResults.businesses.count];
                  
@@ -266,86 +283,95 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                  NSArray *sortedArray = [searchResults.businesses sortedArrayUsingDescriptors: @[descriptor]];
                  
                  weakSelf.recentSearches = sortedArray;
-                 [weakSelf.tableView reloadData];
+                 
+                [weakSelf.tableView reloadData];
+
+                 
                  
                  if (self.recentSearches.count > 0)
                  ***REMOVED***
                      NSMutableArray *bizAdd = [NSMutableArray array];
                      for (YLPBusiness *selectedBusiness in self.recentSearches)
                      ***REMOVED***
-
-                         [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
-                          (YLPBusiness *business, NSError *error) ***REMOVED***
-                              if (error)
-                              ***REMOVED***
-                                  [weakSelf _hideHUD];
-
-                                  NSString *string = error.userInfo[@"NSDebugDescription"];
-                                  
-                                                   if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
+                         if (![[weakSelf.detailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", selectedBusiness.identifier]] lastObject])
+                         ***REMOVED***
+                             [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+                              (YLPBusiness *business, NSError *error) ***REMOVED***
+                                  if (error)
                                   ***REMOVED***
-                                      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                      [weakSelf _hideHUD];
                                       
-                                      UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                                      [alertController addAction:ok];
+                                      NSString *string = error.userInfo[@"NSDebugDescription"];
                                       
-                                      [weakSelf presentViewController:alertController animated:YES completion:nil];
-                                  ***REMOVED***
-                              ***REMOVED***
-                              else if (business.photos.count > 0)
-                              ***REMOVED***
-                                  NSMutableArray *photosArray = [NSMutableArray array];
-                                  for (NSString *photoStr in business.photos)
-                                  ***REMOVED***
-                                      NSURL *url = [NSURL URLWithString:photoStr];
-                                      NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                      UIImage *image = [UIImage imageWithData:imageData];
-                                      [photosArray addObject:image];
-                                  ***REMOVED***
-                                  
-                                  business.photos = photosArray;
-                              ***REMOVED***
-                              
-                              if (business)
-                              ***REMOVED***
-                                  NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-                                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                                      ***REMOVED*** Update your UI
-                                      
-                                      if (imageData)
+                                      if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
                                       ***REMOVED***
+                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                                          
+                                          UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                                          [alertController addAction:ok];
+                                          
+                                          [weakSelf presentViewController:alertController animated:YES completion:nil];
+                                      ***REMOVED***
+                                  ***REMOVED***
+                                  else if (business.photos.count > 0)
+                                  ***REMOVED***
+                                      NSMutableArray *photosArray = [NSMutableArray array];
+                                      for (NSString *photoStr in business.photos)
+                                      ***REMOVED***
+                                          NSURL *url = [NSURL URLWithString:photoStr];
+                                          NSData *imageData = [NSData dataWithContentsOfURL:url];
                                           UIImage *image = [UIImage imageWithData:imageData];
-                                          business.bizThumbNail = image;
+                                          [photosArray addObject:image];
                                       ***REMOVED***
-                                      else
-                                      ***REMOVED***
-                                          business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                                      ***REMOVED***
-                                  ***REMOVED***);
-                                  
-                                  [bizAdd addObject:business];
-                                  
-                                  if (bizAdd.count == weakSelf.recentSearches.count)
+                                      
+                                      business.photos = photosArray;
                                   ***REMOVED***
+                                  
+                                  if (business)
+                                  ***REMOVED***
+                                      NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
                                       dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                                          NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-                                          if (!weakSelf.didSelectBiz)
+                                          ***REMOVED*** Update your UI
+                                          
+                                          if (imageData)
                                           ***REMOVED***
-                                              [weakSelf _hideHUD];
+                                              UIImage *image = [UIImage imageWithData:imageData];
+                                              business.bizThumbNail = image;
                                           ***REMOVED***
-                                          weakSelf.detailsArray = [bizAdd sortedArrayUsingDescriptors: @[nameDescriptor]];
-                                          weakSelf.gotDetails = YES;
-                                          weakSelf.originalDetailsArray = weakSelf.detailsArray;
-                                          [weakSelf sortArrayWithPredicates];
+                                          else
+                                          ***REMOVED***
+                                              business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                          ***REMOVED***
                                       ***REMOVED***);
+                                      
+                                      [bizAdd addObject:business];
+                                      
+                                      if (bizAdd.count == weakSelf.recentSearches.count)
+                                      ***REMOVED***
+                                          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                              NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+                                              if (!weakSelf.didSelectBiz)
+                                              ***REMOVED***
+                                                  [weakSelf _hideHUD];
+                                              ***REMOVED***
+                                              weakSelf.openNowButton.hidden = NO;
+                                              weakSelf.detailsArray = [bizAdd sortedArrayUsingDescriptors: @[nameDescriptor]];
+                                              [weakSelf.cacheDict setObject:weakSelf.detailsArray forKey:weakSelf.searchBar.text];
+                                              weakSelf.gotDetails = YES;
+                                              weakSelf.originalDetailsArray = weakSelf.detailsArray;
+                                              [weakSelf sortArrayWithPredicates];
+                                          ***REMOVED***);
+                                      ***REMOVED***
                                   ***REMOVED***
-                              ***REMOVED***
-                          ***REMOVED***];
+                              ***REMOVED***];
+                         ***REMOVED***
+                         
                      ***REMOVED***
                  ***REMOVED***
              ***REMOVED***
          ***REMOVED***);
      ***REMOVED***];
+    ***REMOVED***);
 
     [searchBar resignFirstResponder];
     searchBar.showsCancelButton = NO;
@@ -539,15 +565,36 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
     YLPBusiness *biz;
+    
     if (self.gotDetails)
     ***REMOVED***
-        self.openNowButton.hidden = NO;
         biz = [self.detailsArray objectAtIndex:indexPath.row];
+        cell.thumbNailView.image = biz.bizThumbNail;
     ***REMOVED***
     else
     ***REMOVED***
-        self.openNowButton.hidden = YES;
         biz =  [self.recentSearches objectAtIndex:indexPath.row];
+        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+            ***REMOVED*** Your Background work
+            NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                ***REMOVED*** Update your UI
+                if (cell.tag == indexPath.row)
+                ***REMOVED***
+                    if (imageData)
+                    ***REMOVED***
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        biz.bizThumbNail = image;
+                        cell.thumbNailView.image = image;
+                    ***REMOVED***
+                    else
+                    ***REMOVED***
+                        biz.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***);
+        ***REMOVED***);
     ***REMOVED***
     
     cell.business = biz;
@@ -582,34 +629,34 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
         ***REMOVED***
     ***REMOVED***
     
-    if (biz.bizThumbNail)
-    ***REMOVED***
-        cell.thumbNailView.image = biz.bizThumbNail;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-            ***REMOVED*** Your Background work
-            NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                ***REMOVED*** Update your UI
-                if (cell.tag == indexPath.row)
-                ***REMOVED***
-                    if (imageData)
-                    ***REMOVED***
-                        UIImage *image = [UIImage imageWithData:imageData];
-                        biz.bizThumbNail = image;
-                        cell.thumbNailView.image = image;
-                    ***REMOVED***
-                    else
-                    ***REMOVED***
-                        biz.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***);
-        ***REMOVED***);
-    ***REMOVED***
+***REMOVED***    if (biz.bizThumbNail)
+***REMOVED***    ***REMOVED***
+***REMOVED***        cell.thumbNailView.image = biz.bizThumbNail;
+***REMOVED***    ***REMOVED***
+***REMOVED***    else
+***REMOVED***    ***REMOVED***
+***REMOVED***        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+***REMOVED***        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+***REMOVED***            ***REMOVED*** Your Background work
+***REMOVED***            NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+***REMOVED***            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+***REMOVED***                ***REMOVED*** Update your UI
+***REMOVED***                if (cell.tag == indexPath.row)
+***REMOVED***                ***REMOVED***
+***REMOVED***                    if (imageData)
+***REMOVED***                    ***REMOVED***
+***REMOVED***                        UIImage *image = [UIImage imageWithData:imageData];
+***REMOVED***                        biz.bizThumbNail = image;
+***REMOVED***                        cell.thumbNailView.image = image;
+***REMOVED***                    ***REMOVED***
+***REMOVED***                    else
+***REMOVED***                    ***REMOVED***
+***REMOVED***                        biz.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+***REMOVED***                    ***REMOVED***
+***REMOVED***                ***REMOVED***
+***REMOVED***            ***REMOVED***);
+***REMOVED***        ***REMOVED***);
+***REMOVED***    ***REMOVED***
     
     return cell;
 ***REMOVED***
