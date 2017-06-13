@@ -192,11 +192,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     [self.hud removeFromSuperview];
 ***REMOVED***
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
-    ***REMOVED***
-***REMOVED***
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 ***REMOVED***
     if ([segue.identifier isEqualToString:kShowDetailSegue])
