@@ -31,12 +31,10 @@
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic) BOOL didCancelRequest;
 @property (nonatomic, strong) NSMutableDictionary *orderedDict;
-***REMOVED***@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
+@property (nonatomic) BOOL didSelectBiz;
 @property (nonatomic) BOOL isLargePhone;
 
 ***REMOVED***
-
-***REMOVED***static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
 
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 static NSString *const kThumbNailCell = @"BVTThumbNailTableViewCell";
@@ -57,9 +55,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 - (void)awakeFromNib
 ***REMOVED***
     [super awakeFromNib];
-    
-    
-    
+
     self.orderedDict = [NSMutableDictionary dictionary];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
@@ -67,9 +63,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     headerTitleView.titleViewLabelConstraint.constant = -20.f;
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
-    
-***REMOVED***    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
-***REMOVED***    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
 ***REMOVED***
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -94,6 +87,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         [self.delegate didTapBackWithDetails:self.cachedDetails];
     ***REMOVED***
     [self.navigationController popViewControllerAnimated:YES];
+***REMOVED***
+
+- (void)viewWillAppear:(BOOL)animated
+***REMOVED***
+    [super viewWillAppear:animated];
+    
+    self.didSelectBiz = NO;
 ***REMOVED***
 
 - (void)viewDidLoad
@@ -195,8 +195,8 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             __weak typeof(self) weakSelf = self;
             cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
 
-***REMOVED***            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-            
+            if (!self.didSelectBiz)
+            ***REMOVED***
                 [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -231,46 +231,46 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              ***REMOVED***
                          ***REMOVED***
                          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-
-                         ***REMOVED*** Your Background work
-                         NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+                             
+                             ***REMOVED*** Your Background work
+                             NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
                              dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                             ***REMOVED*** Update your UI
-                             if (cell.tag == indexPath.row)
-                             ***REMOVED***
-                                 if (business.photos.count > 0)
+                                 ***REMOVED*** Update your UI
+                                 if (cell.tag == indexPath.row)
                                  ***REMOVED***
-                                     NSMutableArray *photosArray = [NSMutableArray array];
-                                     for (NSString *photoStr in business.photos)
+                                     if (business.photos.count > 0)
                                      ***REMOVED***
-                                         NSURL *url = [NSURL URLWithString:photoStr];
-                                         NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                         UIImage *image = [UIImage imageWithData:imageData];
+                                         NSMutableArray *photosArray = [NSMutableArray array];
+                                         for (NSString *photoStr in business.photos)
+                                         ***REMOVED***
+                                             NSURL *url = [NSURL URLWithString:photoStr];
+                                             NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                             UIImage *image = [UIImage imageWithData:imageData];
+                                             
+                                             [photosArray addObject:image];
+                                         ***REMOVED***
                                          
-                                         [photosArray addObject:image];
+                                         business.photos = photosArray;
                                      ***REMOVED***
                                      
-                                     business.photos = photosArray;
+                                     if (imageData)
+                                     ***REMOVED***
+                                         UIImage *image = [UIImage imageWithData:imageData];
+                                         business.bizThumbNail = image;
+                                         cell.thumbNailView.image = image;
+                                     ***REMOVED***
+                                     else
+                                     ***REMOVED***
+                                         business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                     ***REMOVED***
+                                     
+                                     [weakSelf.cachedDetails addObject:business];
                                  ***REMOVED***
-                                 
-                                 if (imageData)
-                                 ***REMOVED***
-                                     UIImage *image = [UIImage imageWithData:imageData];
-                                     business.bizThumbNail = image;
-                                     cell.thumbNailView.image = image;
-                                 ***REMOVED***
-                                 else
-                                 ***REMOVED***
-                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                                 ***REMOVED***
-                                 
-                                 [weakSelf.cachedDetails addObject:business];
-                             ***REMOVED***
-                         ***REMOVED***);
+                             ***REMOVED***);
                          ***REMOVED***);
                      ***REMOVED***);
                  ***REMOVED***];
-***REMOVED***            ***REMOVED***);
+            ***REMOVED***
         ***REMOVED***
         else
         ***REMOVED***
@@ -324,6 +324,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
     
+    self.didSelectBiz = YES;
     self.didCancelRequest = NO;
     self.tableView.userInteractionEnabled = NO;
     self.tabBarController.tabBar.userInteractionEnabled = NO;

@@ -476,67 +476,69 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     else
     ***REMOVED***
         cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-        
-        [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
-         (YLPBusiness *business, NSError *error) ***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                 business.didGetDetails = YES;
-                 
-                 YLPBusiness *match = [[self.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
-                 
-                 if (match)
-                 ***REMOVED***
-                     NSInteger index = [self.originalDetailsArray indexOfObject:match];
-                     [self.originalDetailsArray replaceObjectAtIndex:index withObject:business];
-                 ***REMOVED***
-                 
-                 if (!self.isLargePhone)
-                 ***REMOVED***
-                     if (business.isOpenNow)
-                     ***REMOVED***
-                         cell.secondaryOpenCloseLabel.text = @"Open Now";
-                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                     ***REMOVED***
-                     else if (business.hoursItem && !business.isOpenNow)
-                     ***REMOVED***
-                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                     ***REMOVED***
-                 ***REMOVED***
-                 else
-                 ***REMOVED***
-                     if (business.isOpenNow)
-                     ***REMOVED***
-                         cell.openCloseLabel.text = @"Open Now";
-                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                     ***REMOVED***
-                     else if (business.hoursItem && !business.isOpenNow)
-                     ***REMOVED***
-                         cell.openCloseLabel.text = @"Closed Now";
-                         cell.openCloseLabel.textColor = [UIColor redColor];
-                     ***REMOVED***
-                 ***REMOVED***
-                 if (error)
-                 ***REMOVED***
-                     [self _hideHUD];
-                     
-                     NSString *string = error.userInfo[@"NSDebugDescription"];
-                     
-                     if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
-                     ***REMOVED***
-                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                         
-                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                         [alertController addAction:ok];
-                         
-                         [self presentViewController:alertController animated:YES completion:nil];
-                     ***REMOVED***
-                 ***REMOVED***
 
-                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+        if (!self.didSelectBiz)
+        ***REMOVED***
+            [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
+             (YLPBusiness *business, NSError *error) ***REMOVED***
+                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                     business.didGetDetails = YES;
+                     
+                     YLPBusiness *match = [[self.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
+                     
+                     if (match)
+                     ***REMOVED***
+                         NSInteger index = [self.originalDetailsArray indexOfObject:match];
+                         [self.originalDetailsArray replaceObjectAtIndex:index withObject:business];
+                     ***REMOVED***
+                     
+                     if (!self.isLargePhone)
+                     ***REMOVED***
+                         if (business.isOpenNow)
+                         ***REMOVED***
+                             cell.secondaryOpenCloseLabel.text = @"Open Now";
+                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                         ***REMOVED***
+                         else if (business.hoursItem && !business.isOpenNow)
+                         ***REMOVED***
+                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                         ***REMOVED***
+                     ***REMOVED***
+                     else
+                     ***REMOVED***
+                         if (business.isOpenNow)
+                         ***REMOVED***
+                             cell.openCloseLabel.text = @"Open Now";
+                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                         ***REMOVED***
+                         else if (business.hoursItem && !business.isOpenNow)
+                         ***REMOVED***
+                             cell.openCloseLabel.text = @"Closed Now";
+                             cell.openCloseLabel.textColor = [UIColor redColor];
+                         ***REMOVED***
+                     ***REMOVED***
+                     if (error)
+                     ***REMOVED***
+                         [self _hideHUD];
+                         
+                         NSString *string = error.userInfo[@"NSDebugDescription"];
+                         
+                         if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
+                         ***REMOVED***
+                             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                             
+                             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                             [alertController addAction:ok];
+                             
+                             [self presentViewController:alertController animated:YES completion:nil];
+                         ***REMOVED***
+                     ***REMOVED***
+                     
+                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
                          ***REMOVED*** Your Background work
                          NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
                              ***REMOVED*** Update your UI
                              if (cell.tag == indexPath.row)
                              ***REMOVED***
@@ -566,13 +568,14 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                  ***REMOVED***
                                  
                                  [self.cachedBiz addObject:business];
-
+                                 
                              ***REMOVED***
                          ***REMOVED***);
                      ***REMOVED***);
-                 
-             ***REMOVED***);
-         ***REMOVED***];
+                     
+                 ***REMOVED***);
+             ***REMOVED***];
+        ***REMOVED***
     ***REMOVED***
     
     cell.business = biz;
