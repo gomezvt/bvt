@@ -47,7 +47,7 @@
 @property (nonatomic, strong) BVTHUDView *hud;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic) BOOL didCancelRequest;
-@property (nonatomic, strong) NSArray *recentSearches;
+@property (nonatomic, strong) NSMutableArray *recentSearches;
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UIView *titleView;
@@ -61,10 +61,9 @@
 @property (nonatomic) double milesKeyValue;
 @property (nonatomic, strong) NSString *priceKeyValue;
 @property (nonatomic, strong) NSString *openCloseKeyValue;
-@property (nonatomic, strong) NSArray *originalDisplayResults;
 @property (nonatomic) BOOL gotDetails;
-@property (nonatomic, strong) NSArray *detailsArray;
-@property (nonatomic, strong) NSArray *originalDetailsArray;
+***REMOVED***@property (nonatomic, strong) NSArray *arrayForSorting;
+@property (nonatomic, strong) NSMutableArray *originalDetailsArray;
 @property (nonatomic) BOOL didSelectBiz;
 @property (nonatomic) BOOL isLargePhone;
 @property (nonatomic, strong) NSMutableArray *cachedBiz;
@@ -241,145 +240,35 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
              ***REMOVED***
                  [weakSelf _hideHUD];
                  
-                 weakSelf.label.hidden = NO;
-                 weakSelf.recentSearches = @[];
-                 weakSelf.detailsArray = @[];
+                 [weakSelf.recentSearches removeAllObjects];
                  [weakSelf.tableView reloadData];
                  weakSelf.label.text = @"No search results found.";
                  weakSelf.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (0)"];
-
+                 
              ***REMOVED***
              else if (searchResults.businesses.count > 0)
              ***REMOVED***
                  [weakSelf _hideHUD];
                  
-***REMOVED***                 NSString *term = weakSelf.searchBar.text;
-***REMOVED***                 weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[term capitalizedString]];
-***REMOVED***                 if (weakSelf.gotDetails)
-***REMOVED***                 ***REMOVED***
-***REMOVED***                     weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:[term capitalizedString]];
-***REMOVED***                 ***REMOVED***
-***REMOVED***                 else
-***REMOVED***                 ***REMOVED***
-***REMOVED***                     weakSelf.gotDetails = [weakSelf.cacheDict valueForKey:[term lowercaseString]];
-***REMOVED***                     if (weakSelf.gotDetails)
-***REMOVED***                     ***REMOVED***
-***REMOVED***                         weakSelf.detailsArray = [weakSelf.cacheDict valueForKey:[term lowercaseString]];
-***REMOVED***                     ***REMOVED***
-***REMOVED***                 ***REMOVED***
-
-***REMOVED***                 if (weakSelf.gotDetails)
-***REMOVED***                 ***REMOVED***
-***REMOVED***                     weakSelf.openNowButton.hidden = NO;
-***REMOVED***                 ***REMOVED***
-***REMOVED***                 else
-***REMOVED***                 ***REMOVED***
-***REMOVED***                     weakSelf.openNowButton.hidden = YES;
-***REMOVED***                 ***REMOVED***
-                 
-                 weakSelf.label.hidden = YES;
+                 weakSelf.label.text = @"";
                  weakSelf.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (%lu)", (unsigned long)searchResults.businesses.count];
                  
                  weakSelf.starButton.hidden = NO;
                  weakSelf.sortView.hidden = NO;
                  weakSelf.titleView.hidden = NO;
                  
-                 weakSelf.originalDisplayResults = searchResults.businesses;
-                 
                  NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
                  NSArray *sortedArray = [searchResults.businesses sortedArrayUsingDescriptors: @[descriptor]];
                  
-                 weakSelf.recentSearches = sortedArray;
+                 weakSelf.recentSearches = [sortedArray mutableCopy];
+                 weakSelf.originalDetailsArray = weakSelf.recentSearches;
                  
-                [weakSelf.tableView reloadData];
-
-                 
-                 
-***REMOVED***                 if (self.recentSearches.count > 0)
-***REMOVED***                 ***REMOVED***
-***REMOVED***                     NSMutableArray *bizAdd = [NSMutableArray array];
-***REMOVED***                     for (YLPBusiness *selectedBusiness in self.recentSearches)
-***REMOVED***                     ***REMOVED***
-***REMOVED***                         if (![[weakSelf.detailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", selectedBusiness.identifier]] lastObject])
-***REMOVED***                         ***REMOVED***
-***REMOVED***                             [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
-***REMOVED***                              (YLPBusiness *business, NSError *error) ***REMOVED***
-***REMOVED***                                  if (error)
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                                      [weakSelf _hideHUD];
-***REMOVED***                                      
-***REMOVED***                                      NSString *string = error.userInfo[@"NSDebugDescription"];
-***REMOVED***                                      
-***REMOVED***                                      if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-***REMOVED***                                          
-***REMOVED***                                          UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-***REMOVED***                                          [alertController addAction:ok];
-***REMOVED***                                          
-***REMOVED***                                          [weakSelf presentViewController:alertController animated:YES completion:nil];
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                                  else if (business.photos.count > 0)
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                                      NSMutableArray *photosArray = [NSMutableArray array];
-***REMOVED***                                      for (NSString *photoStr in business.photos)
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                          NSURL *url = [NSURL URLWithString:photoStr];
-***REMOVED***                                          NSData *imageData = [NSData dataWithContentsOfURL:url];
-***REMOVED***                                          UIImage *image = [UIImage imageWithData:imageData];
-***REMOVED***                                          [photosArray addObject:image];
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                      
-***REMOVED***                                      business.photos = photosArray;
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                                  
-***REMOVED***                                  if (business)
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                                      NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-***REMOVED***                                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-***REMOVED***                                          ***REMOVED*** Update your UI
-***REMOVED***                                          
-***REMOVED***                                          if (imageData)
-***REMOVED***                                          ***REMOVED***
-***REMOVED***                                              UIImage *image = [UIImage imageWithData:imageData];
-***REMOVED***                                              business.bizThumbNail = image;
-***REMOVED***                                          ***REMOVED***
-***REMOVED***                                          else
-***REMOVED***                                          ***REMOVED***
-***REMOVED***                                              business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-***REMOVED***                                          ***REMOVED***
-***REMOVED***                                      ***REMOVED***);
-***REMOVED***                                      
-***REMOVED***                                      [bizAdd addObject:business];
-***REMOVED***                                      
-***REMOVED***                                      if (bizAdd.count == weakSelf.recentSearches.count)
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-***REMOVED***                                              NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-***REMOVED***                                              if (!weakSelf.didSelectBiz)
-***REMOVED***                                              ***REMOVED***
-***REMOVED***                                                  [weakSelf _hideHUD];
-***REMOVED***                                              ***REMOVED***
-***REMOVED******REMOVED***                                              weakSelf.openNowButton.hidden = NO;
-***REMOVED***                                              weakSelf.detailsArray = [bizAdd sortedArrayUsingDescriptors: @[nameDescriptor]];
-***REMOVED***                                              [weakSelf.cacheDict setObject:weakSelf.detailsArray forKey:weakSelf.searchBar.text];
-***REMOVED***                                              weakSelf.gotDetails = YES;
-***REMOVED***                                              weakSelf.originalDetailsArray = weakSelf.detailsArray;
-***REMOVED***                                              [weakSelf sortArrayWithPredicates];
-***REMOVED***                                          ***REMOVED***);
-***REMOVED***                                      ***REMOVED***
-***REMOVED***                                  ***REMOVED***
-***REMOVED***                              ***REMOVED***];
-***REMOVED***                         ***REMOVED***
-                         
-***REMOVED***                     ***REMOVED***
-***REMOVED***                 ***REMOVED***
+                 [weakSelf.tableView reloadData];
              ***REMOVED***
          ***REMOVED***);
      ***REMOVED***];
     ***REMOVED***);
-
+    
     [searchBar resignFirstResponder];
     searchBar.showsCancelButton = NO;
 ***REMOVED***
@@ -390,36 +279,17 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     self.starButton.selected = ![self.starButton isSelected];
     
-    if (self.gotDetails)
+    if (self.starButton.isSelected)
     ***REMOVED***
-        if (self.starButton.isSelected)
-        ***REMOVED***
-            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-            self.detailsArray = [self.detailsArray sortedArrayUsingDescriptors: @[nameDescriptor]];
-            
-        ***REMOVED***
-        else
-        ***REMOVED***
-            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-            self.detailsArray = [self.detailsArray sortedArrayUsingDescriptors: @[nameDescriptor]];
-        ***REMOVED***
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
+        self.recentSearches = [[self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
+        
     ***REMOVED***
     else
     ***REMOVED***
-        if (self.starButton.isSelected)
-        ***REMOVED***
-            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:YES];
-            self.recentSearches = [self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]];
-            
-        ***REMOVED***
-        else
-        ***REMOVED***
-            NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
-            self.recentSearches = [self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]];
-        ***REMOVED***
+        NSSortDescriptor *nameDescriptor =  [NSSortDescriptor sortDescriptorWithKey:@"rating" ascending:NO];
+        self.recentSearches = [[self.recentSearches sortedArrayUsingDescriptors: @[nameDescriptor]] mutableCopy];
     ***REMOVED***
-    
-    
     
     [self.tableView reloadData];
 ***REMOVED***
@@ -555,16 +425,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 ***REMOVED***
-    NSInteger i = 0;
-    if (self.gotDetails)
-    ***REMOVED***
-        i = self.detailsArray.count;
-    ***REMOVED***
-    else
-    ***REMOVED***
-        i = self.recentSearches.count;
-    ***REMOVED***
-    return i;
+    return self.recentSearches.count;
 ***REMOVED***
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -577,136 +438,144 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     
     YLPBusiness *biz = [self.recentSearches objectAtIndex:indexPath.row];
     YLPBusiness *cachedBiz = [[self.cachedBiz filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
-    if (!cachedBiz)
+
+    if (cachedBiz)
     ***REMOVED***
-        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        biz = cachedBiz;
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-
-        [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
-         (YLPBusiness *business, NSError *error) ***REMOVED***
-             if (!self.isLargePhone)
-             ***REMOVED***
-                 if (business.isOpenNow)
-                 ***REMOVED***
-                     cell.secondaryOpenCloseLabel.text = @"Open Now";
-                     cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                 ***REMOVED***
-                 else if (business.hoursItem && !business.isOpenNow)
-                 ***REMOVED***
-                     cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                     cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                 ***REMOVED***
-             ***REMOVED***
-             else
-             ***REMOVED***
-                 if (business.isOpenNow)
-                 ***REMOVED***
-                     cell.openCloseLabel.text = @"Open Now";
-                     cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                 ***REMOVED***
-                 else if (business.hoursItem && !business.isOpenNow)
-                 ***REMOVED***
-                     cell.openCloseLabel.text = @"Closed Now";
-                     cell.openCloseLabel.textColor = [UIColor redColor];
-                 ***REMOVED***
-             ***REMOVED***
-             if (error)
-             ***REMOVED***
-                 [self _hideHUD];
-                 
-                 NSString *string = error.userInfo[@"NSDebugDescription"];
-                 
-                 if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
-                 ***REMOVED***
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                     
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-                     
-                     [self presentViewController:alertController animated:YES completion:nil];
-                 ***REMOVED***
-             ***REMOVED***
-             else if (business.photos.count > 0)
-             ***REMOVED***
-                 NSMutableArray *photosArray = [NSMutableArray array];
-                 for (NSString *photoStr in business.photos)
-                 ***REMOVED***
-                     NSURL *url = [NSURL URLWithString:photoStr];
-                     NSData *imageData = [NSData dataWithContentsOfURL:url];
-                     UIImage *image = [UIImage imageWithData:imageData];
-                     [photosArray addObject:image];
-                 ***REMOVED***
-                 
-                 business.photos = photosArray;
-             ***REMOVED***
-             
-             if (business)
-             ***REMOVED***
-***REMOVED***                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                     ***REMOVED*** Your Background work
-                     NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-***REMOVED***                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                         ***REMOVED*** Update your UI
-                         if (cell.tag == indexPath.row)
-                         ***REMOVED***
-                             if (imageData)
-                             ***REMOVED***
-                                 UIImage *image = [UIImage imageWithData:imageData];
-                                 business.bizThumbNail = image;
-                                 cell.thumbNailView.image = image;
-                             ***REMOVED***
-                             else
-                             ***REMOVED***
-                                 business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                             ***REMOVED***
-                         ***REMOVED***
-***REMOVED***                     ***REMOVED***);
-***REMOVED***                 ***REMOVED***);
-                 
-                 [self.cachedBiz addObject:business];
-             ***REMOVED***
-         ***REMOVED***];
-        ***REMOVED***);
-
+        cell.thumbNailView.image = cachedBiz.bizThumbNail;
+***REMOVED***        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+        
+            if (!self.isLargePhone)
+            ***REMOVED***
+                if (cachedBiz.isOpenNow)
+                ***REMOVED***
+                    cell.secondaryOpenCloseLabel.text = @"Open Now";
+                    cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                ***REMOVED***
+                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                ***REMOVED***
+                    cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                    cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                ***REMOVED***
+            ***REMOVED***
+            else
+            ***REMOVED***
+                if (cachedBiz.isOpenNow)
+                ***REMOVED***
+                    cell.openCloseLabel.text = @"Open Now";
+                    cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                ***REMOVED***
+                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                ***REMOVED***
+                    cell.openCloseLabel.text = @"Closed Now";
+                    cell.openCloseLabel.textColor = [UIColor redColor];
+                ***REMOVED***
+            ***REMOVED***
     ***REMOVED***
     else
     ***REMOVED***
-        cell.thumbNailView.image = cachedBiz.bizThumbNail;
-        if (!self.isLargePhone)
-        ***REMOVED***
-            if (cachedBiz.isOpenNow)
-            ***REMOVED***
-                cell.secondaryOpenCloseLabel.text = @"Open Now";
-                cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-            ***REMOVED***
-            else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-            ***REMOVED***
-                cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-            ***REMOVED***
-        ***REMOVED***
-        else
-        ***REMOVED***
-            if (cachedBiz.isOpenNow)
-            ***REMOVED***
-                cell.openCloseLabel.text = @"Open Now";
-                cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-            ***REMOVED***
-            else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-            ***REMOVED***
-                cell.openCloseLabel.text = @"Closed Now";
-                cell.openCloseLabel.textColor = [UIColor redColor];
-            ***REMOVED***
-        ***REMOVED***
+        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        
+        [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
+         (YLPBusiness *business, NSError *error) ***REMOVED***
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 business.didGetDetails = YES;
+                 
+                 YLPBusiness *match = [[self.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
+                 
+                 if (match)
+                 ***REMOVED***
+                     NSInteger index = [self.originalDetailsArray indexOfObject:match];
+                     [self.originalDetailsArray replaceObjectAtIndex:index withObject:business];
+                 ***REMOVED***
+                 
+                 if (!self.isLargePhone)
+                 ***REMOVED***
+                     if (business.isOpenNow)
+                     ***REMOVED***
+                         cell.secondaryOpenCloseLabel.text = @"Open Now";
+                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                     ***REMOVED***
+                     else if (business.hoursItem && !business.isOpenNow)
+                     ***REMOVED***
+                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                     ***REMOVED***
+                 ***REMOVED***
+                 else
+                 ***REMOVED***
+                     if (business.isOpenNow)
+                     ***REMOVED***
+                         cell.openCloseLabel.text = @"Open Now";
+                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                     ***REMOVED***
+                     else if (business.hoursItem && !business.isOpenNow)
+                     ***REMOVED***
+                         cell.openCloseLabel.text = @"Closed Now";
+                         cell.openCloseLabel.textColor = [UIColor redColor];
+                     ***REMOVED***
+                 ***REMOVED***
+                 if (error)
+                 ***REMOVED***
+                     [self _hideHUD];
+                     
+                     NSString *string = error.userInfo[@"NSDebugDescription"];
+                     
+                     if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
+                     ***REMOVED***
+                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                         
+                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                         [alertController addAction:ok];
+                         
+                         [self presentViewController:alertController animated:YES completion:nil];
+                     ***REMOVED***
+                 ***REMOVED***
+
+                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                         ***REMOVED*** Your Background work
+                         NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                             ***REMOVED*** Update your UI
+                             if (cell.tag == indexPath.row)
+                             ***REMOVED***
+                                 if (imageData)
+                                 ***REMOVED***
+                                     UIImage *image = [UIImage imageWithData:imageData];
+                                     business.bizThumbNail = image;
+                                     cell.thumbNailView.image = image;
+                                 ***REMOVED***
+                                 else
+                                 ***REMOVED***
+                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                 ***REMOVED***
+                                 
+                                 if (business.photos.count > 0)
+                                 ***REMOVED***
+                                     NSMutableArray *photosArray = [NSMutableArray array];
+                                     for (NSString *photoStr in business.photos)
+                                     ***REMOVED***
+                                         NSURL *url = [NSURL URLWithString:photoStr];
+                                         NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                         UIImage *image = [UIImage imageWithData:imageData];
+                                         [photosArray addObject:image];
+                                     ***REMOVED***
+                                     
+                                     business.photos = photosArray;
+                                 ***REMOVED***
+                                 
+                                 [self.cachedBiz addObject:business];
+
+                             ***REMOVED***
+                         ***REMOVED***);
+                     ***REMOVED***);
+                 
+             ***REMOVED***);
+         ***REMOVED***];
     ***REMOVED***
-
-    cell.business = biz;
-
-
-
     
-
+    cell.business = biz;
     
     return cell;
 ***REMOVED***
@@ -812,46 +681,19 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***    ***REMOVED***
     
     NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
-    
-    if (self.gotDetails)
-    ***REMOVED***
-***REMOVED***        NSArray *values = self.cachedDetails[self.subCategoryTitle];
-        
-        self.detailsArray = [self.originalDetailsArray filteredArrayUsingPredicate:comboPredicate];
-        self.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (%lu)", (unsigned long)self.detailsArray.count];
-        
-        if (self.detailsArray.count == 0)
-        ***REMOVED***
-            self.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (0)"];
-
-                self.label.text = @"No sorted results found.";
-
-            
-            self.label.hidden = NO;
-        ***REMOVED***
-        else
-        ***REMOVED***
-            self.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (%lu)", (unsigned long)self.detailsArray.count];
-            self.label.hidden = YES;
-        ***REMOVED***
-        
-    ***REMOVED***
-    else
-    ***REMOVED***
-        self.recentSearches  = [self.originalDisplayResults filteredArrayUsingPredicate:comboPredicate];
+        self.recentSearches  = [[self.originalDetailsArray filteredArrayUsingPredicate:comboPredicate] mutableCopy];
 
         if (self.recentSearches.count == 0)
         ***REMOVED***
             self.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (0)"];
             self.label.text = @"No sorted results found.";
-            self.label.hidden = NO;
         ***REMOVED***
         else
         ***REMOVED***
             self.titleLabel.text = [NSString stringWithFormat:@"Recent Search Results (%lu)", (unsigned long)self.recentSearches.count];
-            self.label.hidden = YES;
+            self.label.text = @"";
         ***REMOVED***
-    ***REMOVED***
+    
     
     [self.tableView reloadData];
 ***REMOVED***

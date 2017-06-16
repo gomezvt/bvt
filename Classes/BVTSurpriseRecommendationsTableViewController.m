@@ -189,68 +189,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         
         cell.openCloseLabel.text = @"";
         cell.secondaryOpenCloseLabel.text = @"";
-        
-        if (biz.bizThumbNail)
-        ***REMOVED***
-            cell.thumbNailView.image = biz.bizThumbNail;
-        ***REMOVED***
-        else
-        ***REMOVED***
-            cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                ***REMOVED*** Your Background work
-                NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
-                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                    ***REMOVED*** Update your UI
-                    if (cell.tag == indexPath.row)
-                    ***REMOVED***
-                        if (imageData)
-                        ***REMOVED***
-                            UIImage *image = [UIImage imageWithData:imageData];
-                            biz.bizThumbNail = image;
-                            cell.thumbNailView.image = image;
-                        ***REMOVED***
-                        else
-                        ***REMOVED***
-                            biz.bizThumbNail = [UIImage imageNamed:@"placeholder"];
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***);
-            ***REMOVED***);
-        ***REMOVED***
 
         if (!cachedBiz)
         ***REMOVED***
             __weak typeof(self) weakSelf = self;
-            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                
+            cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+
+***REMOVED***            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+            
                 [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
-                     ***REMOVED***TODO: enter error logic here?
-                     ***REMOVED*** *** Get business photos in advance if they exist, to display from Presentation VC
-                     if (business.photos.count > 0)
-                     ***REMOVED***
-                         NSMutableArray *photosArray = [NSMutableArray array];
-                         for (NSString *photoStr in business.photos)
-                         ***REMOVED***
-                             NSURL *url = [NSURL URLWithString:photoStr];
-                             NSData *imageData = [NSData dataWithContentsOfURL:url];
-                             UIImage *image = [UIImage imageWithData:imageData];
-
-                             [photosArray addObject:image];
-                         ***REMOVED***
-                         
-                         business.photos = photosArray;
-                     ***REMOVED***
-                     
-                     if (![weakSelf.cachedDetails containsObject:business])
-                     ***REMOVED***
-                         if (business)
-                         ***REMOVED***
-                             [weakSelf.cachedDetails addObject:business];
-                         ***REMOVED***
-                     ***REMOVED***
-                     
                      dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                          
                          if (cell.tag == indexPath.row)
@@ -282,12 +230,52 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  ***REMOVED***
                              ***REMOVED***
                          ***REMOVED***
+                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+
+                         ***REMOVED*** Your Background work
+                         NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
+                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                             ***REMOVED*** Update your UI
+                             if (cell.tag == indexPath.row)
+                             ***REMOVED***
+                                 if (business.photos.count > 0)
+                                 ***REMOVED***
+                                     NSMutableArray *photosArray = [NSMutableArray array];
+                                     for (NSString *photoStr in business.photos)
+                                     ***REMOVED***
+                                         NSURL *url = [NSURL URLWithString:photoStr];
+                                         NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                         UIImage *image = [UIImage imageWithData:imageData];
+                                         
+                                         [photosArray addObject:image];
+                                     ***REMOVED***
+                                     
+                                     business.photos = photosArray;
+                                 ***REMOVED***
+                                 
+                                 if (imageData)
+                                 ***REMOVED***
+                                     UIImage *image = [UIImage imageWithData:imageData];
+                                     business.bizThumbNail = image;
+                                     cell.thumbNailView.image = image;
+                                 ***REMOVED***
+                                 else
+                                 ***REMOVED***
+                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                 ***REMOVED***
+                                 
+                                 [weakSelf.cachedDetails addObject:business];
+                             ***REMOVED***
+                         ***REMOVED***);
+                         ***REMOVED***);
                      ***REMOVED***);
                  ***REMOVED***];
-            ***REMOVED***);
+***REMOVED***            ***REMOVED***);
         ***REMOVED***
         else
         ***REMOVED***
+            cell.thumbNailView.image = biz.bizThumbNail;
+
             if (!self.isLargePhone)
             ***REMOVED***
                 if (cachedBiz.isOpenNow)
