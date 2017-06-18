@@ -573,13 +573,19 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                              ***REMOVED***
                                  business.didGetDetails = YES;
                                  
-***REMOVED***                                 YLPBusiness *match = [[weakSelf.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
-***REMOVED***                                 
-***REMOVED***                                 if (match)
-***REMOVED***                                 ***REMOVED***
-***REMOVED***                                     NSInteger index = [weakSelf.originalDetailsArray indexOfObject:match];
-***REMOVED***                                     [weakSelf.originalDetailsArray replaceObjectAtIndex:index withObject:business];
-***REMOVED***                                 ***REMOVED***
+                                 business.didGetDetails = YES;
+                                 
+                                 YLPBusiness *match = [[weakSelf.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
+                                 
+                                 if (match)
+                                 ***REMOVED***
+                                     NSInteger index = [weakSelf.originalDetailsArray indexOfObject:match];
+                                     
+                                     if (index)
+                                     ***REMOVED***
+                                         [weakSelf.originalDetailsArray replaceObjectAtIndex:index withObject:business];
+                                     ***REMOVED***
+                                 ***REMOVED***
                                  
 ***REMOVED***                                 if (!weakSelf.isLargePhone)
 ***REMOVED***                                 ***REMOVED***
