@@ -552,7 +552,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***            [self.block addExecutionBlock:^***REMOVED***
                 [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
                  (YLPBusiness *business, NSError *error) ***REMOVED***
-                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                          NSString *string = error.userInfo[@"NSLocalizedDescription"];
                          
                          if ([string isEqualToString:@"The Internet connection appears to be offline."])
@@ -572,9 +572,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                              if (business)
                              ***REMOVED***
                                  business.didGetDetails = YES;
-                                 
-                                 business.didGetDetails = YES;
-                                 
+                                                                  
                                  YLPBusiness *match = [[weakSelf.originalDetailsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
                                  
                                  if (match)
@@ -587,32 +585,32 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                      ***REMOVED***
                                  ***REMOVED***
                                  
-***REMOVED***                                 if (!weakSelf.isLargePhone)
-***REMOVED***                                 ***REMOVED***
-***REMOVED***                                     if (business.isOpenNow)
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                         cell.secondaryOpenCloseLabel.text = @"Open Now";
-***REMOVED***                                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                     else if (business.hoursItem && !business.isOpenNow)
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
-***REMOVED***                                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                 ***REMOVED***
-***REMOVED***                                 else
-***REMOVED***                                 ***REMOVED***
-***REMOVED***                                     if (business.isOpenNow)
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                         cell.openCloseLabel.text = @"Open Now";
-***REMOVED***                                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                     else if (business.hoursItem && !business.isOpenNow)
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                         cell.openCloseLabel.text = @"Closed Now";
-***REMOVED***                                         cell.openCloseLabel.textColor = [UIColor redColor];
-***REMOVED***                                     ***REMOVED***
-***REMOVED***                                 ***REMOVED***
+                                 if (!weakSelf.isLargePhone)
+                                 ***REMOVED***
+                                     if (business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.secondaryOpenCloseLabel.text = @"Open Now";
+                                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                                     ***REMOVED***
+                                     else if (business.hoursItem && !business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                                     ***REMOVED***
+                                 ***REMOVED***
+                                 else
+                                 ***REMOVED***
+                                     if (business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.openCloseLabel.text = @"Open Now";
+                                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                                     ***REMOVED***
+                                     else if (business.hoursItem && !business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.openCloseLabel.text = @"Closed Now";
+                                         cell.openCloseLabel.textColor = [UIColor redColor];
+                                     ***REMOVED***
+                                 ***REMOVED***
 ***REMOVED***
                                   [weakSelf.cachedBiz addObject:business];
 ***REMOVED***                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
@@ -638,6 +636,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***                                                 NSMutableArray *photosArray = [NSMutableArray array];
 ***REMOVED***                                                 for (NSString *photoStr in business.photos)
 ***REMOVED***                                                 ***REMOVED***
+                                 
 ***REMOVED***                                                     NSURL *url = [NSURL URLWithString:photoStr];
 ***REMOVED***                                                     NSData *imageData = [NSData dataWithContentsOfURL:url];
 ***REMOVED***                                                     UIImage *image = [UIImage imageWithData:imageData];
