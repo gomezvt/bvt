@@ -70,6 +70,7 @@
 ***REMOVED***
     if ([self.delegate respondsToSelector:@selector(didTapHUDCancelButton)])
     ***REMOVED***
+
         [self.delegate didTapHUDCancelButton];
     ***REMOVED***
 ***REMOVED***

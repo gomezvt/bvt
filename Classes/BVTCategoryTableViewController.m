@@ -147,21 +147,19 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
      (YLPSearch *searchResults, NSError *error)***REMOVED***
          dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
              ***REMOVED*** code here
-             if (error)
+             NSString *string = error.userInfo[@"NSLocalizedDescription"];
+             
+             if ([string isEqualToString:@"The Internet connection appears to be offline."])
              ***REMOVED***
                  [weakSelf _hideHUD];
-
-                 NSString *string = error.userInfo[@"NSDebugDescription"];
                  
-                 if (![string isEqualToString:@"JSON text did not start with array or object and option to allow fragments not set."] && ![string isEqualToString:@"The data couldn't be read because it isn't in the correct format."])
-                 ***REMOVED***
-                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                     
-                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                     [alertController addAction:ok];
-                     
-                     [weakSelf presentViewController:alertController animated:YES completion:nil];
-                 ***REMOVED***
+                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                 
+                 UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                 [alertController addAction:ok];
+                 
+                 [weakSelf presentViewController:alertController animated:YES completion:nil];
+                 
              ***REMOVED***
              else if (searchResults.businesses.count == 0)
              ***REMOVED***
