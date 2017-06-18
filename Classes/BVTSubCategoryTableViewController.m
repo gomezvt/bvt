@@ -618,11 +618,16 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                      ***REMOVED***
                          business.didGetDetails = YES;
                          
-                         YLPBusiness *match = [[self.originalFilteredResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
+                         YLPBusiness *match = [[weakSelf.originalFilteredResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
+                         
                          if (match)
                          ***REMOVED***
-                             NSInteger index = [self.originalFilteredResults indexOfObject:match];
-                             [self.originalFilteredResults replaceObjectAtIndex:index withObject:business];
+                             NSInteger index = [weakSelf.originalFilteredResults indexOfObject:match];
+                             
+                             if (index)
+                             ***REMOVED***
+                                 [weakSelf.originalFilteredResults replaceObjectAtIndex:index withObject:business];
+                             ***REMOVED***
                          ***REMOVED***
                          
                          
