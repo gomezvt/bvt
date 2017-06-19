@@ -32,6 +32,7 @@
 @property (nonatomic) BOOL didCancelRequest;
 @property (nonatomic, strong) NSMutableDictionary *orderedDict;
 @property (nonatomic) BOOL isLargePhone;
+@property (nonatomic) BOOL didSelectBiz;
 
 ***REMOVED***
 
@@ -43,12 +44,14 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
-    self.didCancelRequest = YES;
-    self.backChevron.enabled = YES;
-    self.tableView.userInteractionEnabled = YES;
-    self.tabBarController.tabBar.userInteractionEnabled = YES;
-
-    [self.hud removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+        self.didCancelRequest = YES;
+        self.backChevron.enabled = YES;
+        self.tableView.userInteractionEnabled = YES;
+        self.tabBarController.tabBar.userInteractionEnabled = YES;
+        
+        [self.hud removeFromSuperview];
+    ***REMOVED***);
 ***REMOVED***
 
 - (void)awakeFromNib
@@ -172,132 +175,153 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         
         YLPBusiness *biz = [sortedArray2 objectAtIndex:indexPath.row];
         YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
-        if (cachedBiz)
-        ***REMOVED***
-            biz = cachedBiz;
-        ***REMOVED***
-        cell.business = biz;
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.numberOfLines = 0;
         
-        cell.openCloseLabel.text = @"";
-        cell.secondaryOpenCloseLabel.text = @"";
-
-        if (!cachedBiz)
+        dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+            cell.openCloseLabel.text = @"";
+            cell.secondaryOpenCloseLabel.text = @"";
+            cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        ***REMOVED***);
+        
+        if (cachedBiz)
+        ***REMOVED***
+            biz = cachedBiz;
+            
+            dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                if (cell.tag == indexPath.row)
+                ***REMOVED***
+                    cell.thumbNailView.image = cachedBiz.bizThumbNail;
+                    
+                    if (!self.isLargePhone)
+                    ***REMOVED***
+                        if (cachedBiz.isOpenNow)
+                        ***REMOVED***
+                            cell.secondaryOpenCloseLabel.text = @"Open Now";
+                            cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                        ***REMOVED***
+                        else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                        ***REMOVED***
+                            cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                            cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                        ***REMOVED***
+                    ***REMOVED***
+                    else
+                    ***REMOVED***
+                        if (cachedBiz.isOpenNow)
+                        ***REMOVED***
+                            cell.openCloseLabel.text = @"Open Now";
+                            cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                        ***REMOVED***
+                        else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                        ***REMOVED***
+                            cell.openCloseLabel.text = @"Closed Now";
+                            cell.openCloseLabel.textColor = [UIColor redColor];
+                        ***REMOVED***
+                    ***REMOVED***
+                ***REMOVED***
+            ***REMOVED***);
+        ***REMOVED***
+        else if (!self.didSelectBiz)
         ***REMOVED***
             __weak typeof(self) weakSelf = self;
-            cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
-
             
-                [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
-                 (YLPBusiness *business, NSError *error) ***REMOVED***
-***REMOVED***                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                     
-                         if (cell.tag == indexPath.row)
+            [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
+             (YLPBusiness *business, NSError *error) ***REMOVED***
+                 
+                 NSString *string = error.userInfo[@"NSLocalizedDescription"];
+                 
+                 if ([string isEqualToString:@"The Internet connection appears to be offline."])
+                 ***REMOVED***
+                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                         
+                         [weakSelf _hideHud];
+                         
+                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                         
+                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                         [alertController addAction:ok];
+                         
+                         [weakSelf presentViewController:alertController animated:YES completion:nil];
+                     ***REMOVED***);
+                 ***REMOVED***
+                 else
+                 ***REMOVED***
+                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                         if (business)
                          ***REMOVED***
-                             if (!self.isLargePhone)
-                             ***REMOVED***
-                                 if (business.isOpenNow)
-                                 ***REMOVED***
-                                     cell.secondaryOpenCloseLabel.text = @"Open Now";
-                                     cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                                 ***REMOVED***
-                                 else if (business.hoursItem && !business.isOpenNow)
-                                 ***REMOVED***
-                                     cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                                     cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                                 ***REMOVED***
-                             ***REMOVED***
-                             else
-                             ***REMOVED***
-                                 if (business.isOpenNow)
-                                 ***REMOVED***
-                                     cell.openCloseLabel.text = @"Open Now";
-                                     cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                                 ***REMOVED***
-                                 else if (business.hoursItem && !business.isOpenNow)
-                                 ***REMOVED***
-                                     cell.openCloseLabel.text = @"Closed Now";
-                                     cell.openCloseLabel.textColor = [UIColor redColor];
-                                 ***REMOVED***
-                             ***REMOVED***
-                         ***REMOVED***
-                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                             
                              ***REMOVED*** Your Background work
                              NSData *imageData = [NSData dataWithContentsOfURL:biz.imageURL];
-                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
-                                 ***REMOVED*** Update your UI
-                                 if (cell.tag == indexPath.row)
+                             if (business.photos.count > 0)
+                             ***REMOVED***
+                                 NSMutableArray *photosArray = [NSMutableArray array];
+                                 for (NSString *photoStr in business.photos)
                                  ***REMOVED***
-                                     if (business.photos.count > 0)
-                                     ***REMOVED***
-                                         NSMutableArray *photosArray = [NSMutableArray array];
-                                         for (NSString *photoStr in business.photos)
-                                         ***REMOVED***
-                                             NSURL *url = [NSURL URLWithString:photoStr];
-                                             NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                             UIImage *image = [UIImage imageWithData:imageData];
-                                             
-                                             if (imageData)
-                                             ***REMOVED***
-                                                 [photosArray addObject:image];
-                                             ***REMOVED***
-                                         ***REMOVED***
-                                         
-                                         business.photos = photosArray;
-                                     ***REMOVED***
+                                     NSURL *url = [NSURL URLWithString:photoStr];
+                                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                     UIImage *image = [UIImage imageWithData:imageData];
                                      
                                      if (imageData)
                                      ***REMOVED***
-                                         UIImage *image = [UIImage imageWithData:imageData];
-                                         business.bizThumbNail = image;
-                                         cell.thumbNailView.image = image;
+                                         [photosArray addObject:image];
+                                     ***REMOVED***
+                                 ***REMOVED***
+                                 
+                                 business.photos = photosArray;
+                             ***REMOVED***
+                             
+                             if (imageData)
+                             ***REMOVED***
+                                 UIImage *image = [UIImage imageWithData:imageData];
+                                 business.bizThumbNail = image;
+                                 cell.thumbNailView.image = image;
+                             ***REMOVED***
+                             else
+                             ***REMOVED***
+                                 business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                             ***REMOVED***
+                             
+                             [weakSelf.cachedDetails addObject:business];
+                             dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                                 ***REMOVED*** Update your UI
+                                 if (cell.tag == indexPath.row)
+                                 ***REMOVED***
+                                     if (!self.isLargePhone)
+                                     ***REMOVED***
+                                         if (business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.secondaryOpenCloseLabel.text = @"Open Now";
+                                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                                         ***REMOVED***
+                                         else if (business.hoursItem && !business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                                         ***REMOVED***
                                      ***REMOVED***
                                      else
                                      ***REMOVED***
-                                         business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                         if (business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.openCloseLabel.text = @"Open Now";
+                                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                                         ***REMOVED***
+                                         else if (business.hoursItem && !business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.openCloseLabel.text = @"Closed Now";
+                                             cell.openCloseLabel.textColor = [UIColor redColor];
+                                         ***REMOVED***
                                      ***REMOVED***
-                                     
-                                     [weakSelf.cachedDetails addObject:business];
                                  ***REMOVED***
                              ***REMOVED***);
-                         ***REMOVED***);
-***REMOVED***                     ***REMOVED***);
-                 ***REMOVED***];
-            
+                         ***REMOVED***
+                     ***REMOVED***);
+                 ***REMOVED***
+             ***REMOVED***];
         ***REMOVED***
-        else
-        ***REMOVED***
-            cell.thumbNailView.image = biz.bizThumbNail;
-
-            if (!self.isLargePhone)
-            ***REMOVED***
-                if (cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Open Now";
-                    cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                    cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                ***REMOVED***
-            ***REMOVED***
-            else
-            ***REMOVED***
-                if (cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Open Now";
-                    cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Closed Now";
-                    cell.openCloseLabel.textColor = [UIColor redColor];
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+        
+        cell.business = biz;
     ***REMOVED***
     
     return cell;
@@ -316,14 +340,14 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
+    self.backChevron.enabled = NO;
+
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
-    
     self.didCancelRequest = NO;
+    self.didSelectBiz = YES;
     self.tableView.userInteractionEnabled = NO;
     self.tabBarController.tabBar.userInteractionEnabled = NO;
-
-    self.backChevron.enabled = NO;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -347,11 +371,11 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     
     YLPBusiness *selectedBusiness = [sortedArray objectAtIndex:indexPath.row];
     YLPBusiness *cachedBiz = [[self.cachedDetails filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", selectedBusiness.identifier]] lastObject];
+            __weak typeof(self) weakSelf = self;
+
     if (cachedBiz)
     ***REMOVED***
-        selectedBusiness = cachedBiz;
-        __weak typeof(self) weakSelf = self;
-        [[AppDelegate sharedClient] reviewsForBusinessWithId:selectedBusiness.identifier
+        [[AppDelegate sharedClient] reviewsForBusinessWithId:cachedBiz.identifier
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                    NSString *string = error.userInfo[@"NSLocalizedDescription"];
@@ -385,24 +409,22 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                ***REMOVED***
                                                                [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];                                                                ***REMOVED***
                                                        ***REMOVED***
-                                                       selectedBusiness.reviews = reviews.reviews;
-                                                       selectedBusiness.userPhotosArray = userPhotos;
+                                                       cachedBiz.reviews = reviews.reviews;
+                                                       cachedBiz.userPhotosArray = userPhotos;
                                                        
                                                        if (!weakSelf.didCancelRequest)
                                                        ***REMOVED***
                                                            [weakSelf _hideHud];
                                                            
-                                                           [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:selectedBusiness];
+                                                           [weakSelf performSegueWithIdentifier:kShowDetailSegue sender:cachedBiz];
                                                        ***REMOVED***
                                                    ***REMOVED***
                                                    
                                                ***REMOVED***);
                                            ***REMOVED***];
-        
     ***REMOVED***
     else
     ***REMOVED***
-        __weak typeof(self) weakSelf = self;
         [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -431,6 +453,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              NSURL *url = [NSURL URLWithString:photoStr];
                              NSData *imageData = [NSData dataWithContentsOfURL:url];
                              UIImage *image = [UIImage imageWithData:imageData];
+                             
                              if (imageData)
                              ***REMOVED***
                                  [photosArray addObject:image];
@@ -493,7 +516,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
              
          ***REMOVED***];
     ***REMOVED***
-    
 ***REMOVED***
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

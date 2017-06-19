@@ -61,7 +61,6 @@
 @property (nonatomic) double milesKeyValue;
 @property (nonatomic, strong) NSString *priceKeyValue;
 @property (nonatomic, strong) NSString *openCloseKeyValue;
-@property (nonatomic) BOOL gotDetails;
 ***REMOVED***@property (nonatomic, strong) NSArray *arrayForSorting;
 @property (nonatomic, strong) NSMutableArray *originalDetailsArray;
 @property (nonatomic) BOOL isLargePhone;
@@ -191,14 +190,12 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 - (void)didTapHUDCancelButton
 ***REMOVED***
     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-
-    self.didCancelRequest = YES;
-    self.searchBar.userInteractionEnabled = YES;
-    self.tableView.userInteractionEnabled = YES;
-    self.tabBarController.tabBar.userInteractionEnabled = YES;
-
-
-    [self.hud removeFromSuperview];
+        self.didCancelRequest = YES;
+        self.searchBar.userInteractionEnabled = YES;
+        self.tableView.userInteractionEnabled = YES;
+        self.tabBarController.tabBar.userInteractionEnabled = YES;
+        
+        [self.hud removeFromSuperview];
     ***REMOVED***);
 ***REMOVED***
 
@@ -218,7 +215,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
-    self.gotDetails = NO;
     
     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
 
@@ -282,8 +278,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
      ***REMOVED***];
 ***REMOVED***
 
-
-
 - (IBAction)didTapStarSortIcon:(id)sender
 ***REMOVED***
     self.starButton.selected = ![self.starButton isSelected];
@@ -306,14 +300,14 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 #pragma mark - TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-***REMOVED***
-
+***REMOVED***    
     self.hud = [BVTHUDView hudWithView:self.navigationController.view];
     self.hud.delegate = self;
     self.didCancelRequest = NO;
     self.didSelectBiz = YES;
     self.tableView.userInteractionEnabled = NO;
     self.tabBarController.tabBar.userInteractionEnabled = NO;
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     YLPBusiness *selectedBusiness = [self.recentSearches objectAtIndex:indexPath.row];
@@ -494,8 +488,15 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     BVTThumbNailTableViewCell *cell = (BVTThumbNailTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.tag = indexPath.row;
-    cell.openCloseLabel.text = @"";
-    cell.secondaryOpenCloseLabel.text = @"";
+    dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+        if (cell.tag == indexPath.row)
+        ***REMOVED***
+        cell.openCloseLabel.text = @"";
+        cell.secondaryOpenCloseLabel.text = @"";
+        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
+        ***REMOVED***
+    ***REMOVED***);
+
     
     YLPBusiness *biz = [self.recentSearches objectAtIndex:indexPath.row];
     YLPBusiness *cachedBiz = [[self.cachedBiz filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
@@ -504,48 +505,48 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     ***REMOVED***
         biz = cachedBiz;
         
-        cell.thumbNailView.image = cachedBiz.bizThumbNail;
-        
         dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
-            
-            if (!self.isLargePhone)
+            if (cell.tag == indexPath.row)
             ***REMOVED***
-                if (cachedBiz.isOpenNow)
+                cell.thumbNailView.image = cachedBiz.bizThumbNail;
+                
+                if (!self.isLargePhone)
                 ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Open Now";
-                    cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                    if (cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.secondaryOpenCloseLabel.text = @"Open Now";
+                        cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                    ***REMOVED***
+                    else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                        cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                    ***REMOVED***
                 ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                else
                 ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                    cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                ***REMOVED***
-            ***REMOVED***
-            else
-            ***REMOVED***
-                if (cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Open Now";
-                    cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Closed Now";
-                    cell.openCloseLabel.textColor = [UIColor redColor];
+                    if (cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.openCloseLabel.text = @"Open Now";
+                        cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                    ***REMOVED***
+                    else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.openCloseLabel.text = @"Closed Now";
+                        cell.openCloseLabel.textColor = [UIColor redColor];
+                    ***REMOVED***
                 ***REMOVED***
             ***REMOVED***
         ***REMOVED***);
     ***REMOVED***
-    else
+    else if (!self.didSelectBiz)
     ***REMOVED***
-        cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
         __weak typeof(self) weakSelf = self;
         
-        if (!self.didSelectBiz)
-        ***REMOVED***
+
             [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
              (YLPBusiness *business, NSError *error) ***REMOVED***
-                 
+
                  NSString *string = error.userInfo[@"NSLocalizedDescription"];
                  
                  if ([string isEqualToString:@"The Internet connection appears to be offline."])
@@ -655,7 +656,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                  ***REMOVED***
              ***REMOVED***];
         ***REMOVED***
-    ***REMOVED***
+    
     
     cell.business = biz;
     
@@ -736,31 +737,29 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     ***REMOVED***
     
     NSPredicate *openClosePredicate;
-***REMOVED***    if (self.openNowButton.hidden == NO)
-***REMOVED***    ***REMOVED***
-        if (!self.openCloseKeyValue)
-        ***REMOVED***
-            self.openCloseKeyValue = @"Open/Closed";
-        ***REMOVED***
-        
-        if ([self.openCloseKeyValue isEqualToString:@"Open"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
-        ***REMOVED***
-        
-        if (openClosePredicate)
-        ***REMOVED***
-            [arrayPred addObject:openClosePredicate];
-        ***REMOVED***
-***REMOVED***    ***REMOVED***
+    
+    if (!self.openCloseKeyValue)
+    ***REMOVED***
+        self.openCloseKeyValue = @"Open/Closed";
+    ***REMOVED***
+    
+    if ([self.openCloseKeyValue isEqualToString:@"Open"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
+    ***REMOVED***
+    
+    if (openClosePredicate)
+    ***REMOVED***
+        [arrayPred addObject:openClosePredicate];
+    ***REMOVED***
     
     NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
         self.recentSearches  = [[self.originalDetailsArray filteredArrayUsingPredicate:comboPredicate] mutableCopy];
