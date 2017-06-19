@@ -189,8 +189,9 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
-    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-        self.didCancelRequest = YES;
+    self.didCancelRequest = YES;
+
+    dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
         self.searchBar.userInteractionEnabled = YES;
         self.tableView.userInteractionEnabled = YES;
         self.tabBarController.tabBar.userInteractionEnabled = YES;
@@ -319,7 +320,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 
     if (cachedBiz)
     ***REMOVED***
-        
         [[AppDelegate sharedClient] reviewsForBusinessWithId:cachedBiz.identifier
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -358,7 +358,10 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                        ***REMOVED***
                                                        cachedBiz.reviews = reviews.reviews;
                                                        cachedBiz.userPhotosArray = userPhotos;
+                                                       ***REMOVED***);
                                                        
+                                                       dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+
                                                        if (!weakSelf.didCancelRequest)
                                                        ***REMOVED***
                                                            [weakSelf _hideHUD];
@@ -415,7 +418,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                      ***REMOVED***);
                      [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
-                                                            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                            dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
                                                                 NSString *string = error.userInfo[@"NSLocalizedDescription"];
                                                                 
                                                                 if ([string isEqualToString:@"The Internet connection appears to be offline."])
@@ -454,7 +457,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                                     
                                                                     ***REMOVED***);
                                                                     
-                                                                    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                                    dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
                                                                         
                                                                         if (!weakSelf.didCancelRequest)
                                                                         ***REMOVED***
@@ -482,10 +485,9 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     self.tableView.userInteractionEnabled = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
     self.searchBar.userInteractionEnabled = YES;
-
+    
     [self.hud removeFromSuperview];
 ***REMOVED***
-
 
 #pragma mark - TableView Data Source
 
@@ -606,6 +608,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                      for (NSString *photoStr in business.photos)
                                      ***REMOVED***
                                          NSURL *url = [NSURL URLWithString:photoStr];
+
                                          NSData *imageData = [NSData dataWithContentsOfURL:url];
                                          
                                          UIImage *image = [UIImage imageWithData:imageData];

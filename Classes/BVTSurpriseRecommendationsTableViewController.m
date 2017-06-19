@@ -44,8 +44,9 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)didTapHUDCancelButton
 ***REMOVED***
-    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-        self.didCancelRequest = YES;
+    self.didCancelRequest = YES;
+
+    dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
         self.backChevron.enabled = YES;
         self.tableView.userInteractionEnabled = YES;
         self.tabBarController.tabBar.userInteractionEnabled = YES;
@@ -248,7 +249,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                  ***REMOVED***
                  else
                  ***REMOVED***
-                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^***REMOVED***
+                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)***REMOVED***
                          if (business)
                          ***REMOVED***
                              ***REMOVED*** Your Background work
@@ -259,6 +260,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  for (NSString *photoStr in business.photos)
                                  ***REMOVED***
                                      NSURL *url = [NSURL URLWithString:photoStr];
+
                                      NSData *imageData = [NSData dataWithContentsOfURL:url];
                                      UIImage *image = [UIImage imageWithData:imageData];
                                      
@@ -287,7 +289,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                  ***REMOVED*** Update your UI
                                  if (cell.tag == indexPath.row)
                                  ***REMOVED***
-                                     if (!self.isLargePhone)
+                                     if (!weakSelf.isLargePhone)
                                      ***REMOVED***
                                          if (business.isOpenNow)
                                          ***REMOVED***
@@ -377,7 +379,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
     if (cachedBiz)
     ***REMOVED***
-        
         [[AppDelegate sharedClient] reviewsForBusinessWithId:cachedBiz.identifier
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -412,11 +413,15 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                    ***REMOVED***
                                                                        image = [UIImage imageWithData:imageData];
                                                                    ***REMOVED***
-                                                                   [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];                                                                ***REMOVED***
+                                                                   [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];
+                                                                   ***REMOVED***
                                                            ***REMOVED***
                                                            cachedBiz.reviews = reviews.reviews;
                                                            cachedBiz.userPhotosArray = userPhotos;
-                                                           
+                                                       ***REMOVED***);
+                                                       
+                                                       dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+
                                                            if (!weakSelf.didCancelRequest)
                                                            ***REMOVED***
                                                                [weakSelf _hideHud];
@@ -473,7 +478,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                      ***REMOVED***);
                      [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
-                                                            dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                            dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
                                                                 NSString *string = error.userInfo[@"NSLocalizedDescription"];
                                                                 
                                                                 if ([string isEqualToString:@"The Internet connection appears to be offline."])
@@ -512,7 +517,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                         
                                                                     ***REMOVED***);
                                                                     
-                                                                    dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                                                                    dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
                                                                         
                                                                         if (!weakSelf.didCancelRequest)
                                                                         ***REMOVED***
