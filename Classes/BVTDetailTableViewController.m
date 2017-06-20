@@ -300,7 +300,7 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
     ***REMOVED***
     else
     ***REMOVED***
-        reviewsTitle = [NSString stringWithFormat: @"Reviews (%lu)", (unsigned long)self.selectedBusiness.reviews.count];
+        reviewsTitle = [NSString stringWithFormat: @"Reviews (%lu)", (unsigned long)self.selectedBusiness.reviewCount];
     ***REMOVED***
     
     if (indexPath.row == 0)
