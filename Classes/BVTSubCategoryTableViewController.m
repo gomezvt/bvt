@@ -567,7 +567,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         ***REMOVED***
     ***REMOVED***);
     
-    YLPBusiness *biz = [self.filteredResults objectAtIndex:indexPath.row];
+    __block YLPBusiness *biz = [self.filteredResults objectAtIndex:indexPath.row];
     
     NSArray *cachedBizArray = [self.cachedDetails valueForKey:self.subCategoryTitle];
     YLPBusiness *cachedBiz = [[cachedBizArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
@@ -638,6 +638,39 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                  ***REMOVED***
                      if (business)
                      ***REMOVED***
+                         dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                             ***REMOVED*** Update your UI
+                             if (cell.tag == indexPath.row)
+                             ***REMOVED***
+                                 if (!weakSelf.isLargePhone)
+                                 ***REMOVED***
+                                     if (business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.secondaryOpenCloseLabel.text = @"Open Now";
+                                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                                     ***REMOVED***
+                                     else if (business.hoursItem && !business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                                     ***REMOVED***
+                                 ***REMOVED***
+                                 else
+                                 ***REMOVED***
+                                     if (business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.openCloseLabel.text = @"Open Now";
+                                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                                     ***REMOVED***
+                                     else if (business.hoursItem && !business.isOpenNow)
+                                     ***REMOVED***
+                                         cell.openCloseLabel.text = @"Closed Now";
+                                         cell.openCloseLabel.textColor = [UIColor redColor];
+                                     ***REMOVED***
+                                 ***REMOVED***
+                             ***REMOVED***
+                         ***REMOVED***);
+
                          dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)***REMOVED***
                              ***REMOVED*** Your Background work
                              if (cell.tag == indexPath.row)
@@ -672,62 +705,26 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                      ***REMOVED***
                                      
                                      business.photos = photosArray;
-                                     
+
+                                     business.didGetDetails = YES;
                                      [weakSelf.displayArray addObject:business];
                                      [weakSelf.cachedDetails setObject:weakSelf.displayArray forKey:weakSelf.subCategoryTitle];
-                                     business.didGetDetails = YES;
-
+                                     biz = business;
+                                     
                                      YLPBusiness *match = [[weakSelf.originalFilteredResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", business.identifier]] lastObject];
                                      
                                      if (match)
                                      ***REMOVED***
                                          NSInteger index = [weakSelf.originalFilteredResults indexOfObject:match];
-                                         
-                                         if (index)
-                                         ***REMOVED***
-                                             [weakSelf.originalFilteredResults replaceObjectAtIndex:index withObject:business];
-                                         ***REMOVED***
+                                         [weakSelf.originalFilteredResults replaceObjectAtIndex:index withObject:business];
                                      ***REMOVED***
                                  ***REMOVED***
                              ***REMOVED***
-                             
-                             dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
-                                 ***REMOVED*** Update your UI
-                                 if (cell.tag == indexPath.row)
-                                 ***REMOVED***
-                                     if (!weakSelf.isLargePhone)
-                                     ***REMOVED***
-                                         if (business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.secondaryOpenCloseLabel.text = @"Open Now";
-                                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                                         ***REMOVED***
-                                         else if (business.hoursItem && !business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                                         ***REMOVED***
-                                     ***REMOVED***
-                                     else
-                                     ***REMOVED***
-                                         if (business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.openCloseLabel.text = @"Open Now";
-                                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                                         ***REMOVED***
-                                         else if (business.hoursItem && !business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.openCloseLabel.text = @"Closed Now";
-                                             cell.openCloseLabel.textColor = [UIColor redColor];
-                                         ***REMOVED***
-                                     ***REMOVED***
-                                 ***REMOVED***
-                             ***REMOVED***);
                          ***REMOVED***);
                      ***REMOVED***
                  ***REMOVED***
              ***REMOVED***];
-        ***REMOVED***
+    ***REMOVED***
     
     
     cell.business = biz;
