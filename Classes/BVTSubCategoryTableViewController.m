@@ -616,96 +616,68 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         __weak typeof(self) weakSelf = self;
         
  
-            [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
-             (YLPBusiness *business, NSError *error) ***REMOVED***
-                 NSString *string = error.userInfo[@"NSLocalizedDescription"];
-                 
-                 if ([string isEqualToString:@"The Internet connection appears to be offline."])
+        [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
+         (YLPBusiness *business, NSError *error) ***REMOVED***
+             NSString *string = error.userInfo[@"NSLocalizedDescription"];
+             
+             if ([string isEqualToString:@"The Internet connection appears to be offline."])
+             ***REMOVED***
+                 dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                     
+                     [weakSelf _hideHUD];
+                     
+                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                     
+                     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+                     [alertController addAction:ok];
+                     
+                     [weakSelf presentViewController:alertController animated:YES completion:nil];
+                 ***REMOVED***);
+             ***REMOVED***
+             else
+             ***REMOVED***
+                 if (business)
                  ***REMOVED***
-                     dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                         
-                         [weakSelf _hideHUD];
-                         
-                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-                         
-                         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-                         [alertController addAction:ok];
-                         
-                         [weakSelf presentViewController:alertController animated:YES completion:nil];
-                     ***REMOVED***);
-                 ***REMOVED***
-                 else
-                 ***REMOVED***
-                     if (business)
-                     ***REMOVED***
-                         dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
-                             ***REMOVED*** Update your UI
-                             if (cell.tag == indexPath.row)
+                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)***REMOVED***
+                         ***REMOVED*** Your Background work
+                         if (cell.tag == indexPath.row)
+                         ***REMOVED***
+                             if (business.photos.count > 0)
                              ***REMOVED***
-                                 if (!weakSelf.isLargePhone)
+                                 NSMutableArray *photosArray = [NSMutableArray array];
+                                 for (NSString *photoStr in business.photos)
                                  ***REMOVED***
-                                     if (business.isOpenNow)
-                                     ***REMOVED***
-                                         cell.secondaryOpenCloseLabel.text = @"Open Now";
-                                         cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                                     ***REMOVED***
-                                     else if (business.hoursItem && !business.isOpenNow)
-                                     ***REMOVED***
-                                         cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                                         cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                                     ***REMOVED***
-                                 ***REMOVED***
-                                 else
-                                 ***REMOVED***
-                                     if (business.isOpenNow)
-                                     ***REMOVED***
-                                         cell.openCloseLabel.text = @"Open Now";
-                                         cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                                     ***REMOVED***
-                                     else if (business.hoursItem && !business.isOpenNow)
-                                     ***REMOVED***
-                                         cell.openCloseLabel.text = @"Closed Now";
-                                         cell.openCloseLabel.textColor = [UIColor redColor];
-                                     ***REMOVED***
-                                 ***REMOVED***
-                             ***REMOVED***
-                         ***REMOVED***);
-
-                         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)***REMOVED***
-                             ***REMOVED*** Your Background work
-                             if (cell.tag == indexPath.row)
-                             ***REMOVED***
-                                 NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
-                                 if (imageData)
-                                 ***REMOVED***
+                                     NSURL *url = [NSURL URLWithString:photoStr];
+                                     
+                                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                     
                                      UIImage *image = [UIImage imageWithData:imageData];
-                                     business.bizThumbNail = image;
-                                     cell.thumbNailView.image = image;
-                                 ***REMOVED***
-                                 else
-                                 ***REMOVED***
-                                     business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
+                                     
+                                     if (imageData)
+                                     ***REMOVED***
+                                         [photosArray addObject:image];
+                                     ***REMOVED***
                                  ***REMOVED***
                                  
-                                 if (business.photos.count > 0)
+                                 business.photos = photosArray;
+                             ***REMOVED***
+                             
+                             NSData *imageData = [NSData dataWithContentsOfURL:business.imageURL];
+                             dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                                 ***REMOVED*** Update your UI
+                                 if (cell.tag == indexPath.row)
                                  ***REMOVED***
-                                     NSMutableArray *photosArray = [NSMutableArray array];
-                                     for (NSString *photoStr in business.photos)
+                                     if (imageData)
                                      ***REMOVED***
-                                         NSURL *url = [NSURL URLWithString:photoStr];
-
-                                         NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                         
                                          UIImage *image = [UIImage imageWithData:imageData];
-                                         
-                                         if (imageData)
-                                         ***REMOVED***
-                                             [photosArray addObject:image];
-                                         ***REMOVED***
+                                         business.bizThumbNail = image;
+                                         cell.thumbNailView.image = image;
+                                     ***REMOVED***
+                                     else
+                                     ***REMOVED***
+                                         business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
                                      ***REMOVED***
                                      
-                                     business.photos = photosArray;
-
                                      business.didGetDetails = YES;
                                      [weakSelf.displayArray addObject:business];
                                      [weakSelf.cachedDetails setObject:weakSelf.displayArray forKey:weakSelf.subCategoryTitle];
@@ -718,14 +690,43 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          NSInteger index = [weakSelf.originalFilteredResults indexOfObject:match];
                                          [weakSelf.originalFilteredResults replaceObjectAtIndex:index withObject:business];
                                      ***REMOVED***
+                                     
+                                     if (!weakSelf.isLargePhone)
+                                     ***REMOVED***
+                                         if (business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.secondaryOpenCloseLabel.text = @"Open Now";
+                                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                                         ***REMOVED***
+                                         else if (business.hoursItem && !business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                                         ***REMOVED***
+                                     ***REMOVED***
+                                     else
+                                     ***REMOVED***
+                                         if (business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.openCloseLabel.text = @"Open Now";
+                                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                                         ***REMOVED***
+                                         else if (business.hoursItem && !business.isOpenNow)
+                                         ***REMOVED***
+                                             cell.openCloseLabel.text = @"Closed Now";
+                                             cell.openCloseLabel.textColor = [UIColor redColor];
+                                         ***REMOVED***
+                                     ***REMOVED***
                                  ***REMOVED***
-                             ***REMOVED***
-                         ***REMOVED***);
-                     ***REMOVED***
+                             ***REMOVED***);
+                         ***REMOVED***
+                     ***REMOVED***);
                  ***REMOVED***
-             ***REMOVED***];
+             ***REMOVED***
+         ***REMOVED***];
     ***REMOVED***
     
+                                     
     
     cell.business = biz;
     
