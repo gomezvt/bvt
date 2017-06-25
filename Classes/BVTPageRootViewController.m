@@ -24,7 +24,9 @@
     BOOL tutorialIsComplete = [[NSUserDefaults standardUserDefaults] boolForKey:@"BVTTutorialComplete"];
     if (tutorialIsComplete)
     ***REMOVED***
-        [self performSegueWithIdentifier:@"ShowTabBarController" sender:nil];
+        dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+            [self performSegueWithIdentifier:@"ShowTabBarController" sender:nil];
+        ***REMOVED***);
     ***REMOVED***
     else
     ***REMOVED***
