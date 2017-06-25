@@ -72,6 +72,13 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
 ***REMOVED***
     [super viewDidLoad];
     
+***REMOVED***    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ConfiguredDetailBanner"])
+***REMOVED***    ***REMOVED***
+***REMOVED***        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ConfiguredDetailBanner"];
+***REMOVED***        UIView *view = self.tabBarController.selectedViewController.view;
+***REMOVED***        [view setFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height - 100)];
+***REMOVED***    ***REMOVED***
+    
     self.tableView.tableFooterView = [UIView new];
 
     

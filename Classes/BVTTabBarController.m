@@ -16,27 +16,18 @@
 
 @implementation BVTTabBarController
 
-- (void)viewDidLoad ***REMOVED***
+- (void)viewDidLoad
+***REMOVED***
     [super viewDidLoad];
     
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    CGRect mainScreen = [[UIScreen mainScreen] bounds];
+    CGFloat tabBarVertical = mainScreen.size.height - 100.f;
+    
+    [self.tabBar setFrame:CGRectMake(0, tabBarVertical, self.tabBar.frame.size.width, self.tabBar.frame.size.height)];
+
     [self.tabBar setTintColor:[BVTStyles tabBarTint]];
-        
-    ***REMOVED*** Do any additional setup after loading the view.
 ***REMOVED***
-
-- (void)didReceiveMemoryWarning ***REMOVED***
-    [super didReceiveMemoryWarning];
-    ***REMOVED*** Dispose of any resources that can be recreated.
-***REMOVED***
-
-/*
-#pragma mark - Navigation
-
-***REMOVED*** In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender ***REMOVED***
-    ***REMOVED*** Get the new view controller using [segue destinationViewController].
-    ***REMOVED*** Pass the selected object to the new view controller.
-***REMOVED***
-*/
 
 ***REMOVED***
