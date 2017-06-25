@@ -371,7 +371,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     if (cachedBiz)
     ***REMOVED***
         
-        [[AppDelegate sharedClient] reviewsForBusinessWithId:cachedBiz.identifier
+        [[AppDelegate yelp] reviewsForBusinessWithId:cachedBiz.identifier
                                            completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                                                    NSString *string = error.userInfo[@"NSLocalizedDescription"];
@@ -428,7 +428,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     ***REMOVED***
     else
     ***REMOVED***
-        [[AppDelegate sharedClient] businessWithId:selectedBusiness.identifier completionHandler:^
+        [[AppDelegate yelp] businessWithId:selectedBusiness.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
              dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
                  NSString *string = error.userInfo[@"NSLocalizedDescription"];
@@ -468,7 +468,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                              business.photos = photosArray;
                          ***REMOVED***
                      ***REMOVED***);
-                     [[AppDelegate sharedClient] reviewsForBusinessWithId:business.identifier
+                     [[AppDelegate yelp] reviewsForBusinessWithId:business.identifier
                                                         completionHandler:^(YLPBusinessReviews * _Nullable reviews, NSError * _Nullable error) ***REMOVED***
                                                             dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
                                                                 NSString *string = error.userInfo[@"NSLocalizedDescription"];
@@ -614,7 +614,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         __weak typeof(self) weakSelf = self;
         
  
-        [[AppDelegate sharedClient] businessWithId:biz.identifier completionHandler:^
+        [[AppDelegate yelp] businessWithId:biz.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
              NSString *string = error.userInfo[@"NSLocalizedDescription"];
              
