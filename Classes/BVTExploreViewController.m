@@ -67,7 +67,7 @@ static NSString *const kShowSubCategorySegue = @"ShowSubCategory";
     
 
 ***REMOVED***    
-    self.bannerView.adUnitID = @"ca-app-pub-8236497982755596/2923452267";
+***REMOVED***    self.bannerView.adUnitID = @"ca-app-pub-8236497982755596/2923452267";
     self.bannerView.rootViewController = self;
     
     GADRequest *request = [GADRequest request];
