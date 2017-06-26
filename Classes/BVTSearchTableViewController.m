@@ -518,7 +518,7 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
     __block YLPBusiness *biz = [self.recentSearches objectAtIndex:indexPath.row];
     YLPBusiness *cachedBiz = [[self.cachedBiz filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
     
-    if (cachedBiz)
+    if (cachedBiz && cachedBiz.didGetDetails)
     {
         biz = cachedBiz;
         

@@ -570,7 +570,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
     NSArray *cachedBizArray = [self.cachedDetails valueForKey:self.subCategoryTitle];
     YLPBusiness *cachedBiz = [[cachedBizArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"identifier = %@", biz.identifier]] lastObject];
     
-    if (cachedBiz)
+    if (cachedBiz && cachedBiz.didGetDetails)
     {
         biz = cachedBiz;
         

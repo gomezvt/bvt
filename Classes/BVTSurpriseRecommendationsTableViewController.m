@@ -180,7 +180,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
         });
         
-        if (cachedBiz)
+        if (cachedBiz && cachedBiz.didGetDetails)
         {
             biz = cachedBiz;
             
@@ -283,7 +283,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          {
                                              business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
                                          }
-                                         
+                                         business.didGetDetails = YES;
                                          [weakSelf.cachedDetails addObject:business];
                                          
                                          biz = business;
