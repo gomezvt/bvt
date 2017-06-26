@@ -35,6 +35,7 @@
 @property (nonatomic) BOOL isLargePhone;
 @property (nonatomic) BOOL didSelectBiz;
 @property (nonatomic, strong) GADBannerView *bannerView;
+@property (nonatomic) BOOL didGetDetails;
 
 ***REMOVED***
 
@@ -198,7 +199,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
             cell.thumbNailView.image = [UIImage imageNamed:@"placeholder"];
         ***REMOVED***);
         
-        if (cachedBiz)
+        if (cachedBiz && cachedBiz.didGetDetails)
         ***REMOVED***
             biz = cachedBiz;
             
@@ -301,7 +302,7 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          ***REMOVED***
                                              business.bizThumbNail = [UIImage imageNamed:@"placeholder"];
                                          ***REMOVED***
-                                         
+                                         business.didGetDetails = YES;
                                          [weakSelf.cachedDetails addObject:business];
                                          
                                          biz = business;
