@@ -587,7 +587,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
         
             [[AppDelegate yelp] businessWithId:biz.identifier completionHandler:^
              (YLPBusiness *business, NSError *error) ***REMOVED***
-
+                 if ([biz.identifier isEqualToString:business.identifier])
+                 ***REMOVED***
+                     business.miles = biz.miles;
+                 ***REMOVED***
+                 
                  NSString *string = error.userInfo[@"NSLocalizedDescription"];
                  
                  if ([string isEqualToString:@"The Internet connection appears to be offline."])
