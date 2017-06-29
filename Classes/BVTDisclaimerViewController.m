@@ -84,6 +84,8 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 ***REMOVED***
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
     
 ***REMOVED***
