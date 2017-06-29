@@ -473,20 +473,32 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                          ***REMOVED*** *** Get business photos in advance if they exist, to display from Presentation VC
                          if (business.photos.count > 0)
                          ***REMOVED***
-                             NSMutableArray *photosArray = [NSMutableArray array];
-                             for (NSString *photoStr in business.photos)
+                             if ([[business.photos firstObject] isKindOfClass:[NSString class]])
                              ***REMOVED***
-                                 NSURL *url = [NSURL URLWithString:photoStr];
-                                 NSData *imageData = [NSData dataWithContentsOfURL:url];
-                                 UIImage *image = [UIImage imageWithData:imageData];
+                                 NSMutableArray *photosArray = [NSMutableArray array];
+                                 for (NSString *photoStr in business.photos)
+                                 ***REMOVED***
+                                     NSURL *url = [NSURL URLWithString:photoStr];
+                                     NSData *imageData = [NSData dataWithContentsOfURL:url];
+                                     UIImage *image = [UIImage imageWithData:imageData];
+                                     
+                                     if (imageData)
+                                     ***REMOVED***
+                                         [photosArray addObject:image];
+                                     ***REMOVED***
+                                 ***REMOVED***
                                  
-                                 if (imageData)
-                                 ***REMOVED***
-                                     [photosArray addObject:image];
-                                 ***REMOVED***
+                                 business.photos = photosArray;
+                                 
+                                 dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                                     if ([[business.photos lastObject] isKindOfClass:[UIImage class]])
+                                     ***REMOVED***
+                                         [[NSNotificationCenter defaultCenter]
+                                          postNotificationName:@"receivedBizPhotos"
+                                          object:self];
+                                     ***REMOVED***
+                                 ***REMOVED***);
                              ***REMOVED***
-                             
-                             business.photos = photosArray;
                          ***REMOVED***
                      ***REMOVED***);
                      [[AppDelegate yelp] reviewsForBusinessWithId:business.identifier
@@ -527,7 +539,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                         ***REMOVED***
                                                                         business.reviews = reviews.reviews;
                                                                         business.userPhotosArray = userPhotos;
-                                                                        
+                                                                        if ([[business.userPhotosArray lastObject] isKindOfClass:[UIImage class]])
+                                                                        ***REMOVED***
+                                                                            [[NSNotificationCenter defaultCenter]
+                                                                             postNotificationName:@"receivedBizReviews"
+                                                                             object:self];
+                                                                        ***REMOVED***
                                                                     ***REMOVED***);
                                                                     
                                                                     dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
