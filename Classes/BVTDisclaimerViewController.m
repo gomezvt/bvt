@@ -12,6 +12,8 @@
 
 @interface BVTDisclaimerViewController ()
 
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 @end
 
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
@@ -30,9 +32,34 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.tableView.tableFooterView = [UIView new];
+    
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 44.f;
 }
 
 - (IBAction)didTapBack:(id)sender

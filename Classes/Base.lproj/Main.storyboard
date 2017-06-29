@@ -649,7 +649,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MY2-N0-lDg" id="bry-cP-IRU">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -759,22 +759,49 @@
                                     <constraint firstAttribute="height" constant="30" id="frB-3o-zgh"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMs-Tb-IdK">
-                                <rect key="frame" x="20" y="110" width="374" height="507.33333333333337"/>
-                                <string key="text">1.   TERMS OF USE.  You are entitled to use this software "as is," free of charge unless you voluntarily decide to purchase an advertisement free version of Burlingtonian on the App Store.  Burlingtonian is not responsible for data charges incurred by your mobile carrier as a result of your use of this app.  Please note that the views, content, and opinions expressed in Burlingtonian are not endorsed by its developer; this content is either representative or property of Yelp, since Burlingtonian is powered by Yelp.  Lastly, please note that the "bvt" icon and "Burlingtonian" iOS app name is copyright of its developer, Greg Gomez, 2017.  2.   YOUR PRIVACY.  Your information is very important to us.  Burlingtonian prompts for your location in order to convey your distance from places of interest.  Your consent to share your location is optional.  Should you decide not to share your location, Burlingtonian will remain functional with the exception of its display of your distance from places of interest.  Lastly, Burlingtonian will never voluntarily share or sell your location information.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xy9-3F-lFc">
+                                <rect key="frame" x="0.0" y="94" width="414" height="593"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="uNa-qZ-I2J">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uNa-qZ-I2J" id="4j6-o0-30K">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNb-Ri-mHt">
+                                                    <rect key="frame" x="8" y="8" width="398" height="27.666666666666664"/>
+                                                    <string key="text">1.   TERMS OF USE.  You are entitled to use this software "as is," free of charge unless you voluntarily decide to purchase an advertisement free version of Burlingtonian on the App Store.  Burlingtonian is not responsible for data charges incurred by your mobile carrier as a result of your use of this app.  Please note that the views, content, and opinions expressed in Burlingtonian are not endorsed by its developer; this content is either representative or property of Yelp, since Burlingtonian is powered by Yelp.  Lastly, please note that the "bvt" icon and "Burlingtonian" iOS app name is copyright of its developer, Greg Gomez, 2017.  2.   YOUR PRIVACY.  Your information is very important to us.  Burlingtonian prompts for your location in order to convey your distance from places of interest.  Your consent to share your location is optional.  Should you decide not to share your location, Burlingtonian will remain functional with the exception of its display of your distance from places of interest.  Lastly, Burlingtonian will never voluntarily share or sell your location information.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QNb-Ri-mHt" firstAttribute="leading" secondItem="4j6-o0-30K" secondAttribute="leadingMargin" id="Juj-sg-QJW"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="QNb-Ri-mHt" secondAttribute="bottom" id="f5r-TL-0VQ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="QNb-Ri-mHt" secondAttribute="trailing" id="kX2-6W-vCp"/>
+                                                <constraint firstItem="QNb-Ri-mHt" firstAttribute="top" secondItem="4j6-o0-30K" secondAttribute="topMargin" id="uTL-pB-m6w"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="C8i-nC-YuE" id="8qk-mu-G3h"/>
+                                    <outlet property="delegate" destination="C8i-nC-YuE" id="ZxZ-GT-St8"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Xy9-3F-lFc" firstAttribute="top" secondItem="CHV-K9-LtT" secondAttribute="bottom" id="2te-DP-SOI"/>
                             <constraint firstItem="CHV-K9-LtT" firstAttribute="leading" secondItem="abD-Fl-ZzT" secondAttribute="leading" id="4Lr-Cr-lfo"/>
-                            <constraint firstItem="wMs-Tb-IdK" firstAttribute="trailing" secondItem="abD-Fl-ZzT" secondAttribute="trailingMargin" id="Vze-Z2-eOy"/>
+                            <constraint firstItem="Xy9-3F-lFc" firstAttribute="leading" secondItem="abD-Fl-ZzT" secondAttribute="leading" id="8bG-rd-Ulv"/>
+                            <constraint firstItem="MI0-Hc-dHR" firstAttribute="top" secondItem="Xy9-3F-lFc" secondAttribute="bottom" id="Dge-aB-YWD"/>
+                            <constraint firstAttribute="trailing" secondItem="Xy9-3F-lFc" secondAttribute="trailing" id="Uhf-cq-qp1"/>
                             <constraint firstItem="CHV-K9-LtT" firstAttribute="top" secondItem="Dig-2a-dBN" secondAttribute="bottom" id="a9a-cL-DSc"/>
-                            <constraint firstItem="wMs-Tb-IdK" firstAttribute="leading" secondItem="abD-Fl-ZzT" secondAttribute="leadingMargin" id="gMb-7R-hzi"/>
                             <constraint firstAttribute="trailing" secondItem="CHV-K9-LtT" secondAttribute="trailing" id="kNN-kQ-UUc"/>
-                            <constraint firstItem="wMs-Tb-IdK" firstAttribute="top" secondItem="CHV-K9-LtT" secondAttribute="bottom" constant="16" id="oek-2q-s04"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Burlingtonian" id="CxO-v9-Ikk">
@@ -785,6 +812,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Xy9-3F-lFc" id="I0n-pz-dt2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdS-nJ-Qel" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
