@@ -430,6 +430,12 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                            ***REMOVED***
                                                            cachedBiz.reviews = reviews.reviews;
                                                            cachedBiz.userPhotosArray = userPhotos;
+                                                           dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+
+                                                           [[NSNotificationCenter defaultCenter]
+                                                            postNotificationName:@"receivedBizReviews"
+                                                            object:self];
+                                                           ***REMOVED***);
                                                        ***REMOVED***);
                                                        
                                                        dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
@@ -539,12 +545,13 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                                                         ***REMOVED***
                                                                         business.reviews = reviews.reviews;
                                                                         business.userPhotosArray = userPhotos;
-                                                                        if ([[business.userPhotosArray lastObject] isKindOfClass:[UIImage class]])
-                                                                        ***REMOVED***
-                                                                            [[NSNotificationCenter defaultCenter]
-                                                                             postNotificationName:@"receivedBizReviews"
-                                                                             object:self];
-                                                                        ***REMOVED***
+                                                                        [weakSelf.cachedDetails setObject:business forKey:weakSelf.subCategoryTitle];
+                                                                        dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+
+                                                                        [[NSNotificationCenter defaultCenter]
+                                                                         postNotificationName:@"receivedBizReviews"
+                                                                         object:self];
+                                                                        ***REMOVED***);
                                                                     ***REMOVED***);
                                                                     
                                                                     dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***

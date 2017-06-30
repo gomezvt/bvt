@@ -383,6 +383,11 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                        ***REMOVED***
                                                        cachedBiz.reviews = reviews.reviews;
                                                        cachedBiz.userPhotosArray = userPhotos;
+                                                           dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                                                           [[NSNotificationCenter defaultCenter]
+                                                            postNotificationName:@"receivedBizReviews"
+                                                            object:self];
+                                                           ***REMOVED***);
                                                        ***REMOVED***);
                                                        
                                                        dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
@@ -489,14 +494,15 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
                                                                             ***REMOVED***
                                                                             [userPhotos addObject:[NSDictionary dictionaryWithObject:image forKey:user.imageURL]];                                                                ***REMOVED***
                                                                     ***REMOVED***
-                                                                    business.reviews = reviews.reviews;
-                                                                    business.userPhotosArray = userPhotos;
-                                                                        if ([[business.userPhotosArray lastObject] isKindOfClass:[UIImage class]])
-                                                                        ***REMOVED***
+                                                                        business.reviews = reviews.reviews;
+                                                                        business.userPhotosArray = userPhotos;
+                                                                        [weakSelf.cachedBiz addObject:business];
+                                                                        dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
+                                                                            
                                                                             [[NSNotificationCenter defaultCenter]
                                                                              postNotificationName:@"receivedBizReviews"
                                                                              object:self];
-                                                                        ***REMOVED***
+                                                                        ***REMOVED***);
                                                                     ***REMOVED***);
                                                                     
                                                                     dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
