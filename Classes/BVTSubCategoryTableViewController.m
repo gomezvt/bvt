@@ -648,34 +648,34 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
         dispatch_async(dispatch_get_main_queue(), ^(void)***REMOVED***
             if (cell.tag == indexPath.row)
             ***REMOVED***
-            cell.thumbNailView.image = cachedBiz.bizThumbNail;
-
-            if (!self.isLargePhone)
-            ***REMOVED***
-                if (cachedBiz.isOpenNow)
+                cell.thumbNailView.image = cachedBiz.bizThumbNail;
+                
+                if (!self.isLargePhone)
                 ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Open Now";
-                    cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                    if (cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.secondaryOpenCloseLabel.text = @"Open Now";
+                        cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                    ***REMOVED***
+                    else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                        cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                    ***REMOVED***
                 ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                else
                 ***REMOVED***
-                    cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                    cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                    if (cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.openCloseLabel.text = @"Open Now";
+                        cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                    ***REMOVED***
+                    else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
+                    ***REMOVED***
+                        cell.openCloseLabel.text = @"Closed Now";
+                        cell.openCloseLabel.textColor = [UIColor redColor];
+                    ***REMOVED***
                 ***REMOVED***
-            ***REMOVED***
-            else
-            ***REMOVED***
-                if (cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Open Now";
-                    cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                ***REMOVED***
-                else if (cachedBiz.hoursItem && !cachedBiz.isOpenNow)
-                ***REMOVED***
-                    cell.openCloseLabel.text = @"Closed Now";
-                    cell.openCloseLabel.textColor = [UIColor redColor];
-                ***REMOVED***
-            ***REMOVED***
             ***REMOVED***
         ***REMOVED***);
     ***REMOVED***
@@ -686,12 +686,44 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
  
         [[AppDelegate yelp] businessWithId:biz.identifier completionHandler:^
          (YLPBusiness *business, NSError *error) ***REMOVED***
-             NSString *string = error.userInfo[@"NSLocalizedDescription"];
-             if ([biz.identifier isEqualToString:business.identifier])
-             ***REMOVED***
-                 business.miles = biz.miles;
-             ***REMOVED***
+             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                 if (cell.tag == indexPath.row)
+                 ***REMOVED***
+                     if ([biz.identifier isEqualToString:business.identifier])
+                     ***REMOVED***
+                         business.miles = biz.miles;
+                     ***REMOVED***
+                     
+                     if (!weakSelf.isLargePhone)
+                     ***REMOVED***
+                         if (business.isOpenNow)
+                         ***REMOVED***
+                             cell.secondaryOpenCloseLabel.text = @"Open Now";
+                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
+                         ***REMOVED***
+                         else if (business.hoursItem && !business.isOpenNow)
+                         ***REMOVED***
+                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
+                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
+                         ***REMOVED***
+                     ***REMOVED***
+                     else
+                     ***REMOVED***
+                         if (business.isOpenNow)
+                         ***REMOVED***
+                             cell.openCloseLabel.text = @"Open Now";
+                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
+                         ***REMOVED***
+                         else if (business.hoursItem && !business.isOpenNow)
+                         ***REMOVED***
+                             cell.openCloseLabel.text = @"Closed Now";
+                             cell.openCloseLabel.textColor = [UIColor redColor];
+                         ***REMOVED***
+                     ***REMOVED***
+                 ***REMOVED***
+             ***REMOVED***);
              
+             NSString *string = error.userInfo[@"NSLocalizedDescription"];
              if ([string isEqualToString:@"The Internet connection appears to be offline."])
              ***REMOVED***
                  dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
@@ -761,33 +793,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
                                          
                                          NSInteger index = [weakSelf.originalFilteredResults indexOfObject:match];
                                          [weakSelf.originalFilteredResults replaceObjectAtIndex:index withObject:business];
-                                     ***REMOVED***
-                                     
-                                     if (!weakSelf.isLargePhone)
-                                     ***REMOVED***
-                                         if (business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.secondaryOpenCloseLabel.text = @"Open Now";
-                                             cell.secondaryOpenCloseLabel.textColor = [BVTStyles iconGreen];
-                                         ***REMOVED***
-                                         else if (business.hoursItem && !business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.secondaryOpenCloseLabel.text = @"Closed Now";
-                                             cell.secondaryOpenCloseLabel.textColor = [UIColor redColor];
-                                         ***REMOVED***
-                                     ***REMOVED***
-                                     else
-                                     ***REMOVED***
-                                         if (business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.openCloseLabel.text = @"Open Now";
-                                             cell.openCloseLabel.textColor = [BVTStyles iconGreen];
-                                         ***REMOVED***
-                                         else if (business.hoursItem && !business.isOpenNow)
-                                         ***REMOVED***
-                                             cell.openCloseLabel.text = @"Closed Now";
-                                             cell.openCloseLabel.textColor = [UIColor redColor];
-                                         ***REMOVED***
                                      ***REMOVED***
                                  ***REMOVED***
                              ***REMOVED***);
