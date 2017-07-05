@@ -67,21 +67,6 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     self.tableView.tableFooterView = [UIView new];
 ***REMOVED***
 
-***REMOVED***- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section ***REMOVED***
-***REMOVED***    
-***REMOVED***    UILabel *myLabel = [[UILabel alloc] init];
-***REMOVED***    myLabel.frame = CGRectMake(0, 0, self.tableView.frame.size.height, 20.f);
-***REMOVED***    myLabel.backgroundColor = [UIColor redColor];
-***REMOVED***    myLabel.textColor = [UIColor darkGrayColor];
-***REMOVED***    myLabel.font = [UIFont systemFontOfSize:20.f weight:2.f];
-***REMOVED***    myLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-***REMOVED***    
-***REMOVED***    UIView *headerView = [[UIView alloc] init];
-***REMOVED***    [headerView addSubview:myLabel];
-***REMOVED***    
-***REMOVED***    return headerView;
-***REMOVED******REMOVED***
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 ***REMOVED***
     NSString *title;
@@ -110,7 +95,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     
     if (section == 0)
     ***REMOVED***
-        rows = 4;
+        rows = 5;
     ***REMOVED***
     else
     ***REMOVED***
@@ -120,18 +105,25 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     return rows;
 ***REMOVED***
 
-
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 ***REMOVED***
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 0 && indexPath.row == 1)
+    if (indexPath.section == 0)
     ***REMOVED***
-        [self performSegueWithIdentifier:@"ShowDisclaimer" sender:nil];
+        if (indexPath.row == 1)
+        ***REMOVED***
+            [self performSegueWithIdentifier:@"ShowDisclaimer" sender:nil];
+        ***REMOVED***
+        else if (indexPath.row == 2)
+        ***REMOVED***
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https:***REMOVED***itunes.apple.com/us/app/burlingtonian-live-like-a-local-in-vt-ad-free/id1252833369?mt=8&ign-mpt=uo%3D4"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+                
+                NSLog(@"");
+            ***REMOVED***];
+        ***REMOVED***
     ***REMOVED***
-    else if (indexPath.section == 1)
+    else
     ***REMOVED***
         if (indexPath.row == 1)
         ***REMOVED***
@@ -166,7 +158,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     
     if (indexPath.section == 0)
     ***REMOVED***
-        if (indexPath.row == 3)
+        if (indexPath.row == 4)
         ***REMOVED***
             identifier = @"AboutCell";
         ***REMOVED***
@@ -191,6 +183,11 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
             cell.textLabel.text = @"Privacy and Terms of Use";
         ***REMOVED***
         else if (indexPath.row == 2)
+        ***REMOVED***
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = @"Buy Burlingtonian Ad-Free!";
+        ***REMOVED***
+        else if (indexPath.row == 3)
         ***REMOVED***
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"Version 2.0.1";
