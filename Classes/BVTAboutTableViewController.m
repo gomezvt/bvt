@@ -79,7 +79,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     ***REMOVED***
     else
     ***REMOVED***
-        rows = 3;
+        rows = 2;
     ***REMOVED***
     
     return rows;
@@ -105,14 +105,14 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
     ***REMOVED***
     else
     ***REMOVED***
+***REMOVED***        if (indexPath.row == 1)
+***REMOVED***        ***REMOVED***
+***REMOVED***            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https:***REMOVED***itunes.apple.com/us/app/burlingtonian-live-like-a-local-in-vermont/id581817418?mt=8"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+***REMOVED***                
+***REMOVED***                NSLog(@"");
+***REMOVED***            ***REMOVED***];
+***REMOVED***        ***REMOVED***
         if (indexPath.row == 1)
-        ***REMOVED***
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https:***REMOVED***itunes.apple.com/us/app/burlingtonian-live-like-a-local-in-vermont/id581817418?mt=8"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
-                
-                NSLog(@"");
-            ***REMOVED***];
-        ***REMOVED***
-        else if (indexPath.row == 2)
         ***REMOVED***
             MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
             mail.mailComposeDelegate = self;
@@ -182,17 +182,17 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         if (indexPath.row == 0)
         ***REMOVED***
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"Your input is very important and can help make Burlingtonian better. Please take a moment to leave your feedback.";
+            cell.textLabel.text = @"Your input is very important and can help make Burlingtonian better. Please take a moment to leave your feedback by writing a review on the App Store, or by emailing Greg below.";
         ***REMOVED***
-        else if (indexPath.row == 1)
-        ***REMOVED***
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"Write a review or rate us on the App Store";
-        ***REMOVED***
+***REMOVED***        else if (indexPath.row == 1)
+***REMOVED***        ***REMOVED***
+***REMOVED***            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+***REMOVED***            cell.textLabel.text = @"Write a review or rate us on the App Store";
+***REMOVED***        ***REMOVED***
         else
         ***REMOVED***
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"Send an email to Greg";
+            cell.textLabel.text = @"Send an email";
         ***REMOVED***
     ***REMOVED***
     
