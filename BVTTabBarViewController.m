@@ -11,31 +11,35 @@
 ***REMOVED***
 #import "BVTTabBarViewController.h"
 
-@interface BVTTabBarViewController ()
+@interface BVTTabBarViewController () <GADBannerViewDelegate>
 
 @property (nonatomic, strong) GADBannerView *bannerView;
 @property (nonatomic, weak) IBOutlet UIView *adView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
 
 ***REMOVED***
 
 @implementation BVTTabBarViewController
 
+- (void)adViewDidReceiveAd:(GADBannerView *)adView
+***REMOVED***
+    [self.adView addSubview:self.bannerView];
+    [self.bannerView setFrame:CGRectMake(0, 0, self.adView.frame.size.width, 60.f)];
+    self.adViewHeightConstraint.constant = 60.f;
+***REMOVED***
+
 - (void)viewDidLoad
 ***REMOVED***
     [super viewDidLoad];
     
+    self.adViewHeightConstraint.constant = 0.f;
+    
     self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
     self.bannerView.rootViewController = self;
-
     self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/6300978111";
+    self.bannerView.delegate = self;
 
-    GADRequest *request = [GADRequest request];
-***REMOVED***    request.testDevices = @[kGADSimulatorID];
-    
-    [self.bannerView loadRequest:request];
-    
-    [self.adView addSubview:self.bannerView];
-    [self.bannerView setFrame:CGRectMake(0, 0, self.adView.frame.size.width, 60.f)];
+    [self.bannerView loadRequest:[GADRequest request]];
     
     ***REMOVED*** Do any additional setup after loading the view.
 ***REMOVED***
