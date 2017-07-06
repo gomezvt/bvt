@@ -22,11 +22,9 @@
 #import "BVTStyles.h"
 #import "YLPReview.h"
 #import "YLPUser.h"
-***REMOVED***
 
 @interface BVTSubCategoryTableViewController ()
 <BVTHUDViewDelegate>
-
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
@@ -48,7 +46,6 @@
 @property (nonatomic, strong) NSMutableArray *originalFilteredResults;
 @property (nonatomic) BOOL isLargePhone;
 @property (nonatomic) BOOL didSelectBiz;
-@property (nonatomic, strong) GADBannerView *bannerView;
 
 ***REMOVED***
 
@@ -91,88 +88,88 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 
 - (void)sortArrayWithPredicates
 ***REMOVED***
- 
-        NSPredicate *pricePredicate;
-        
-        NSMutableArray *arrayPred = [NSMutableArray array];
-        if (!self.priceKeyValue)
-        ***REMOVED***
-            self.priceKeyValue = @"Any $";
-        ***REMOVED***
-        
-        if ([self.priceKeyValue isEqualToString:@"Any $"])
-        ***REMOVED***
-            pricePredicate = [NSPredicate predicateWithFormat:@"price = %@ OR price = %@ OR price = %@ OR price = %@ OR price = %@", nil, @"$", @"$$", @"$$$", @"$$$$"];
-        ***REMOVED***
-        else
-        ***REMOVED***
-            pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
-        ***REMOVED***
-        
-        [arrayPred addObject:pricePredicate];
-        
-        NSPredicate *distancePredicate;
-        AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if (appDel.userLocation)
-        ***REMOVED***
-            self.distanceButton.hidden = NO;
-            if (self.milesKeyValue == 0)
-            ***REMOVED***
-                distancePredicate = [NSPredicate predicateWithFormat:@"miles >= 0"];
-            ***REMOVED***
-            else
-            ***REMOVED***
-                distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %g", self.milesKeyValue];
-            ***REMOVED***
-            
-            [arrayPred addObject:distancePredicate];
-        ***REMOVED***
-        else
-        ***REMOVED***
-            self.distanceButton.hidden = YES;
-        ***REMOVED***
-        
-        NSPredicate *openClosePredicate;
-
-        if (!self.openCloseKeyValue)
-        ***REMOVED***
-            self.openCloseKeyValue = @"Open/Closed";
-        ***REMOVED***
-        
-        if ([self.openCloseKeyValue isEqualToString:@"Open"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
-        ***REMOVED***
-        else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
-        ***REMOVED***
-            openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
-        ***REMOVED***
-        
-        if (openClosePredicate)
-        ***REMOVED***
-            [arrayPred addObject:openClosePredicate];
-        ***REMOVED***
     
-        NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
-        self.filteredResults  = [[self.originalFilteredResults filteredArrayUsingPredicate:comboPredicate] mutableCopy];
-        
-        if (self.filteredResults.count == 0)
+    NSPredicate *pricePredicate;
+    
+    NSMutableArray *arrayPred = [NSMutableArray array];
+    if (!self.priceKeyValue)
+    ***REMOVED***
+        self.priceKeyValue = @"Any $";
+    ***REMOVED***
+    
+    if ([self.priceKeyValue isEqualToString:@"Any $"])
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@ OR price = %@ OR price = %@ OR price = %@ OR price = %@", nil, @"$", @"$$", @"$$$", @"$$$$"];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        pricePredicate = [NSPredicate predicateWithFormat:@"price = %@", self.priceKeyValue];
+    ***REMOVED***
+    
+    [arrayPred addObject:pricePredicate];
+    
+    NSPredicate *distancePredicate;
+    AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDel.userLocation)
+    ***REMOVED***
+        self.distanceButton.hidden = NO;
+        if (self.milesKeyValue == 0)
         ***REMOVED***
-            self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
-            self.label.text = @"No sorted results found.";
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles >= 0"];
         ***REMOVED***
         else
         ***REMOVED***
-            self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
-            self.label.text = @"";
+            distancePredicate = [NSPredicate predicateWithFormat:@"miles <= %g", self.milesKeyValue];
         ***REMOVED***
         
-        
-        [self.tableView reloadData];
+        [arrayPred addObject:distancePredicate];
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.distanceButton.hidden = YES;
+    ***REMOVED***
+    
+    NSPredicate *openClosePredicate;
+    
+    if (!self.openCloseKeyValue)
+    ***REMOVED***
+        self.openCloseKeyValue = @"Open/Closed";
+    ***REMOVED***
+    
+    if ([self.openCloseKeyValue isEqualToString:@"Open"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@", @(YES)];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ && hoursItem != %@", @(NO), nil];
+    ***REMOVED***
+    else if ([self.openCloseKeyValue isEqualToString:@"Open/Closed"])
+    ***REMOVED***
+        openClosePredicate = [NSPredicate predicateWithFormat:@"isOpenNow = %@ OR isOpenNow = %@", @(NO), @(YES)];
+    ***REMOVED***
+    
+    if (openClosePredicate)
+    ***REMOVED***
+        [arrayPred addObject:openClosePredicate];
+    ***REMOVED***
+    
+    NSPredicate *comboPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:arrayPred];
+    self.filteredResults  = [[self.originalFilteredResults filteredArrayUsingPredicate:comboPredicate] mutableCopy];
+    
+    if (self.filteredResults.count == 0)
+    ***REMOVED***
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (0)", self.subCategoryTitle];
+        self.label.text = @"No sorted results found.";
+    ***REMOVED***
+    else
+    ***REMOVED***
+        self.titleLabel.text = [NSString stringWithFormat:@"%@ (%lu)", self.subCategoryTitle, (unsigned long)self.filteredResults.count];
+        self.label.text = @"";
+    ***REMOVED***
+    
+    
+    [self.tableView reloadData];
     
 ***REMOVED***
 
@@ -272,22 +269,6 @@ static NSString *const kShowDetailSegue = @"ShowDetail";
 ***REMOVED***
     [super viewDidLoad];
     
-    UIView *view = self.tabBarController.selectedViewController.view;
-    UIView *bannerSpace = [[UIView alloc] initWithFrame:CGRectMake(0, view.frame.size.height - 61.f, view.frame.size.width, 61.f)];
-    bannerSpace.backgroundColor = [UIColor whiteColor];
-    [view addSubview:bannerSpace];
-    
-    self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
-    
-    [bannerSpace addSubview:self.bannerView];
-    
-    [self.bannerView setFrame:CGRectMake(0, 0, bannerSpace.frame.size.width, self.bannerView.frame.size.height)];
-    
-    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
-    self.bannerView.rootViewController = self;
-    [self.bannerView loadRequest:[GADRequest request]];
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60.f, 0);
     
     self.displayArray = [[NSMutableArray alloc] init];
     

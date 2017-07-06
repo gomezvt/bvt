@@ -25,22 +25,6 @@
 #import "BVTThumbNailTableViewCell.h"
 #import "YLPClient+Business.h"
 #import "BVTDetailTableViewController.h"
-***REMOVED***
-
-***REMOVED***#import "BVTHeaderTitleView.h"
-***REMOVED***#import "BVTStyles.h"
-***REMOVED***#import "YLPBusiness.h"
-***REMOVED***#import "BVTThumbNailTableViewCell.h"
-***REMOVED***#import "BVTHUDView.h"
-***REMOVED******REMOVED***
-***REMOVED***#import "YLPReview.h"
-***REMOVED***#import "YLPUser.h"
-***REMOVED***#import "YLPBusinessReviews.h"
-***REMOVED***#import "YLPClient+Reviews.h"
-***REMOVED***#import "YLPClient+Business.h"
-***REMOVED***#import "BVTDetailTableViewController.h"
-***REMOVED***#import "BVTTableViewSectionHeaderView.h"
-***REMOVED***#import "BVTThumbNailTableViewCell.h"
 
 @interface BVTSearchTableViewController ()
 <BVTHUDViewDelegate>
@@ -55,22 +39,16 @@
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UIView *sortView;
 @property (nonatomic, weak) IBOutlet UIButton *starButton;
-
 @property (nonatomic, weak) IBOutlet UIButton *priceButton;
 @property (nonatomic, weak) IBOutlet UIButton *distanceButton;
 @property (nonatomic, weak) IBOutlet UIButton *openNowButton;
 @property (nonatomic) double milesKeyValue;
 @property (nonatomic, strong) NSString *priceKeyValue;
 @property (nonatomic, strong) NSString *openCloseKeyValue;
-***REMOVED***@property (nonatomic, strong) NSArray *arrayForSorting;
 @property (nonatomic, strong) NSMutableArray *originalDetailsArray;
 @property (nonatomic) BOOL isLargePhone;
 @property (nonatomic) BOOL didSelectBiz;
-
 @property (nonatomic, strong) NSMutableArray *cachedBiz;
-***REMOVED***@property (nonatomic, strong) NSOperationQueue *queue;
-***REMOVED***@property (nonatomic, strong) NSBlockOperation *block;
-@property (nonatomic, strong) GADBannerView *bannerView;
 
 ***REMOVED***
 
@@ -117,22 +95,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
 ***REMOVED***
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 60.f, 0);
-    
-    UIView *view = self.tabBarController.selectedViewController.view;
-    UIView *bannerSpace = [[UIView alloc] initWithFrame:CGRectMake(0, view.frame.size.height - 61.f, view.frame.size.width, 61.f)];
-    bannerSpace.backgroundColor = [UIColor whiteColor];
-    [view addSubview:bannerSpace];
-    
-    self.bannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
-    
-    [bannerSpace addSubview:self.bannerView];
-    
-    [self.bannerView setFrame:CGRectMake(0, 0, bannerSpace.frame.size.width, self.bannerView.frame.size.height)];
-    
-    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
-    self.bannerView.rootViewController = self;
-    [self.bannerView loadRequest:[GADRequest request]];
     
     self.cachedBiz = [[NSMutableArray alloc] init];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
@@ -147,7 +109,6 @@ static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeader
         self.isLargePhone = NO;
     ***REMOVED***
 
-    
     AppDelegate *appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if (!appDel.userLocation)
     ***REMOVED***
