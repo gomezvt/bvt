@@ -174,7 +174,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         else if (indexPath.row == 2)
         {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"Version 2.0.1";
+            cell.textLabel.text = @"Version 2.0.2";
         }
         else
         {
