@@ -196,7 +196,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         else
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"Send an email to Greg";
+            cell.textLabel.text = @"Send an email";
         }
     }
     
