@@ -184,6 +184,11 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         indexPaths -= 1;
     ***REMOVED***
     
+    if (!self.selectedBusiness.location.coordinate.latitude && !self.selectedBusiness.location.coordinate.longitude)
+    ***REMOVED***
+        indexPaths -= 1;
+    ***REMOVED***
+    
     return indexPaths;
 ***REMOVED***
 
@@ -216,13 +221,24 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
             identifier = kYelpAddressCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 5)
+        
+        if (self.selectedBusiness.location.coordinate)
         ***REMOVED***
-            identifier = kYelpMapCellIdentifier;
+            if (indexPath.row == 5)
+            ***REMOVED***
+                identifier = kYelpMapCellIdentifier;
+            ***REMOVED***
+            else if (indexPath.row == 6 || indexPath.row == 7)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
-        else if (indexPath.row == 6 || indexPath.row == 7)
+        else
         ***REMOVED***
-            identifier = kSplitCellIdentifier;
+            if (indexPath.row == 5 || indexPath.row == 6)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
     else if (!phone && hoursArray.count == 0)
@@ -231,13 +247,24 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
             identifier = kYelpAddressCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 3)
+        
+        if (self.selectedBusiness.location.coordinate)
         ***REMOVED***
-            identifier = kYelpMapCellIdentifier;
+            if (indexPath.row == 3)
+            ***REMOVED***
+                identifier = kYelpMapCellIdentifier;
+            ***REMOVED***
+            else if (indexPath.row == 4 || indexPath.row == 5)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
-        else if (indexPath.row == 4 || indexPath.row == 5)
+        else
         ***REMOVED***
-            identifier = kSplitCellIdentifier;
+            if (indexPath.row == 3 || indexPath.row == 4)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
     else if (!phone && hoursArray.count > 0)
@@ -250,14 +277,26 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
             identifier = kYelpAddressCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 4)
+        
+        if (self.selectedBusiness.location.coordinate)
         ***REMOVED***
-            identifier = kYelpMapCellIdentifier;
+            if (indexPath.row == 4)
+            ***REMOVED***
+                identifier = kYelpMapCellIdentifier;
+            ***REMOVED***
+            else if (indexPath.row == 5 || indexPath.row == 6)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
-        else if (indexPath.row == 5 || indexPath.row == 6)
+        else
         ***REMOVED***
-            identifier = kSplitCellIdentifier;
+            if (indexPath.row == 4 || indexPath.row == 5)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
+        
     ***REMOVED***
     else if (phone && hoursArray.count == 0)
     ***REMOVED***
@@ -269,13 +308,24 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
         ***REMOVED***
             identifier = kYelpAddressCellIdentifier;
         ***REMOVED***
-        else if (indexPath.row == 4)
+        
+        if (self.selectedBusiness.location.coordinate)
         ***REMOVED***
-            identifier = kYelpMapCellIdentifier;
+            if (indexPath.row == 4)
+            ***REMOVED***
+                identifier = kYelpMapCellIdentifier;
+            ***REMOVED***
+            else if (indexPath.row == 5 || indexPath.row == 6)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
-        else if (indexPath.row == 5 || indexPath.row == 6)
+        else
         ***REMOVED***
-            identifier = kSplitCellIdentifier;
+            if (indexPath.row == 4 || indexPath.row == 5)
+            ***REMOVED***
+                identifier = kSplitCellIdentifier;
+            ***REMOVED***
         ***REMOVED***
     ***REMOVED***
     
@@ -330,25 +380,49 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
             addressCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
-        else if (indexPath.row == 5)
+        
+        if (self.selectedBusiness.location.coordinate.latitude && self.selectedBusiness.location.coordinate.longitude)
         ***REMOVED***
-            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
-            mapCell.selectedBusiness = self.selectedBusiness;
+            if (indexPath.row == 5)
+            ***REMOVED***
+                BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+                mapCell.selectedBusiness = self.selectedBusiness;
+            ***REMOVED***
+            else if (indexPath.row == 6 || indexPath.row == 7)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 6)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
+
         ***REMOVED***
-        else if (indexPath.row == 6 || indexPath.row == 7)
+        else
         ***REMOVED***
-            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            splitCell.selectedBusiness = self.selectedBusiness;
-            if (indexPath.row == 6)
+            if (indexPath.row == 5 || indexPath.row == 6)
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 5)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
             ***REMOVED***
-            else
-            ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
-            ***REMOVED***
+            
         ***REMOVED***
     ***REMOVED***
     else if (!phone && hoursArray.count == 0)
@@ -358,27 +432,48 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
             addressCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
-        else if (indexPath.row == 3)
-        ***REMOVED***
-            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
-            mapCell.selectedBusiness = self.selectedBusiness;
-        ***REMOVED***
-        else if (indexPath.row == 4 || indexPath.row == 5)
-        ***REMOVED***
-            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            splitCell.selectedBusiness = self.selectedBusiness;
-            if (indexPath.row == 4)
-            ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
-            ***REMOVED***
-            else
-            ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
-            ***REMOVED***
-        ***REMOVED***
         
+        if (self.selectedBusiness.location.coordinate.latitude && self.selectedBusiness.location.coordinate.longitude)
+        ***REMOVED***
+            if (indexPath.row == 3)
+            ***REMOVED***
+                BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+                mapCell.selectedBusiness = self.selectedBusiness;
+            ***REMOVED***
+            else if (indexPath.row == 4 || indexPath.row == 5)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 4)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        else
+        ***REMOVED***
+            if (indexPath.row == 3 || indexPath.row == 4)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 3)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
     else if (!phone && hoursArray.count > 0)
     ***REMOVED***
@@ -392,27 +487,48 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
             addressCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
-        else if (indexPath.row == 4)
-        ***REMOVED***
-            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
-            mapCell.selectedBusiness = self.selectedBusiness;
-        ***REMOVED***
-        else if (indexPath.row == 5 || indexPath.row == 6)
-        ***REMOVED***
-            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            splitCell.selectedBusiness = self.selectedBusiness;
-            if (indexPath.row == 5)
-            ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
-            ***REMOVED***
-            else
-            ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
-            ***REMOVED***
-        ***REMOVED***
         
+        if (self.selectedBusiness.location.coordinate.latitude && self.selectedBusiness.location.coordinate.longitude)
+        ***REMOVED***
+            if (indexPath.row == 4)
+            ***REMOVED***
+                BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+                mapCell.selectedBusiness = self.selectedBusiness;
+            ***REMOVED***
+            else if (indexPath.row == 5 || indexPath.row == 6)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 5)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
+        else
+        ***REMOVED***
+            if (indexPath.row == 4 || indexPath.row == 5)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 4)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
+        ***REMOVED***
     ***REMOVED***
     else if (phone && hoursArray.count == 0)
     ***REMOVED***
@@ -426,24 +542,46 @@ static NSString *const kSplitCellIdentifier = @"SplitCell";
             BVTYelpAddressTableViewCell *addressCell = (BVTYelpAddressTableViewCell *)cell;
             addressCell.selectedBusiness = self.selectedBusiness;
         ***REMOVED***
-        else if (indexPath.row == 4)
+        
+        if (self.selectedBusiness.location.coordinate.latitude && self.selectedBusiness.location.coordinate.longitude)
         ***REMOVED***
-            BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
-            mapCell.selectedBusiness = self.selectedBusiness;
+            if (indexPath.row == 4)
+            ***REMOVED***
+                BVTYelpMapTableViewCell *mapCell = (BVTYelpMapTableViewCell *)cell;
+                mapCell.selectedBusiness = self.selectedBusiness;
+            ***REMOVED***
+            else if (indexPath.row == 5 || indexPath.row == 6)
+            ***REMOVED***
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 5)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
+            ***REMOVED***
         ***REMOVED***
-        else if (indexPath.row == 5 || indexPath.row == 6)
+        else
         ***REMOVED***
-            BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
-            splitCell.selectedBusiness = self.selectedBusiness;
-            if (indexPath.row == 5)
+            if (indexPath.row == 4 || indexPath.row == 5)
             ***REMOVED***
-                [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
-            ***REMOVED***
-            else
-            ***REMOVED***
-                [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
-                [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                BVTSplitTableViewCell *splitCell = (BVTSplitTableViewCell *)cell;
+                splitCell.selectedBusiness = self.selectedBusiness;
+                if (indexPath.row == 4)
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:photosTitle forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:reviewsTitle forState:UIControlStateNormal];
+                ***REMOVED***
+                else
+                ***REMOVED***
+                    [splitCell.leftButton setTitle:@"Map" forState:UIControlStateNormal];
+                    [splitCell.rightButton setTitle:@"Yelp Profile" forState:UIControlStateNormal];
+                ***REMOVED***
             ***REMOVED***
         ***REMOVED***
     ***REMOVED***
