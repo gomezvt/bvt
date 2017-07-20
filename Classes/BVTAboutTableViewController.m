@@ -174,7 +174,7 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         else if (indexPath.row == 2)
         {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = @"Version 2.0.2";
+            cell.textLabel.text = @"Version 2.0.3";
         }
         else
         {
@@ -191,12 +191,12 @@ static NSString *const kAboutTableViewNib = @"BVTAboutTableViewCell";
         else if (indexPath.row == 1)
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"Write a review or rate us on the App Store";
+            cell.textLabel.text = @"Write a review or rate us on the App Store!";
         }
         else
         {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = @"Send an email";
+            cell.textLabel.text = @"Send Greg an email";
         }
     }
     
