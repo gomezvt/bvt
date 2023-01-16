@@ -1,8 +1,8 @@
-framework module GoogleMobileAds ***REMOVED***
+framework module GoogleMobileAds {
   umbrella header "GoogleMobileAds.h"
 
   export *
-  module * ***REMOVED*** export * ***REMOVED***
+  module * { export * }
 
   link framework "AdSupport"
   link framework "AudioToolbox"
@@ -109,4 +109,4 @@ framework module GoogleMobileAds ***REMOVED***
   header "Mediation/GADMEnums.h"
   header "Mediation/GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
   header "Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
-***REMOVED***
+}

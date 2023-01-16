@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTSubCategoryTableViewController.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/20/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTSubCategoryTableViewController.h
+//  burlingtonian
+//
+//  Created by Greg on 12/20/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,7 +14,7 @@
 
 - (void)didTapBackWithDetails:(NSMutableDictionary *)details ;
 
-***REMOVED***
+@end
 
 @interface BVTSubCategoryTableViewController : UIViewController 
 
@@ -23,4 +23,4 @@
 @property (nonatomic, strong) NSMutableDictionary *cachedDetails;
 @property(nonatomic, weak)id <BVTSubCategoryTableViewControllerDelegate> delegate;
 
-***REMOVED***
+@end

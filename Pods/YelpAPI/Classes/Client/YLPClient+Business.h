@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+Business.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/4/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+Business.h
+//  Pods
+//
+//  Created by David Chen on 1/4/16.
+//
+//
 #import "YLPClient.h"
 
 @class YLPBusiness;
@@ -18,6 +18,6 @@ typedef void(^YLPBusinessCompletionHandler)(YLPBusiness * _Nullable business, NS
 - (void)businessWithId:(NSString *)businessId
      completionHandler:(YLPBusinessCompletionHandler)completionHandler;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

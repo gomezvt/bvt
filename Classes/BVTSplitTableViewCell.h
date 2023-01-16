@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTSplitTableViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/21/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTSplitTableViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/21/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -16,4 +16,4 @@
 @property (nonatomic, weak) IBOutlet UIButton *rightButton;
 @property (nonatomic, strong) YLPBusiness *selectedBusiness;
 
-***REMOVED***
+@end

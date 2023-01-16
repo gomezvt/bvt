@@ -1,9 +1,9 @@
-***REMOVED***
-***REMOVED***  GADAdSize.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2012 Google Inc. All rights reserved.
-***REMOVED***
+//
+//  GADAdSize.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2012 Google Inc. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -12,97 +12,97 @@
 
 GAD_ASSUME_NONNULL_BEGIN
 
-***REMOVED***/ A valid GADAdSize is considered to be one of the predefined GADAdSize constants or a GADAdSize
-***REMOVED***/ constructed by GADAdSizeFromCGSize, GADAdSizeFullWidthPortraitWithHeight,
-***REMOVED***/ GADAdSizeFullWidthLandscapeWithHeight.
-***REMOVED***/
-***REMOVED***/ Do not create a GADAdSize manually. Use one of the kGADAdSize constants. Treat GADAdSize as an
-***REMOVED***/ opaque type. Do not access any fields directly. To obtain a concrete CGSize, use the function
-***REMOVED***/ CGSizeFromGADAdSize().
+/// A valid GADAdSize is considered to be one of the predefined GADAdSize constants or a GADAdSize
+/// constructed by GADAdSizeFromCGSize, GADAdSizeFullWidthPortraitWithHeight,
+/// GADAdSizeFullWidthLandscapeWithHeight.
+///
+/// Do not create a GADAdSize manually. Use one of the kGADAdSize constants. Treat GADAdSize as an
+/// opaque type. Do not access any fields directly. To obtain a concrete CGSize, use the function
+/// CGSizeFromGADAdSize().
 typedef struct GAD_BOXABLE GADAdSize GADAdSize;
 
-***REMOVED***/ Ad size.
-***REMOVED***/
-***REMOVED***/ @see typedef GADAdSize
-struct GAD_BOXABLE GADAdSize ***REMOVED***
-  CGSize size;       ***REMOVED***/< The ad size. Don't modify this value directly.
-  NSUInteger flags;  ***REMOVED***/< Reserved.
-***REMOVED***;
+/// Ad size.
+///
+/// @see typedef GADAdSize
+struct GAD_BOXABLE GADAdSize {
+  CGSize size;       ///< The ad size. Don't modify this value directly.
+  NSUInteger flags;  ///< Reserved.
+};
 
 #pragma mark Standard Sizes
 
-***REMOVED***/ iPhone and iPod Touch ad size. Typically 320x50.
+/// iPhone and iPod Touch ad size. Typically 320x50.
 GAD_EXTERN GADAdSize const kGADAdSizeBanner;
 
-***REMOVED***/ Taller version of kGADAdSizeBanner. Typically 320x100.
+/// Taller version of kGADAdSizeBanner. Typically 320x100.
 GAD_EXTERN GADAdSize const kGADAdSizeLargeBanner;
 
-***REMOVED***/ Medium Rectangle size for the iPad (especially in a UISplitView's left pane). Typically 300x250.
+/// Medium Rectangle size for the iPad (especially in a UISplitView's left pane). Typically 300x250.
 GAD_EXTERN GADAdSize const kGADAdSizeMediumRectangle;
 
-***REMOVED***/ Full Banner size for the iPad (especially in a UIPopoverController or in
-***REMOVED***/ UIModalPresentationFormSheet). Typically 468x60.
+/// Full Banner size for the iPad (especially in a UIPopoverController or in
+/// UIModalPresentationFormSheet). Typically 468x60.
 GAD_EXTERN GADAdSize const kGADAdSizeFullBanner;
 
-***REMOVED***/ Leaderboard size for the iPad. Typically 728x90.
+/// Leaderboard size for the iPad. Typically 728x90.
 GAD_EXTERN GADAdSize const kGADAdSizeLeaderboard;
 
-***REMOVED***/ Skyscraper size for the iPad. Mediation only. AdMob/Google does not offer this size. Typically
-***REMOVED***/ 120x600.
+/// Skyscraper size for the iPad. Mediation only. AdMob/Google does not offer this size. Typically
+/// 120x600.
 GAD_EXTERN GADAdSize const kGADAdSizeSkyscraper;
 
-***REMOVED***/ An ad size that spans the full width of the application in portrait orientation. The height is
-***REMOVED***/ typically 50 pixels on an iPhone/iPod UI, and 90 pixels tall on an iPad UI.
+/// An ad size that spans the full width of the application in portrait orientation. The height is
+/// typically 50 pixels on an iPhone/iPod UI, and 90 pixels tall on an iPad UI.
 GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerPortrait;
 
-***REMOVED***/ An ad size that spans the full width of the application in landscape orientation. The height is
-***REMOVED***/ typically 32 pixels on an iPhone/iPod UI, and 90 pixels tall on an iPad UI.
+/// An ad size that spans the full width of the application in landscape orientation. The height is
+/// typically 32 pixels on an iPhone/iPod UI, and 90 pixels tall on an iPad UI.
 GAD_EXTERN GADAdSize const kGADAdSizeSmartBannerLandscape;
 
-***REMOVED***/ An ad size that spans the full width of its container, with a height dynamically determined by
-***REMOVED***/ the ad.
+/// An ad size that spans the full width of its container, with a height dynamically determined by
+/// the ad.
 GAD_EXTERN GADAdSize const kGADAdSizeFluid;
 
-***REMOVED***/ Invalid ad size marker.
+/// Invalid ad size marker.
 GAD_EXTERN GADAdSize const kGADAdSizeInvalid;
 
 #pragma mark Custom Sizes
 
-***REMOVED***/ Returns a custom GADAdSize for the provided CGSize. Use this only if you require a non-standard
-***REMOVED***/ size. Otherwise, use one of the standard size constants above.
+/// Returns a custom GADAdSize for the provided CGSize. Use this only if you require a non-standard
+/// size. Otherwise, use one of the standard size constants above.
 GAD_EXTERN GADAdSize GADAdSizeFromCGSize(CGSize size);
 
-***REMOVED***/ Returns a custom GADAdSize that spans the full width of the application in portrait orientation
-***REMOVED***/ with the height provided.
+/// Returns a custom GADAdSize that spans the full width of the application in portrait orientation
+/// with the height provided.
 GAD_EXTERN GADAdSize GADAdSizeFullWidthPortraitWithHeight(CGFloat height);
 
-***REMOVED***/ Returns a custom GADAdSize that spans the full width of the application in landscape orientation
-***REMOVED***/ with the height provided.
+/// Returns a custom GADAdSize that spans the full width of the application in landscape orientation
+/// with the height provided.
 GAD_EXTERN GADAdSize GADAdSizeFullWidthLandscapeWithHeight(CGFloat height);
 
 #pragma mark Convenience Functions
 
-***REMOVED***/ Returns YES if the two GADAdSizes are equal, otherwise returns NO.
+/// Returns YES if the two GADAdSizes are equal, otherwise returns NO.
 GAD_EXTERN BOOL GADAdSizeEqualToSize(GADAdSize size1, GADAdSize size2);
 
-***REMOVED***/ Returns a CGSize for the provided a GADAdSize constant. If the GADAdSize is unknown, returns
-***REMOVED***/ CGSizeZero.
+/// Returns a CGSize for the provided a GADAdSize constant. If the GADAdSize is unknown, returns
+/// CGSizeZero.
 GAD_EXTERN CGSize CGSizeFromGADAdSize(GADAdSize size);
 
-***REMOVED***/ Returns YES if |size| is one of the predefined constants or is a custom GADAdSize generated by
-***REMOVED***/ GADAdSizeFromCGSize.
+/// Returns YES if |size| is one of the predefined constants or is a custom GADAdSize generated by
+/// GADAdSizeFromCGSize.
 GAD_EXTERN BOOL IsGADAdSizeValid(GADAdSize size);
 
-***REMOVED***/ Returns YES if |size| is a fluid ad size.
+/// Returns YES if |size| is a fluid ad size.
 GAD_EXTERN BOOL GADAdSizeIsFluid(GADAdSize size);
 
-***REMOVED***/ Returns a NSString describing the provided GADAdSize.
+/// Returns a NSString describing the provided GADAdSize.
 GAD_EXTERN NSString *NSStringFromGADAdSize(GADAdSize size);
 
-***REMOVED***/ Returns an NSValue representing the GADAdSize.
+/// Returns an NSValue representing the GADAdSize.
 GAD_EXTERN NSValue *NSValueFromGADAdSize(GADAdSize size);
 
-***REMOVED***/ Returns a GADAdSize from an NSValue. Returns kGADAdSizeInvalid if the value is not a GADAdSize.
+/// Returns a GADAdSize from an NSValue. Returns kGADAdSizeInvalid if the value is not a GADAdSize.
 GAD_EXTERN GADAdSize GADAdSizeFromNSValue(NSValue *value);
 
 #pragma mark Deprecated Macros

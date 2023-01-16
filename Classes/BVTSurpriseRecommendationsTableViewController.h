@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTSurpriseRecommendationsTableViewController.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 4/8/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTSurpriseRecommendationsTableViewController.h
+//  bvt
+//
+//  Created by Greg on 4/8/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -12,7 +12,7 @@
 
 - (void)didTapBackWithDetails:(NSMutableArray *)details ;
 
-***REMOVED***
+@end
 
 @interface BVTSurpriseRecommendationsTableViewController : UIViewController
 
@@ -20,4 +20,4 @@
 @property(nonatomic, weak)id <BVTSurpriseRecommendationsTableViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *cachedDetails;
 
-***REMOVED***
+@end

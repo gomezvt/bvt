@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpMapTableViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/30/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpMapTableViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/30/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,4 +14,4 @@
 
 @property (nonatomic, strong) YLPBusiness *selectedBusiness;
 
-***REMOVED***
+@end

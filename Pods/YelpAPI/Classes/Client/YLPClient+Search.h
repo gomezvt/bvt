@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+Search.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/22/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+Search.h
+//  Pods
+//
+//  Created by David Chen on 1/22/16.
+//
+//
 
 #import "YLPClient.h"
 #import "YLPSortType.h"
@@ -42,6 +42,6 @@ typedef void(^YLPSearchCompletionHandler)(YLPSearch *_Nullable search, NSError *
 - (void)searchWithCoordinate:(YLPCoordinate *)coordinate
            completionHandler:(YLPSearchCompletionHandler)completionHandler;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

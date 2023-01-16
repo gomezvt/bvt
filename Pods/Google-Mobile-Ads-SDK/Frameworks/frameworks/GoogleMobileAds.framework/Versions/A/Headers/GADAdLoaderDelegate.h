@@ -1,9 +1,9 @@
-***REMOVED***
-***REMOVED***  GADAdLoaderDelegate.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2015 Google Inc. All rights reserved.
-***REMOVED***
+//
+//  GADAdLoaderDelegate.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2015 Google Inc. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -14,18 +14,18 @@
 
 GAD_ASSUME_NONNULL_BEGIN
 
-***REMOVED***/ Base ad loader delegate protocol. Ad types provide extended protocols that declare methods to
-***REMOVED***/ handle successful ad loads.
+/// Base ad loader delegate protocol. Ad types provide extended protocols that declare methods to
+/// handle successful ad loads.
 @protocol GADAdLoaderDelegate<NSObject>
 
-***REMOVED***/ Called when adLoader fails to load an ad.
+/// Called when adLoader fails to load an ad.
 - (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error;
 
 @optional
 
-***REMOVED***/ Called after adLoader has finished loading.
+/// Called after adLoader has finished loading.
 - (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader;
 
-***REMOVED***
+@end
 
 GAD_ASSUME_NONNULL_END

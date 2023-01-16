@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  AppDelegate.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 1/15/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  AppDelegate.h
+//  bvt
+//
+//  Created by Greg on 1/15/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 @import UIKit;
 
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, strong) GADBannerView *bannerView;
 
-***REMOVED***;
-***REMOVED***;
++ (YLPClient *)yelp;
++ (GADMobileAds *)google;
     
-***REMOVED***
+@end

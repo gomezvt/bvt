@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTAboutTableViewCell.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 6/1/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTAboutTableViewCell.h
+//  bvt
+//
+//  Created by Greg on 6/1/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,4 +14,4 @@
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *imageViewWidth;
 
-***REMOVED***
+@end

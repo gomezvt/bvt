@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTStyles.m
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/30/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTStyles.m
+//  burlingtonian
+//
+//  Created by Greg on 12/30/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import "BVTStyles.h"
 
@@ -33,33 +33,33 @@ NSString *const star_five_mini          = @"star_five_mini.png";
 @implementation BVTStyles
 
 + (UIColor *)placeHolderGreen
-***REMOVED***
+{
     return [UIColor colorWithRed:101.f/255 green:130.f/255 blue:109.f/255 alpha:1.f];
-***REMOVED***
+}
 
 + (UIColor *)tabBarTint
-***REMOVED***
+{
     return [UIColor colorWithRed:0.f/255 green:145.f/255 blue:0.f/255 alpha:1.f];
-***REMOVED***
+}
 
 + (UIColor *)lightGray
-***REMOVED***
+{
     return [UIColor colorWithRed:153.f/255 green:153.f/255 blue:153.f/255 alpha:1.f];
-***REMOVED***
+}
 
 + (UIColor *)iconGreen
-***REMOVED***
+{
     return [UIColor colorWithRed:75.f/255 green:125.f/255 blue:90.f/255 alpha:1.f];
-***REMOVED***
+}
 
 + (UIColor *)buttonBorder
-***REMOVED***
+{
     return [UIColor colorWithRed:135.f/255 green:172.f/255 blue:147.f/255 alpha:1.f];
-***REMOVED***
+}
 
 + (UIColor *)buttonBackGround
-***REMOVED***
+{
     return [UIColor colorWithRed:238.f/255 green:243.f/255 blue:240.f/255 alpha:1.f];
-***REMOVED***
+}
 
-***REMOVED***
+@end

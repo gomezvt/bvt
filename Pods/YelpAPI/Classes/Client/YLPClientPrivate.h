@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClientPrivate.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/8/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClientPrivate.h
+//  Pods
+//
+//  Created by David Chen on 1/8/16.
+//
+//
 #import "YLPClient.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +22,6 @@ extern NSString *const kYLPErrorDomain;
 + (NSCharacterSet *)URLEncodeAllowedCharacters;
 + (NSURLRequest *)authRequestWithAppId:(NSString *)appId secret:(NSString *)secret;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

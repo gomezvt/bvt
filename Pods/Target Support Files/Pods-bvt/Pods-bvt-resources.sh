@@ -1,14 +1,14 @@
 #!/bin/sh
 set -e
 
-mkdir -p "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
+mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 
-RESOURCES_TO_COPY=$***REMOVED***PODS_ROOT***REMOVED***/resources-to-copy-$***REMOVED***TARGETNAME***REMOVED***.txt
+RESOURCES_TO_COPY=${PODS_ROOT}/resources-to-copy-${TARGETNAME}.txt
 > "$RESOURCES_TO_COPY"
 
 XCASSET_FILES=()
 
-case "$***REMOVED***TARGETED_DEVICE_FAMILY***REMOVED***" in
+case "${TARGETED_DEVICE_FAMILY}" in
   1,2)
     TARGET_DEVICE_ARGS="--target-device ipad --target-device iphone"
     ;;
@@ -27,11 +27,11 @@ case "$***REMOVED***TARGETED_DEVICE_FAMILY***REMOVED***" in
 esac
 
 install_resource()
-***REMOVED***
+{
   if [[ "$1" = /* ]] ; then
     RESOURCE_PATH="$1"
   else
-    RESOURCE_PATH="$***REMOVED***PODS_ROOT***REMOVED***/$1"
+    RESOURCE_PATH="${PODS_ROOT}/$1"
   fi
   if [[ ! -e "$RESOURCE_PATH" ]] ; then
     cat << EOM
@@ -41,30 +41,30 @@ EOM
   fi
   case $RESOURCE_PATH in
     *.storyboard)
-      echo "ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target $***REMOVED***!DEPLOYMENT_TARGET_SETTING_NAME***REMOVED*** --output-format human-readable-text --compile $***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename \"$RESOURCE_PATH\" .storyboard`.storyboardc $RESOURCE_PATH --sdk $***REMOVED***SDKROOT***REMOVED*** $***REMOVED***TARGET_DEVICE_ARGS***REMOVED***"
-      ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target $***REMOVED***!DEPLOYMENT_TARGET_SETTING_NAME***REMOVED*** --output-format human-readable-text --compile "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename \"$RESOURCE_PATH\" .storyboard`.storyboardc" "$RESOURCE_PATH" --sdk "$***REMOVED***SDKROOT***REMOVED***" $***REMOVED***TARGET_DEVICE_ARGS***REMOVED***
+      echo "ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target ${!DEPLOYMENT_TARGET_SETTING_NAME} --output-format human-readable-text --compile ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$RESOURCE_PATH\" .storyboard`.storyboardc $RESOURCE_PATH --sdk ${SDKROOT} ${TARGET_DEVICE_ARGS}"
+      ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target ${!DEPLOYMENT_TARGET_SETTING_NAME} --output-format human-readable-text --compile "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$RESOURCE_PATH\" .storyboard`.storyboardc" "$RESOURCE_PATH" --sdk "${SDKROOT}" ${TARGET_DEVICE_ARGS}
       ;;
     *.xib)
-      echo "ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target $***REMOVED***!DEPLOYMENT_TARGET_SETTING_NAME***REMOVED*** --output-format human-readable-text --compile $***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename \"$RESOURCE_PATH\" .xib`.nib $RESOURCE_PATH --sdk $***REMOVED***SDKROOT***REMOVED*** $***REMOVED***TARGET_DEVICE_ARGS***REMOVED***"
-      ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target $***REMOVED***!DEPLOYMENT_TARGET_SETTING_NAME***REMOVED*** --output-format human-readable-text --compile "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename \"$RESOURCE_PATH\" .xib`.nib" "$RESOURCE_PATH" --sdk "$***REMOVED***SDKROOT***REMOVED***" $***REMOVED***TARGET_DEVICE_ARGS***REMOVED***
+      echo "ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target ${!DEPLOYMENT_TARGET_SETTING_NAME} --output-format human-readable-text --compile ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$RESOURCE_PATH\" .xib`.nib $RESOURCE_PATH --sdk ${SDKROOT} ${TARGET_DEVICE_ARGS}"
+      ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target ${!DEPLOYMENT_TARGET_SETTING_NAME} --output-format human-readable-text --compile "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$RESOURCE_PATH\" .xib`.nib" "$RESOURCE_PATH" --sdk "${SDKROOT}" ${TARGET_DEVICE_ARGS}
       ;;
     *.framework)
-      echo "mkdir -p $***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***FRAMEWORKS_FOLDER_PATH***REMOVED***"
-      mkdir -p "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***FRAMEWORKS_FOLDER_PATH***REMOVED***"
-      echo "rsync -av $RESOURCE_PATH $***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***FRAMEWORKS_FOLDER_PATH***REMOVED***"
-      rsync -av "$RESOURCE_PATH" "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***FRAMEWORKS_FOLDER_PATH***REMOVED***"
+      echo "mkdir -p ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+      mkdir -p "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+      echo "rsync -av $RESOURCE_PATH ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+      rsync -av "$RESOURCE_PATH" "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
       ;;
     *.xcdatamodel)
-      echo "xcrun momc \"$RESOURCE_PATH\" \"$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH"`.mom\""
-      xcrun momc "$RESOURCE_PATH" "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH" .xcdatamodel`.mom"
+      echo "xcrun momc \"$RESOURCE_PATH\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH"`.mom\""
+      xcrun momc "$RESOURCE_PATH" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcdatamodel`.mom"
       ;;
     *.xcdatamodeld)
-      echo "xcrun momc \"$RESOURCE_PATH\" \"$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH" .xcdatamodeld`.momd\""
-      xcrun momc "$RESOURCE_PATH" "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH" .xcdatamodeld`.momd"
+      echo "xcrun momc \"$RESOURCE_PATH\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcdatamodeld`.momd\""
+      xcrun momc "$RESOURCE_PATH" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcdatamodeld`.momd"
       ;;
     *.xcmappingmodel)
-      echo "xcrun mapc \"$RESOURCE_PATH\" \"$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH" .xcmappingmodel`.cdm\""
-      xcrun mapc "$RESOURCE_PATH" "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***/`basename "$RESOURCE_PATH" .xcmappingmodel`.cdm"
+      echo "xcrun mapc \"$RESOURCE_PATH\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcmappingmodel`.cdm\""
+      xcrun mapc "$RESOURCE_PATH" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename "$RESOURCE_PATH" .xcmappingmodel`.cdm"
       ;;
     *.xcassets)
       ABSOLUTE_XCASSET_FILE="$RESOURCE_PATH"
@@ -75,25 +75,25 @@ EOM
       echo "$RESOURCE_PATH" >> "$RESOURCES_TO_COPY"
       ;;
   esac
-***REMOVED***
+}
 
-mkdir -p "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
-rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "$***REMOVED***TARGET_BUILD_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
-if [[ "$***REMOVED***ACTION***REMOVED***" == "install" ]] && [[ "$***REMOVED***SKIP_INSTALL***REMOVED***" == "NO" ]]; then
-  mkdir -p "$***REMOVED***INSTALL_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
-  rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "$***REMOVED***INSTALL_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
+mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+if [[ "${ACTION}" == "install" ]] && [[ "${SKIP_INSTALL}" == "NO" ]]; then
+  mkdir -p "${INSTALL_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+  rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${INSTALL_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 fi
 rm -f "$RESOURCES_TO_COPY"
 
-if [[ -n "$***REMOVED***WRAPPER_EXTENSION***REMOVED***" ]] && [ "`xcrun --find actool`" ] && [ -n "$XCASSET_FILES" ]
+if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ -n "$XCASSET_FILES" ]
 then
   # Find all other xcassets (this unfortunately includes those of path pods and other targets).
   OTHER_XCASSETS=$(find "$PWD" -iname "*.xcassets" -type d)
   while read line; do
-    if [[ $line != "$***REMOVED***PODS_ROOT***REMOVED****" ]]; then
+    if [[ $line != "${PODS_ROOT}*" ]]; then
       XCASSET_FILES+=("$line")
     fi
   done <<<"$OTHER_XCASSETS"
 
-  printf "%s\0" "$***REMOVED***XCASSET_FILES[@]***REMOVED***" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "$***REMOVED***PLATFORM_NAME***REMOVED***" --minimum-deployment-target "$***REMOVED***!DEPLOYMENT_TARGET_SETTING_NAME***REMOVED***" $***REMOVED***TARGET_DEVICE_ARGS***REMOVED*** --compress-pngs --compile "$***REMOVED***BUILT_PRODUCTS_DIR***REMOVED***/$***REMOVED***UNLOCALIZED_RESOURCES_FOLDER_PATH***REMOVED***"
+  printf "%s\0" "${XCASSET_FILES[@]}" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${!DEPLOYMENT_TARGET_SETTING_NAME}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 fi

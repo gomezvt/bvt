@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 12/7/15.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient.m
+//  Pods
+//
+//  Created by David Chen on 12/7/15.
+//
+//
 
 #import <Foundation/Foundation.h>
 #import "YLPClient.h"
@@ -15,35 +15,35 @@ NSString *const kYLPErrorDomain = @"com.yelp.YelpAPI.ErrorDomain";
 
 @interface YLPClient ()
 @property (strong, nonatomic) NSString *accessToken;
-***REMOVED***
+@end
 
 @implementation YLPClient
 
-- (instancetype)init ***REMOVED***
+- (instancetype)init {
     return nil;
-***REMOVED***
+}
 
-- (instancetype)initWithAccessToken:(NSString *)accessToken ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithAccessToken:(NSString *)accessToken {
+    if (self = [super init]) {
         _accessToken = accessToken;
-    ***REMOVED***
+    }
     return self;
-***REMOVED***
+}
 
-- (NSURLRequest *)requestWithPath:(NSString *)path ***REMOVED***
+- (NSURLRequest *)requestWithPath:(NSString *)path {
     return [self requestWithPath:path params:nil];
-***REMOVED***
+}
 
-- (NSURLRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params ***REMOVED***
+- (NSURLRequest *)requestWithPath:(NSString *)path params:(NSDictionary *)params {
     NSURLComponents *urlComponents = [[NSURLComponents alloc] init];
     urlComponents.scheme = @"https";
     urlComponents.host = kYLPAPIHost;
     urlComponents.path = path;
 
     NSArray *queryItems = [YLPClient queryItemsForParams:params];
-    if (queryItems.count > 0) ***REMOVED***
+    if (queryItems.count > 0) {
         urlComponents.queryItems = queryItems;
-    ***REMOVED***
+    }
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:urlComponents.URL];
     request.HTTPMethod = @"GET";
@@ -51,74 +51,74 @@ NSString *const kYLPErrorDomain = @"com.yelp.YelpAPI.ErrorDomain";
     [request setValue:authHeader forHTTPHeaderField:@"Authorization"];
 
     return request;
-***REMOVED***
+}
 
 - (void)queryWithRequest:(NSURLRequest *)request
-       completionHandler:(void (^)(NSDictionary *jsonResponse, NSError *error))completionHandler ***REMOVED***
+       completionHandler:(void (^)(NSDictionary *jsonResponse, NSError *error))completionHandler {
     [YLPClient queryWithRequest:request completionHandler:completionHandler];
     
 
-***REMOVED***
+}
 
 #pragma mark Request utilities
 
 + (void)queryWithRequest:(NSURLRequest *)request
-       completionHandler:(void (^)(NSDictionary *jsonResponse, NSError *error))completionHandler ***REMOVED***
+       completionHandler:(void (^)(NSDictionary *jsonResponse, NSError *error))completionHandler {
     
     NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) ***REMOVED***
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *responseJSON;
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        ***REMOVED*** This case handles cases where the request was processed by the API, thus
-        ***REMOVED*** resulting in a JSON object being passed back into `data`.
-        if (!error) ***REMOVED***
+        // This case handles cases where the request was processed by the API, thus
+        // resulting in a JSON object being passed back into `data`.
+        if (!error) {
             responseJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        ***REMOVED***
+        }
         
-        if (!error && httpResponse.statusCode == 200) ***REMOVED***
-***REMOVED***            [[NSNotificationCenter defaultCenter]
-***REMOVED***             postNotificationName:@"TestNotificationSuccess"
-***REMOVED***             object:self];
+        if (!error && httpResponse.statusCode == 200) {
+//            [[NSNotificationCenter defaultCenter]
+//             postNotificationName:@"TestNotificationSuccess"
+//             object:self];
             completionHandler(responseJSON, nil);
-        ***REMOVED*** else ***REMOVED***
-***REMOVED***            [[NSNotificationCenter defaultCenter]
-***REMOVED***             postNotificationName:@"TestNotificationError"
-***REMOVED***             object:self];
-            ***REMOVED*** If a request fails due to systematic errors with the API then an NSError will be returned.
+        } else {
+//            [[NSNotificationCenter defaultCenter]
+//             postNotificationName:@"TestNotificationError"
+//             object:self];
+            // If a request fails due to systematic errors with the API then an NSError will be returned.
             error = error ? error : [NSError errorWithDomain:kYLPErrorDomain code:httpResponse.statusCode userInfo:responseJSON];
             completionHandler(nil, error);
-        ***REMOVED***
-    ***REMOVED***] resume];
-***REMOVED***
+        }
+    }] resume];
+}
 
-***REMOVED***[[NSNotificationCenter defaultCenter] addObserver: [self class]
-***REMOVED***                                         selector: @selector(handleEnteredBackground:)
-***REMOVED***                                             name: UIApplicationDidEnterBackgroundNotification
-***REMOVED***                                           object: nil];
+//[[NSNotificationCenter defaultCenter] addObserver: [self class]
+//                                         selector: @selector(handleEnteredBackground:)
+//                                             name: UIApplicationDidEnterBackgroundNotification
+//                                           object: nil];
 
-+ (NSArray<NSURLQueryItem *> *)queryItemsForParams:(NSDictionary<NSString *, id> *)params ***REMOVED***
++ (NSArray<NSURLQueryItem *> *)queryItemsForParams:(NSDictionary<NSString *, id> *)params {
     NSMutableArray *queryItems = [NSMutableArray array];
-    for (NSString *name in params) ***REMOVED***
+    for (NSString *name in params) {
         NSString *value = [params[name] description];
         NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:name value:value];
         [queryItems addObject:queryItem];
-    ***REMOVED***
+    }
     return queryItems;
-***REMOVED***
+}
 
-+ (NSCharacterSet *)URLEncodeAllowedCharacters ***REMOVED***
-    ***REMOVED*** unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
++ (NSCharacterSet *)URLEncodeAllowedCharacters {
+    // unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
     NSMutableCharacterSet *allowedCharacters = [[NSMutableCharacterSet alloc] init];
     [allowedCharacters addCharactersInRange:NSMakeRange((NSUInteger)'A', 26)];
     [allowedCharacters addCharactersInRange:NSMakeRange((NSUInteger)'a', 26)];
     [allowedCharacters addCharactersInRange:NSMakeRange((NSUInteger)'0', 10)];
     [allowedCharacters addCharactersInString:@"-._~"];
     return allowedCharacters;
-***REMOVED***
+}
 
 #pragma mark Authorization
 
-+ (NSURLRequest *)authRequestWithAppId:(NSString *)appId secret:(NSString *)secret ***REMOVED***
++ (NSURLRequest *)authRequestWithAppId:(NSString *)appId secret:(NSString *)secret {
     NSURLComponents *urlComponents = [[NSURLComponents alloc] init];
     urlComponents.scheme = @"https";
     urlComponents.host = kYLPAPIHost;
@@ -137,21 +137,21 @@ NSString *const kYLPErrorDomain = @"com.yelp.YelpAPI.ErrorDomain";
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 
     return request;
-***REMOVED***
+}
 
 + (void)authorizeWithAppId:(NSString *)appId
                     secret:(NSString *)secret
-         completionHandler:(void (^)(YLPClient *client, NSError *error))completionHandler ***REMOVED***
+         completionHandler:(void (^)(YLPClient *client, NSError *error))completionHandler {
     NSURLRequest *request = [self authRequestWithAppId:appId secret:secret];
-    [self queryWithRequest:request completionHandler:^(NSDictionary *jsonResponse, NSError *error) ***REMOVED***
-        if (error) ***REMOVED***
+    [self queryWithRequest:request completionHandler:^(NSDictionary *jsonResponse, NSError *error) {
+        if (error) {
             completionHandler(nil, error);
-        ***REMOVED*** else ***REMOVED***
+        } else {
             NSString *accessToken = jsonResponse[@"access_token"];
             YLPClient *client = [[YLPClient alloc] initWithAccessToken:accessToken];
             completionHandler(client, nil);
-        ***REMOVED***
-    ***REMOVED***];
-***REMOVED***
+        }
+    }];
+}
 
-***REMOVED***
+@end

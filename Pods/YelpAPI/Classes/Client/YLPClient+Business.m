@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+Business.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/4/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+Business.m
+//  Pods
+//
+//  Created by David Chen on 1/4/16.
+//
+//
 
 #import "YLPClient+Business.h"
 #import "YLPBusiness.h"
@@ -13,26 +13,26 @@
 
 @implementation YLPClient (Business)
 
-- (NSURLRequest *)businessRequestWithId:(NSString *)businessId ***REMOVED***
+- (NSURLRequest *)businessRequestWithId:(NSString *)businessId {
     NSString *businessPath = [@"/v3/businesses/" stringByAppendingString:businessId];
     return [self requestWithPath:businessPath];
-***REMOVED***
+}
 
 - (void)businessWithId:(NSString *)businessId
-     completionHandler:(void (^)(YLPBusiness *business, NSError *error))completionHandler ***REMOVED***
+     completionHandler:(void (^)(YLPBusiness *business, NSError *error))completionHandler {
     NSURLRequest *req = [self businessRequestWithId:businessId];
-    [self queryWithRequest:req completionHandler:^(NSDictionary *responseDict, NSError *error) ***REMOVED***
-        if (error) ***REMOVED***
+    [self queryWithRequest:req completionHandler:^(NSDictionary *responseDict, NSError *error) {
+        if (error) {
             completionHandler(nil, error);
-        ***REMOVED*** else ***REMOVED***
+        } else {
             YLPBusiness *business = [[YLPBusiness alloc] initWithDictionary:responseDict];
             completionHandler(business, nil);
             
-***REMOVED***            [[NSNotificationCenter defaultCenter]
-***REMOVED***             postNotificationName:@"BVTReceivedBusinessesIdNotification"
-***REMOVED***             object:business];
-        ***REMOVED***
-    ***REMOVED***];
-***REMOVED***
+//            [[NSNotificationCenter defaultCenter]
+//             postNotificationName:@"BVTReceivedBusinessesIdNotification"
+//             object:business];
+        }
+    }];
+}
 
-***REMOVED***
+@end

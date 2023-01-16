@@ -1,9 +1,9 @@
-***REMOVED***
-***REMOVED***  GADNativeContentAdAssetIDs.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2017 Google Inc. All rights reserved.
-***REMOVED***
+//
+//  GADNativeContentAdAssetIDs.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2017 Google Inc. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 

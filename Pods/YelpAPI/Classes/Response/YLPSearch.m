@@ -1,32 +1,32 @@
-***REMOVED***
-***REMOVED***  YLPSearch.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/28/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPSearch.m
+//  Pods
+//
+//  Created by David Chen on 1/28/16.
+//
+//
 
 #import "YLPSearch.h"
 #import "YLPResponsePrivate.h"
 
 @implementation YLPSearch
-- (instancetype)initWithDictionary:(NSDictionary *)searchDict ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithDictionary:(NSDictionary *)searchDict {
+    if (self = [super init]) {
         _total = [searchDict[@"total"] unsignedIntegerValue];
         _businesses = [self.class businessesFromJSONArray:searchDict[@"businesses"]];
-    ***REMOVED***
+    }
     
     return self;
-***REMOVED***
+}
 
-+ (NSArray *)businessesFromJSONArray:(NSArray *)businessesJSON ***REMOVED***
++ (NSArray *)businessesFromJSONArray:(NSArray *)businessesJSON {
     NSMutableArray<YLPBusiness *> *mutableBusinessesJSON = [[NSMutableArray alloc] init];
     
-    for (NSDictionary *business in businessesJSON) ***REMOVED***
+    for (NSDictionary *business in businessesJSON) {
         [mutableBusinessesJSON addObject:[[YLPBusiness alloc] initWithDictionary:business]];
-    ***REMOVED***
+    }
     
     return mutableBusinessesJSON;
-***REMOVED***
+}
 
-***REMOVED***
+@end

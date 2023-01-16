@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  Business.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/5/16.
-***REMOVED***
-***REMOVED***
+//
+//  Business.h
+//  Pods
+//
+//  Created by David Chen on 1/5/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -26,12 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, nullable, copy) NSString *phone;
 @property (nonatomic, readonly, copy) NSString *identifier;
-***REMOVED***@property (nonatomic, readonly, copy) NSArray *categories;
-***REMOVED*** TODO: FIGURE OUT how to get categories
+//@property (nonatomic, readonly, copy) NSArray *categories;
+// TODO: FIGURE OUT how to get categories
 @property (nonatomic, readonly, copy) NSArray<YLPCategory *> *categories;
 
 @property (nonatomic, readonly) YLPLocation *location;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

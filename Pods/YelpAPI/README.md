@@ -1,4 +1,4 @@
-[![Build Status](https:***REMOVED***travis-ci.org/Yelp/yelp-ios.svg?branch=master)](https:***REMOVED***travis-ci.org/Yelp/yelp-ios)
+[![Build Status](https://travis-ci.org/Yelp/yelp-ios.svg?branch=master)](https://travis-ci.org/Yelp/yelp-ios)
 
 
 # YelpAPI
@@ -14,7 +14,7 @@ before creating your applications.
 
 ## Installation
 
-YelpAPI is available through [CocoaPods](http:***REMOVED***cocoapods.org). To install
+YelpAPI is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
@@ -25,17 +25,17 @@ pod "YelpAPI"
 ### Basic Usage
 
 Before you can make any requests to the API, you must create a `YLPClient`
-by authorizing with the API using [your app's ID and secret](https:***REMOVED***www.yelp.com/developers/v3/manage_app):
+by authorizing with the API using [your app's ID and secret](https://www.yelp.com/developers/v3/manage_app):
 
 ```objective-c
 [YLPClient authorizeWithAppId:<id> secret:<secret> completionHandler:^
-    (YLPClient *client, NSError *error) ***REMOVED***
-    ***REMOVED*** Save your newly authorized client
+    (YLPClient *client, NSError *error) {
+    // Save your newly authorized client
     self.client = client;
-***REMOVED***];
+}];
 ```
 
-### [Search API](https:***REMOVED***www.yelp.com/developers/documentation/v3/business_search)
+### [Search API](https://www.yelp.com/developers/documentation/v3/business_search)
 Once you have a `YLPClient` object you can use the various search related function:
 
 ##### Search With Location
@@ -81,12 +81,12 @@ will be returned in the `NSError*` object.
 
 ```objective-c
 [self.client searchWithLocation:@"San Francisco, CA" completionHandler:^
-    (YLPSearch *search, NSError *error) ***REMOVED***
-    ***REMOVED*** Perform any tasks you need to here
-***REMOVED***];
+    (YLPSearch *search, NSError *error) {
+    // Perform any tasks you need to here
+}];
 ``` 
 
-### [Business API](https:***REMOVED***www.yelp.com/developers/documentation/v3/business)
+### [Business API](https://www.yelp.com/developers/documentation/v3/business)
 The `YLPClient` object will also provide access to the Business API, the
 relevant functions are:
 
@@ -104,12 +104,12 @@ be returned in the `NSError*` object.
 
 ```objective-c
 [self.client businessWithId:@"yelp-san-francisco" completionHandler:^
-    (YLPBusiness *search, NSError *error) ***REMOVED***
-    ***REMOVED*** Perform any tasks you need to here
-***REMOVED***];
+    (YLPBusiness *search, NSError *error) {
+    // Perform any tasks you need to here
+}];
 ```
 
-### [Phone Search API](https:***REMOVED***www.yelp.com/developers/documentation/v3/business_search_phone)
+### [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone)
 The `YLPClient` object will also provide access to the Phone Search API,
 the relevant functions are:
 
@@ -127,12 +127,12 @@ returned in the `NSError*` object.
 
 ```objective-c
 [self.client businessWithPhoneNumber:@"+14159083801" completionHandler:^
-    (YLPSearch *search, NSError *error) ***REMOVED***
-    ***REMOVED*** Perform any tasks you need to here
-***REMOVED***];
+    (YLPSearch *search, NSError *error) {
+    // Perform any tasks you need to here
+}];
 ```
 
-### [Reviews API](https:***REMOVED***www.yelp.com/developers/documentation/v3/business_reviews)
+### [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews)
 The `YLPClient` object also provides access to the Reviews API.
 The relevant methods are:
 
@@ -152,22 +152,22 @@ a `YLPBusinessReviews*` object on success, or an `NSError*` object if there was 
 
 ```objective-c
 [self.client reviewsForBusinessWithId:@"yelp-san-francisco" completionHandler:^
-    (YLPBusinessReviews *reviews, NSError *error) ***REMOVED***
-    ***REMOVED*** Perform any tasks you need to here
-***REMOVED***];
+    (YLPBusinessReviews *reviews, NSError *error) {
+    // Perform any tasks you need to here
+}];
 ```
 
 ## Responses
 A `Response` object is a data structure returned after each successful API call. The objects are
 readily available to be used. They will contain all available response fields as
-documented in our [API documentation](https:***REMOVED***www.yelp.com/developers/documentation/v3).
+documented in our [API documentation](https://www.yelp.com/developers/documentation/v3).
 
 `Response` objects returned by an API call may contain other `Response` objects.
 For example, the `YLPSearch` object contains an array of `YLPBusiness` objects as well.
-All `Response` objects can be found [here](https:***REMOVED***github.com/Yelp/yelp-ios/tree/master/Classes/Response)
+All `Response` objects can be found [here](https://github.com/Yelp/yelp-ios/tree/master/Classes/Response)
 
 ## Contributing
-1. Fork it (http:***REMOVED***github.com/yelp/yelp-ios/fork)
+1. Fork it (http://github.com/yelp/yelp-ios/fork)
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)

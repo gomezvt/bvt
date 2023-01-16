@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+Reviews.h
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 10/21/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+Reviews.h
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 10/21/16.
+//
+//
 
 #import "YLPClient.h"
 
@@ -23,6 +23,6 @@ typedef void(^YLPReviewsCompletionHandler)(YLPBusinessReviews *_Nullable reviews
                           locale:(nullable NSString *)locale
                completionHandler:(YLPReviewsCompletionHandler)completionHandler;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

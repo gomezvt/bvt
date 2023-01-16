@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpPhotoTableViewCell.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/15/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpPhotoTableViewCell.h
+//  bvt
+//
+//  Created by Greg on 2/15/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -12,4 +12,4 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView *photoView;
 
-***REMOVED***
+@end

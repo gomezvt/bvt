@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpCategoryTableViewCell.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/6/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpCategoryTableViewCell.h
+//  bvt
+//
+//  Created by Greg on 2/6/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -15,4 +15,4 @@
 @property (nonatomic, weak) IBOutlet UILabel *categoryLabel;
 @property (nonatomic, strong) YLPBusiness *selectedBusiness;
 
-***REMOVED***
+@end

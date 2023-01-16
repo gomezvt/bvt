@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTSurpriseShoppingCartTableViewController.m
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/23/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTSurpriseShoppingCartTableViewController.m
+//  bvt
+//
+//  Created by Greg on 2/23/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import "BVTSurpriseShoppingCartTableViewController.h"
 
@@ -12,7 +12,7 @@
 #import "BVTHeaderTitleView.h"
 #import "BVTSurpriseRecommendationsTableViewController.h"
 #import "BVTStyles.h"
-***REMOVED***
+#import "AppDelegate.h"
 #import "YLPCategory.h"
 #import "YLPSearch.h"
 #import "YLPBusiness.h"
@@ -35,31 +35,31 @@
 @property (nonatomic, strong) NSMutableArray *subCategories;
 @property (nonatomic, strong) NSMutableArray *resultsArray;
 @property (nonatomic, strong) NSMutableArray *tempArray;
-***REMOVED***@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
+//@property (nonatomic, strong) BVTTableViewSectionHeaderView *headerView;
 
-***REMOVED***
+@end
 
 static int i = 0;
 static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
-***REMOVED***static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
+//static NSString *const kTableViewSectionHeaderView = @"BVTTableViewSectionHeaderView";
 
 @implementation BVTSurpriseShoppingCartTableViewController
 
 - (void)didTapBackWithDetails:(NSMutableArray *)details
-***REMOVED***
+{
     self.cachedDetails = details;
-***REMOVED***
+}
 
 - (IBAction)didTapClearAllButton:(id)sender
-***REMOVED***
+{
     [self.catDict removeAllObjects];
     [self.subCategories removeAllObjects];
     [self.resultsArray removeAllObjects];
     
     if ([self.delegate respondsToSelector:@selector(didRemoveObjectsFromArray:)])
-    ***REMOVED***
+    {
         [self.delegate didRemoveObjectsFromArray:self.subCategories];
-    ***REMOVED***
+    }
     [self.tableView reloadData];
     
     self.clearButton.enabled = NO;
@@ -69,11 +69,11 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     self.goButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     [self presentMessage];
-***REMOVED***
+}
 
 
 - (void)didTapHUDCancelButton
-***REMOVED***
+{
     i = 0;
     self.didCancelRequest = YES;
     self.backChevron.enabled = YES;
@@ -83,10 +83,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     [self evaluateButtonStateForButton:self.goButton];
     [self evaluateButtonStateForButton:self.clearButton];
     [self.hud removeFromSuperview];
-***REMOVED***
+}
 
 - (IBAction)didTapSubmit:(id)sender
-***REMOVED***
+{
     [self.resultsArray removeAllObjects];
     
     i = 0;
@@ -102,9 +102,9 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     
     NSMutableArray *categoryArray = [NSMutableArray array];
     for (NSArray *subCat in array)
-    ***REMOVED***
+    {
         [categoryArray addObjectsFromArray:subCat];
-    ***REMOVED***
+    }
     
     self.tableView.userInteractionEnabled = NO;
     self.tabBarController.tabBar.userInteractionEnabled = NO;
@@ -115,18 +115,18 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
     __block BOOL didError = NO;
     for (NSString *subCatTitle in categoryArray)
-    ***REMOVED***
+    {
         if (didError)
-        ***REMOVED***
+        {
             break;
-        ***REMOVED***
+        }
         
         [[AppDelegate yelp] searchWithLocation:@"Burlington, VT" term:subCatTitle limit:50 offset:0 sort:YLPSortTypeDistance completionHandler:^
-         (YLPSearch *searchResults, NSError *error)***REMOVED***
-             dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+         (YLPSearch *searchResults, NSError *error){
+             dispatch_async(dispatch_get_main_queue(), ^{
                  
                  if (error)
-                 ***REMOVED***
+                 {
                      [weakSelf _hideHUD];
 
                      [weakSelf.goButton setEnabled:YES];
@@ -137,51 +137,51 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                      
                      NSString *string = error.userInfo[@"NSLocalizedDescription"];
                      if ([string isEqualToString:@"The Internet connection appears to be offline."])
-                     ***REMOVED***
+                     {
                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No Internet" message:@"Check your connection and try again" preferredStyle:UIAlertControllerStyleAlert];
                          
                          UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                          [alertController addAction:ok];
                          
                          [weakSelf presentViewController:alertController animated:YES completion:nil];
-                     ***REMOVED***
+                     }
 
-                 ***REMOVED***
-             ***REMOVED***);
-         ***REMOVED***];
-    ***REMOVED***
-***REMOVED***
+                 }
+             });
+         }];
+    }
+}
 
 
 - (void)_hideHUD
-***REMOVED***
+{
     self.backChevron.enabled = YES;
     self.tableView.userInteractionEnabled = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
 
     [self.hud removeFromSuperview];
-***REMOVED***
+}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-***REMOVED***
-***REMOVED***
-***REMOVED***
+{
+    return YES;
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-***REMOVED***
+{
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
     NSArray *sortedArray2 = [[self.catDict allKeys] sortedArrayUsingDescriptors: @[descriptor]];
     NSString *key = [sortedArray2 objectAtIndex:section];
     NSMutableArray *values = [[[self.catDict valueForKey:key] sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
     if (values.count > 0)
-    ***REMOVED***
+    {
         return key;
-    ***REMOVED***
+    }
     return nil;
-***REMOVED***
+}
 
 - (void)presentMessage
-***REMOVED***
+{
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 30.f)];
     label.text = @"Add one or more categories to submit.";
     [super.view addSubview:label];
@@ -189,10 +189,10 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     self.tableView.separatorColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor lightGrayColor];
-***REMOVED***
+}
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath ***REMOVED***
-    if (editingStyle == UITableViewCellEditingStyleDelete) ***REMOVED***
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
 
         NSArray *sort = [[[self.catDict allKeys] sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
@@ -212,9 +212,9 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
         
         [self.catDict setValue:array forKey:key];
         if ([self.delegate respondsToSelector:@selector(didRemoveObjectsFromArray:)])
-        ***REMOVED***
+        {
             [self.delegate didRemoveObjectsFromArray:self.subCategories];
-        ***REMOVED***
+        }
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]
                       withRowAnimation:UITableViewRowAnimationFade];
@@ -225,19 +225,19 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
 
         NSArray *allValues = [self.catDict allValues];
         if (![[allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"@count > 0"]] lastObject])
-        ***REMOVED***
+        {
             [self presentMessage];
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+        }
+    }
+}
 
-***REMOVED***- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-***REMOVED******REMOVED***
-***REMOVED***    return 44.f;
-***REMOVED******REMOVED***
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 44.f;
+//}
 
 - (void)awakeFromNib
-***REMOVED***
+{
     [super awakeFromNib];
     
     UINib *nibTitleView = [UINib nibWithNibName:kHeaderTitleViewNib bundle:nil];
@@ -246,12 +246,12 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     self.navigationItem.titleView = headerTitleView;
     self.navigationController.navigationBar.barTintColor = [BVTStyles iconGreen];
     
-***REMOVED***    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
-***REMOVED***    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
-***REMOVED***
+//    UINib *headerView = [UINib nibWithNibName:kTableViewSectionHeaderView bundle:nil];
+//    [self.tableView registerNib:headerView forHeaderFooterViewReuseIdentifier:kTableViewSectionHeaderView];
+}
 
 - (void)evaluateButtonStateForButton:(UIButton *)button
-***REMOVED***
+{
     CALayer *layer = [button layer];
     [layer setMasksToBounds:YES];
     [layer setCornerRadius:10.0];
@@ -259,37 +259,37 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     
     NSArray *allValues = [self.catDict allValues];
     if ([[allValues filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"@count > 0"]] lastObject])
-    ***REMOVED***
+    {
         [button setEnabled:YES];
         [button.layer setBorderColor:[[BVTStyles iconGreen] CGColor]];
-    ***REMOVED***
+    }
     else
-    ***REMOVED***
+    {
         [button setEnabled:NO];
         [button.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    ***REMOVED***
-***REMOVED***
+    }
+}
 
 #pragma mark - IBActions
 
 - (IBAction)didTapBack:(id)sender
-***REMOVED***
+{
     if ([self.delegate respondsToSelector:@selector(didTapBackWithCategories:)])
-    ***REMOVED***
+    {
         [self.delegate didTapBackWithCategories:self.catDict];
-    ***REMOVED***
+    }
     
     if ([self.delegate respondsToSelector:@selector(didTapBackWithDetails:)])
-    ***REMOVED***
+    {
         [self.delegate didTapBackWithDetails:self.cachedDetails];
-    ***REMOVED***
+    }
     [self.navigationController popViewControllerAnimated:YES];
-***REMOVED***
+}
 
 
 
 - (void)viewDidLoad
-***REMOVED***
+{
     [super viewDidLoad];
     
 
@@ -309,47 +309,47 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     [self.goButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     [self.clearButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
     
-***REMOVED***
+}
 
 - (void)viewWillAppear:(BOOL)animated
-***REMOVED***
+{
     [super viewWillAppear:animated];
     
     [self.tempArray removeAllObjects];
     
     [self evaluateButtonStateForButton:self.goButton];
     [self evaluateButtonStateForButton:self.clearButton];
-***REMOVED***
+}
 
 - (void)didReceiveBusinessesNotification:(NSNotification *)notification
-***REMOVED***
+{
     if ([[notification name] isEqualToString:@"BVTReceivedBusinessesSearchNotification"])
-    ***REMOVED***
+    {
         i++;
         YLPSearch *searchObject = notification.object;
         
         for (NSString *category in self.subCategories)
-        ***REMOVED***
+        {
             for (YLPBusiness *biz in searchObject.businesses)
-            ***REMOVED***
+            {
                 if ([[biz.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name = %@", category]] lastObject])
-                ***REMOVED***
+                {
                     if (![self.tempArray containsObject:[NSString stringWithFormat:@"%@%@", biz.identifier, category]])
-                    ***REMOVED***
+                    {
                         [self.resultsArray addObject:[NSDictionary dictionaryWithObject:biz forKey:category]];
                         [self.tempArray addObject:[NSString stringWithFormat:@"%@%@", biz.identifier, category]];
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
+                    }
+                }
+            }
+        }
         
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         if (i == self.subCategories.count)
-        ***REMOVED***
+        {
             if (self.resultsArray.count == 0)
-            ***REMOVED***
-                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
-                    ***REMOVED*** code here
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // code here
                     [self _hideHUD];
                     [self.goButton setEnabled:YES];
                     [self.clearButton setEnabled:YES];
@@ -363,32 +363,32 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                     [alertController addAction:ok];
                     
                     [self presentViewController:alertController animated:YES completion:nil];
-                ***REMOVED***);
-            ***REMOVED***
+                });
+            }
             else
-            ***REMOVED***
+            {
                 for (NSString *category in self.subCategories)
-                ***REMOVED***
+                {
                     NSArray *array = [self.resultsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self CONTAINS[cd] %K", category]];
                     
  
                     
-                    ***REMOVED*** TODO:figure out sorting here
+                    // TODO:figure out sorting here
                     [dict setObject:array forKey:category];
-                ***REMOVED***
+                }
                 
                 NSArray *allkeys = [dict allKeys];
                 if (allkeys.count > 0)
-                ***REMOVED***
+                {
                     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
                     NSArray *keys = [allkeys sortedArrayUsingDescriptors: @[descriptor]];
                     
                     for (NSString *key in keys)
-                    ***REMOVED***
+                    {
                         NSArray *values = [dict valueForKey:key];
                         
                         if (values.count >= 3)
-                        ***REMOVED***
+                        {
                             NSDictionary *values1 = [values objectAtIndex:arc4random()%[values count]];
                             YLPBusiness *biz = [[values1 allValues] lastObject];
                             
@@ -402,17 +402,17 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                 ([biz.identifier isEqualToString:biz2.identifier] && [biz.identifier isEqualToString:biz3.identifier] &&
                                 [biz2.identifier isEqualToString:biz.identifier] && [biz2.identifier isEqualToString:biz3.identifier] &&
                                 [biz3.identifier isEqualToString:biz.identifier] && [biz3.identifier isEqualToString:biz2.identifier]))
-                            ***REMOVED***
+                            {
                                 NSMutableArray *ar = [NSMutableArray array];
                                 [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
                                 [dict setValue:ar forKey:key];                                
-                            ***REMOVED***
+                            }
                             else
-                            ***REMOVED***
+                            {
                                 while ([biz.identifier isEqualToString:biz2.identifier] || [biz.identifier isEqualToString:biz3.identifier] ||
                                        [biz2.identifier isEqualToString:biz.identifier] || [biz2.identifier isEqualToString:biz3.identifier] ||
                                        [biz3.identifier isEqualToString:biz.identifier] || [biz3.identifier isEqualToString:biz2.identifier])
-                                ***REMOVED***
+                                {
                                     NSDictionary *values1 = [values objectAtIndex:arc4random()%[values count]];
                                     biz = [[values1 allValues] lastObject];
                                     
@@ -421,7 +421,7 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                     
                                     NSDictionary *values3 = [values objectAtIndex:arc4random()%[values count]];
                                     biz3 = [[values3 allValues] lastObject];
-                                ***REMOVED***
+                                }
                                 
                                 NSArray *bizzes = @[ biz, biz2, biz3 ];
                                 
@@ -430,15 +430,15 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                 
                                 NSMutableArray *ar = [NSMutableArray array];
                                 for (YLPBusiness *biz in sortedArray2)
-                                ***REMOVED***
+                                {
                                     [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
-                                ***REMOVED***
+                                }
                                 
                                 [dict setValue:ar forKey:key];
-                            ***REMOVED***
-                        ***REMOVED***
+                            }
+                        }
                         else if (values.count == 2)
-                        ***REMOVED***
+                        {
                             NSDictionary *values1 = [values firstObject];
                             YLPBusiness *biz = [[values1 allValues] firstObject];
                             
@@ -446,13 +446,13 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                             YLPBusiness *biz2 = [[values2 allValues] lastObject];
 
                             if ([biz.identifier isEqualToString:biz2.identifier])
-                            ***REMOVED***
+                            {
                                 NSMutableArray *ar = [NSMutableArray array];
                                 [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
                                 [dict setValue:ar forKey:key];
-                            ***REMOVED***
+                            }
                             else
-                            ***REMOVED***
+                            {
                                 NSArray *bizzes = @[ biz, biz2 ];
                                 
                                 NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
@@ -460,80 +460,80 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
                                 
                                 NSMutableArray *ar = [NSMutableArray array];
                                 for (YLPBusiness *biz in sortedArray2)
-                                ***REMOVED***
+                                {
                                     [ar addObject:[NSDictionary dictionaryWithObject:biz forKey:key]];
-                                ***REMOVED***
+                                }
                                 
                                 [dict setValue:ar forKey:key];
-                            ***REMOVED***
+                            }
 
-                        ***REMOVED***
+                        }
                         
                         if (!self.didCancelRequest)
-                        ***REMOVED***
+                        {
                             if (key == [allkeys lastObject])
-                            ***REMOVED***
-                                dispatch_async(dispatch_get_main_queue(), ^***REMOVED***
+                            {
+                                dispatch_async(dispatch_get_main_queue(), ^{
                                     
                                     [self _hideHUD];
                                     
                                     [self performSegueWithIdentifier:@"ShowRecommendations" sender:dict];
-                                ***REMOVED***);
-                            ***REMOVED***
-                        ***REMOVED***
-                    ***REMOVED***
-                ***REMOVED***
-            ***REMOVED***
-        ***REMOVED***
-    ***REMOVED***
-***REMOVED***
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 - (void) dealloc
-***REMOVED***
-    ***REMOVED*** If you don't remove yourself as an observer, the Notification Center
-    ***REMOVED*** will continue to try and send notification objects to the deallocated
-    ***REMOVED*** object.
+{
+    // If you don't remove yourself as an observer, the Notification Center
+    // will continue to try and send notification objects to the deallocated
+    // object.
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-***REMOVED***
+}
 
-- (void)didReceiveMemoryWarning ***REMOVED***
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    ***REMOVED*** Dispose of any resources that can be recreated.
-***REMOVED***
+    // Dispose of any resources that can be recreated.
+}
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-***REMOVED***
+{
     return self.catDict.count;
-***REMOVED***
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-***REMOVED***
+{
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
     NSArray *sortedArray2 = [[self.catDict allKeys] sortedArrayUsingDescriptors: @[descriptor]];
     NSString *key = [sortedArray2 objectAtIndex:section];
     NSMutableArray *values = [[[self.catDict valueForKey:key] sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
     
     
-***REMOVED***    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
-***REMOVED***    NSMutableArray *sortedArray2 = [[self.subCategories sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
+//    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+//    NSMutableArray *sortedArray2 = [[self.subCategories sortedArrayUsingDescriptors: @[descriptor]] mutableCopy];
 
     
     
     
     for (NSString *category in values)
-    ***REMOVED***
+    {
         if (![self.subCategories containsObject:category])
-        ***REMOVED***
+        {
             [self.subCategories addObject:category];
-        ***REMOVED***
-    ***REMOVED***
+        }
+    }
     return values.count;
-***REMOVED***
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-***REMOVED***
+{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
@@ -546,15 +546,15 @@ static NSString *const kHeaderTitleViewNib = @"BVTHeaderTitleView";
     cell.textLabel.numberOfLines = 0;
     
     return cell;
-***REMOVED***
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-***REMOVED***
-    ***REMOVED*** Get destination view
+{
+    // Get destination view
     BVTSurpriseRecommendationsTableViewController *vc = [segue destinationViewController];
     vc.delegate = self;
     vc.businessOptions = sender;
     vc.cachedDetails = self.cachedDetails;
-***REMOVED***
+}
 
-***REMOVED***
+@end

@@ -1,31 +1,31 @@
-***REMOVED***
-***REMOVED***  BVTYelpPhotoTableViewCell.m
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/15/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpPhotoTableViewCell.m
+//  bvt
+//
+//  Created by Greg on 2/15/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import "BVTYelpPhotoTableViewCell.h"
 
 @implementation BVTYelpPhotoTableViewCell
 
-- (void)awakeFromNib ***REMOVED***
+- (void)awakeFromNib {
     [super awakeFromNib];
-    ***REMOVED*** Initialization code
-***REMOVED***
+    // Initialization code
+}
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    ***REMOVED*** Configure the view for the selected state
-***REMOVED***
+    // Configure the view for the selected state
+}
 
 - (void)prepareForReuse
-***REMOVED***
+{
     [super prepareForReuse];
     
     self.photoView.image = nil;
-***REMOVED***
+}
 
-***REMOVED***
+@end

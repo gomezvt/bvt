@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  PageContentViewController.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/23/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  PageContentViewController.h
+//  burlingtonian
+//
+//  Created by Greg on 12/23/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -15,4 +15,4 @@
 @property NSUInteger pageIndex;
 @property NSString *titleText;
 
-***REMOVED***
+@end

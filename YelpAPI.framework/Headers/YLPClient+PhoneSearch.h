@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+PhoneSearch.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/19/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+PhoneSearch.h
+//  Pods
+//
+//  Created by David Chen on 1/19/16.
+//
+//
 #import "YLPClient.h"
 
 @class YLPSearch;
@@ -18,6 +18,6 @@ typedef void(^YLPPhoneSearchCompletionHandler)(YLPSearch *_Nullable search, NSEr
 - (void)businessWithPhoneNumber:(NSString *)phoneNumber
               completionHandler:(YLPPhoneSearchCompletionHandler)completionHandler;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

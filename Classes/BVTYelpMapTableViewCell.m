@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpMapTableViewCell.m
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/30/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpMapTableViewCell.m
+//  burlingtonian
+//
+//  Created by Greg on 12/30/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import "BVTYelpMapTableViewCell.h"
 #import <MapKit/MapKit.h>
@@ -15,23 +15,23 @@
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
-***REMOVED***
+@end
 
 @implementation BVTYelpMapTableViewCell
 
-- (void)awakeFromNib ***REMOVED***
+- (void)awakeFromNib {
     [super awakeFromNib];
-    ***REMOVED*** Initialization code
-***REMOVED***
+    // Initialization code
+}
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    ***REMOVED*** Configure the view for the selected state
-***REMOVED***
+    // Configure the view for the selected state
+}
 
 - (void)setSelectedBusiness:(YLPBusiness *)selectedBusiness
-***REMOVED***
+{
     _selectedBusiness = selectedBusiness;
     
     CLLocationCoordinate2D location;
@@ -52,6 +52,6 @@
     annotationPoint.title = self.selectedBusiness.name;
     [self.mapView addAnnotation:annotationPoint];
 
-***REMOVED***
+}
 
-***REMOVED***
+@end

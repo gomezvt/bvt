@@ -1,21 +1,21 @@
-***REMOVED***
+{
   "images" : [
-    ***REMOVED***
+    {
       "idiom" : "universal",
       "filename" : "explore_520x925.png",
       "scale" : "1x"
-    ***REMOVED***,
-    ***REMOVED***
+    },
+    {
       "idiom" : "universal",
       "scale" : "2x"
-    ***REMOVED***,
-    ***REMOVED***
+    },
+    {
       "idiom" : "universal",
       "scale" : "3x"
-    ***REMOVED***
+    }
   ],
-  "info" : ***REMOVED***
+  "info" : {
     "version" : 1,
     "author" : "xcode"
-  ***REMOVED***
-***REMOVED***
+  }
+}

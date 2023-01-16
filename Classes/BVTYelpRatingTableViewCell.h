@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpRatingTableViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/27/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpRatingTableViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/27/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -17,4 +17,4 @@
 @property (nonatomic, weak) IBOutlet UILabel *reviewsCountLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *ratingStarsView;
 
-***REMOVED***
+@end

@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPCategory.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/11/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPCategory.h
+//  Pods
+//
+//  Created by David Chen on 1/11/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -15,6 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *alias;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

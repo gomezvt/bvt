@@ -1,9 +1,9 @@
-***REMOVED***
-***REMOVED***  DFPCustomRenderedBannerViewDelegate.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2014 Google Inc. All rights reserved.
-***REMOVED***
+//
+//  DFPCustomRenderedBannerViewDelegate.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2014 Google Inc. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,15 +14,15 @@
 
 GAD_ASSUME_NONNULL_BEGIN
 
-***REMOVED***/ The DFPCustomRenderedAd banner view delegate protocol for notifying the delegate of changes to
-***REMOVED***/ custom rendered banners.
+/// The DFPCustomRenderedAd banner view delegate protocol for notifying the delegate of changes to
+/// custom rendered banners.
 @protocol DFPCustomRenderedBannerViewDelegate<NSObject>
 
-***REMOVED***/ Called after ad data has been received. You must construct a banner from |customRenderedAd| and
-***REMOVED***/ call the |customRenderedAd| object's finishedRenderingAdView: when the ad has been rendered.
+/// Called after ad data has been received. You must construct a banner from |customRenderedAd| and
+/// call the |customRenderedAd| object's finishedRenderingAdView: when the ad has been rendered.
 - (void)bannerView:(DFPBannerView *)bannerView
     didReceiveCustomRenderedAd:(DFPCustomRenderedAd *)customRenderedAd;
 
-***REMOVED***
+@end
 
 GAD_ASSUME_NONNULL_END

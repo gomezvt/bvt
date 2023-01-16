@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPSearch.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/28/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPSearch.h
+//  Pods
+//
+//  Created by David Chen on 1/28/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -17,6 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSArray<YLPBusiness *> *businesses;
 @property (nonatomic, readonly) NSUInteger total;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

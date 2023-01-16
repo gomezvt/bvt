@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTDetailTableViewController.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/20/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTDetailTableViewController.h
+//  burlingtonian
+//
+//  Created by Greg on 12/20/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,4 +14,4 @@
 
 @property (nonatomic, strong) YLPBusiness *selectedBusiness;
 
-***REMOVED***
+@end

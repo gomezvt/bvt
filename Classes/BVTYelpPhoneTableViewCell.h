@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTYelpContactTableViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/23/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTYelpContactTableViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/23/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -16,4 +16,4 @@
 
 - (IBAction)didTapPhoneNumberButton:(id)sender;
 
-***REMOVED***
+@end

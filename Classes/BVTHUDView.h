@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTHUDView.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/19/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTHUDView.h
+//  bvt
+//
+//  Created by Greg on 2/19/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -12,11 +12,11 @@
 
 - (void)didTapHUDCancelButton;
 
-***REMOVED***
+@end
 
 @interface BVTHUDView : UIView
 
 + (instancetype)hudWithView:(UIView *)view;
 @property(nonatomic, weak)id <BVTHUDViewDelegate> delegate;
 
-***REMOVED***
+@end

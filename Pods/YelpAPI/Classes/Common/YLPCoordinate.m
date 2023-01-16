@@ -1,24 +1,24 @@
-***REMOVED***
-***REMOVED***  YLPCoordinate.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/13/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPCoordinate.m
+//  Pods
+//
+//  Created by David Chen on 1/13/16.
+//
+//
 
 #import "YLPCoordinate.h"
 
 @implementation YLPCoordinate
-- (instancetype)initWithLatitude:(double)latitude longitude:(double)longitude ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithLatitude:(double)latitude longitude:(double)longitude {
+    if (self = [super init]) {
         _latitude = latitude;
         _longitude = longitude;
-    ***REMOVED***
+    }
     return self;
-***REMOVED***
+}
 
 
-- (NSString *)description ***REMOVED***
+- (NSString *)description {
     return [NSString stringWithFormat:@"%f,%f", self.latitude, self.longitude];
-***REMOVED***
-***REMOVED***
+}
+@end

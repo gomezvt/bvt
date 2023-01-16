@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPLocation.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/12/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPLocation.h
+//  Pods
+//
+//  Created by David Chen on 1/12/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -23,6 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, nullable) YLPCoordinate *coordinate;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

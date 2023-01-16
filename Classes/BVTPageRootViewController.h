@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  RootViewController.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/23/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  RootViewController.h
+//  burlingtonian
+//
+//  Created by Greg on 12/23/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 #import "BVTPageRootViewController.h"
@@ -19,4 +19,4 @@
 @property (strong, nonatomic) NSArray *pageTitles;
 @property (strong, nonatomic) NSArray *images;
 
-***REMOVED***
+@end

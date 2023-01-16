@@ -1,14 +1,14 @@
-***REMOVED***
-***REMOVED***  BVTTabBarViewController.m
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 7/5/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTTabBarViewController.m
+//  bvt
+//
+//  Created by Greg on 7/5/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
-***REMOVED***
+@import GoogleMobileAds;
 
-***REMOVED***
+#import "AppDelegate.h"
 #import "BVTTabBarViewController.h"
 
 @interface BVTTabBarViewController () <GADBannerViewDelegate>
@@ -17,25 +17,25 @@
 @property (nonatomic, weak) IBOutlet UIView *adView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
 
-***REMOVED***
+@end
 
 @implementation BVTTabBarViewController
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
-***REMOVED***
+{
     self.bannerView = bannerView;
 
     self.bannerView.alpha = 0;
     [self.adView addSubview:self.bannerView];
     [self.bannerView setFrame:CGRectMake(0, 0, self.adView.frame.size.width, 60.f)];
     self.adViewHeightConstraint.constant = 60.f;
-    [UIView animateWithDuration:1.0 animations:^***REMOVED***
+    [UIView animateWithDuration:1.0 animations:^{
         self.bannerView.alpha = 1;
-    ***REMOVED***];
-***REMOVED***
+    }];
+}
 
 - (void)viewDidLoad
-***REMOVED***
+{
     [super viewDidLoad];
     
     self.adViewHeightConstraint.constant = 0.f;
@@ -47,22 +47,22 @@
     [self.bannerView loadRequest:[GADRequest request]];
     self.bannerView.delegate = self;
 
-    ***REMOVED*** Do any additional setup after loading the view.
-***REMOVED***
+    // Do any additional setup after loading the view.
+}
 
-- (void)didReceiveMemoryWarning ***REMOVED***
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    ***REMOVED*** Dispose of any resources that can be recreated.
-***REMOVED***
+    // Dispose of any resources that can be recreated.
+}
 
 /*
 #pragma mark - Navigation
 
-***REMOVED*** In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender ***REMOVED***
-    ***REMOVED*** Get the new view controller using [segue destinationViewController].
-    ***REMOVED*** Pass the selected object to the new view controller.
-***REMOVED***
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
 */
 
-***REMOVED***
+@end

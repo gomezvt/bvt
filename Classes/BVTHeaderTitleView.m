@@ -1,21 +1,21 @@
-***REMOVED***
-***REMOVED***  BVTHeaderTitleView.m
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/24/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTHeaderTitleView.m
+//  burlingtonian
+//
+//  Created by Greg on 12/24/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import "BVTHeaderTitleView.h"
 
 @implementation BVTHeaderTitleView
 
 /*
-***REMOVED*** Only override drawRect: if you perform custom drawing.
-***REMOVED*** An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect ***REMOVED***
-    ***REMOVED*** Drawing code
-***REMOVED***
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
 */
 
-***REMOVED***
+@end

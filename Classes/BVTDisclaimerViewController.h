@@ -1,13 +1,13 @@
-***REMOVED***
-***REMOVED***  BVTDisclaimerViewController.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 6/3/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTDisclaimerViewController.h
+//  bvt
+//
+//  Created by Greg on 6/3/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
 @interface BVTDisclaimerViewController : UIViewController
 
-***REMOVED***
+@end

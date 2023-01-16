@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 12/7/15.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient.h
+//  Pods
+//
+//  Created by David Chen on 12/7/15.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -20,6 +20,6 @@ extern NSString *const kYLPAPIHost;
                     secret:(NSString *)secret
          completionHandler:(void (^)(YLPClient *_Nullable client, NSError *_Nullable error))completionHandler;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

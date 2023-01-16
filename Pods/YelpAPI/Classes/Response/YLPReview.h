@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPReview.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/13/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPReview.h
+//  Pods
+//
+//  Created by David Chen on 1/13/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -22,6 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, readonly) YLPUser *user;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

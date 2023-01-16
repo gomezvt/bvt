@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPReview.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/13/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPReview.m
+//  Pods
+//
+//  Created by David Chen on 1/13/16.
+//
+//
 
 #import "YLPReview.h"
 #import "YLPUser.h"
@@ -12,27 +12,27 @@
 
 @implementation YLPReview
 
-- (instancetype)initWithDictionary:(NSDictionary *)reviewDict ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithDictionary:(NSDictionary *)reviewDict {
+    if (self = [super init]) {
         _rating = [reviewDict[@"rating"] doubleValue];
         _excerpt = reviewDict[@"text"];
         _timeCreated = [self.class dateFromTimestamp:reviewDict[@"time_created"]];
         _user = [[YLPUser alloc] initWithDictionary:reviewDict[@"user"]];
-    ***REMOVED***
+    }
     
     return self;
-***REMOVED***
+}
 
-+ (NSDate *)dateFromTimestamp:(NSString *)timestamp ***REMOVED***
++ (NSDate *)dateFromTimestamp:(NSString *)timestamp {
     static NSDateFormatter *dateFormatter = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^***REMOVED***
+    dispatch_once(&onceToken, ^{
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"yyyy-MM-dd' 'HH:mm:ss";
         dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PST"];
-    ***REMOVED***);
+    });
 
     return [dateFormatter dateFromString:timestamp];
-***REMOVED***
+}
 
-***REMOVED***
+@end

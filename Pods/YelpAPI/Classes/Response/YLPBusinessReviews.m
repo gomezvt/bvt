@@ -1,30 +1,30 @@
-***REMOVED***
-***REMOVED***  YLPBusinessReviews.m
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 10/21/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPBusinessReviews.m
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 10/21/16.
+//
+//
 
 #import "YLPBusinessReviews.h"
 #import "YLPResponsePrivate.h"
 
 @implementation YLPBusinessReviews
 
-- (instancetype)initWithDictionary:(NSDictionary *)reviewsDict ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithDictionary:(NSDictionary *)reviewsDict {
+    if (self = [super init]) {
         _total = [reviewsDict[@"total"] unsignedIntegerValue];
         _reviews = [self.class reviewsFromJSONArray:reviewsDict[@"reviews"]];
-    ***REMOVED***
+    }
     return self;
-***REMOVED***
+}
 
-+ (NSArray *)reviewsFromJSONArray:(NSArray *)reviewsJSON ***REMOVED***
++ (NSArray *)reviewsFromJSONArray:(NSArray *)reviewsJSON {
     NSMutableArray<YLPReview *> *reviews = [[NSMutableArray alloc] init];
-    for (NSDictionary *review in reviewsJSON) ***REMOVED***
+    for (NSDictionary *review in reviewsJSON) {
         [reviews addObject:[[YLPReview alloc] initWithDictionary:review]];
-    ***REMOVED***
+    }
     return reviews;
-***REMOVED***
+}
 
-***REMOVED***
+@end

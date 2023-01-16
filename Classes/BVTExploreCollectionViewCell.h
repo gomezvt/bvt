@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTExploreCollectionViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/20/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTExploreCollectionViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/20/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -15,4 +15,4 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *imageHeight;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *imageWidth;
 
-***REMOVED***
+@end

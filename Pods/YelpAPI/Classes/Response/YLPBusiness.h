@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  Business.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/5/16.
-***REMOVED***
-***REMOVED***
+//
+//  Business.h
+//  Pods
+//
+//  Created by David Chen on 1/5/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -39,6 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *photos;
 @property (nonatomic, strong) NSArray *userPhotosArray;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

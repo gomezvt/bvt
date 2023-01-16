@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YelpAPI.h
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 4/13/16.
-***REMOVED***
-***REMOVED***
+//
+//  YelpAPI.h
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 4/13/16.
+//
+//
 
 #import "YLPClient.h"
 #import "YLPClient+Business.h"

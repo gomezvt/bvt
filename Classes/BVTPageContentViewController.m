@@ -1,35 +1,35 @@
-***REMOVED***
-***REMOVED***  PageContentViewController.m
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/23/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  PageContentViewController.m
+//  burlingtonian
+//
+//  Created by Greg on 12/23/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import "BVTPageContentViewController.h"
 
 @interface BVTPageContentViewController ()
 
-***REMOVED***
+@end
 
 @implementation BVTPageContentViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-***REMOVED***
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) ***REMOVED***
-        ***REMOVED*** Custom initialization
-    ***REMOVED***
+    if (self) {
+        // Custom initialization
+    }
     return self;
-***REMOVED***
+}
 
 - (void)viewDidLoad
-***REMOVED***
+{
     [super viewDidLoad];
     
     
     self.imageView.image = [UIImage imageNamed:self.imageFile];
 
-***REMOVED***
+}
 
-***REMOVED***
+@end

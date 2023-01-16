@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTSurpriseShoppingCartTableViewController.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/23/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTSurpriseShoppingCartTableViewController.h
+//  bvt
+//
+//  Created by Greg on 2/23/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,7 +14,7 @@
 - (void)didRemoveObjectsFromArray:(NSArray *)array;
 - (void)didTapBackWithDetails:(NSMutableArray *)details ;
 
-***REMOVED***
+@end
 
 @interface BVTSurpriseShoppingCartTableViewController : UIViewController
 
@@ -22,4 +22,4 @@
 @property(nonatomic, weak)id <BVTSurpriseShoppingCartTableViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *cachedDetails;
 
-***REMOVED***
+@end

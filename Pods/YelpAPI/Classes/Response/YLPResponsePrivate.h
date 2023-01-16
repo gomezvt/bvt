@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPResponsePrivate.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/11/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPResponsePrivate.h
+//  Pods
+//
+//  Created by David Chen on 1/11/16.
+//
+//
 #import "YLPBusiness.h"
 #import "YLPBusinessReviews.h"
 #import "YLPCategory.h"
@@ -17,35 +17,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSDictionary<KeyType, ObjectType> (YLPUtils)
 - (nullable ObjectType)ylp_objectMaybeNullForKey:(KeyType)key;
-***REMOVED***
+@end
 
 @interface YLPBusiness ()
 - (instancetype)initWithDictionary:(NSDictionary *)businessDict;
-***REMOVED***
+@end
 
 @interface YLPBusinessReviews ()
 - (instancetype)initWithDictionary:(NSDictionary *)reviewsDict;
-***REMOVED***
+@end
 
 @interface YLPCategory ()
 - (instancetype)initWithName:(NSString *)name alias:(NSString *)alias;
 - (instancetype)initWithDictionary:(NSDictionary *)categoryDict;
-***REMOVED***
+@end
 
 @interface YLPLocation ()
 - (instancetype)initWithDictionary:(NSDictionary *)locationDict coordinate:(nullable YLPCoordinate *)coordinate;
-***REMOVED***
+@end
 
 @interface YLPReview ()
 - (instancetype)initWithDictionary:(NSDictionary *)reviewDict;
-***REMOVED***
+@end
 
 @interface YLPSearch ()
 - (instancetype)initWithDictionary:(NSDictionary *)searchDict;
-***REMOVED***
+@end
 
 @interface YLPUser ()
 - (instancetype)initWithDictionary:(NSDictionary *)userDict;
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

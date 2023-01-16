@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTPresentationTableViewController.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 2/15/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTPresentationTableViewController.h
+//  bvt
+//
+//  Created by Greg on 2/15/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -14,4 +14,4 @@
 
 @property (nonatomic, strong) YLPBusiness *business;
 
-***REMOVED***
+@end

@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  Business.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/5/16.
-***REMOVED***
-***REMOVED***
+//
+//  Business.m
+//  Pods
+//
+//  Created by David Chen on 1/5/16.
+//
+//
 
 #import "YLPBusiness.h"
 
@@ -16,35 +16,35 @@
 
 @implementation YLPBusiness
 
-- (instancetype)initWithDictionary:(NSDictionary *)businessDict ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithDictionary:(NSDictionary *)businessDict {
+    if (self = [super init]) {
         
         NSString *phone = [businessDict ylp_objectMaybeNullForKey:@"phone"];
         NSString *imageURLString = [businessDict ylp_objectMaybeNullForKey:@"image_url"];
 
         _closed = [businessDict[@"is_closed"] boolValue];
         if (businessDict[@"url"])
-        ***REMOVED***
+        {
             _URL = [[NSURL alloc] initWithString:businessDict[@"url"]];
-        ***REMOVED***
+        }
         
         id reviews = businessDict[@"reviews"];
         if (reviews)
-        ***REMOVED***
+        {
             if ([reviews isKindOfClass:[NSArray class]])
-            ***REMOVED***
+            {
                 _reviews = reviews;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         
         id photos = businessDict[@"photos"];
         if (photos)
-        ***REMOVED***
+        {
             if ([photos isKindOfClass:[NSArray class]])
-            ***REMOVED***
+            {
                 _photos = photos;
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
         _imageURL = imageURLString.length > 0 ? [[NSURL alloc] initWithString:imageURLString] : nil;
         _rating = [businessDict[@"rating"] doubleValue];
         _reviewCount = [businessDict[@"review_count"] integerValue];
@@ -53,49 +53,49 @@
         _phone = phone.length > 0 ? phone : nil;
         _price = businessDict[@"price"];
          _open_now = businessDict[@"is_open_now"];
-        ***REMOVED*** BusinessWithID returned values
+        // BusinessWithID returned values
         self.hoursItem = businessDict[@"hours"];
         if ([self.hoursItem isKindOfClass:[NSArray class]])
-        ***REMOVED***
+        {
             NSArray *hoursArray = (NSArray *)self.hoursItem;
             if ([[hoursArray lastObject] isKindOfClass:[NSDictionary class]])
-            ***REMOVED***
+            {
                 NSDictionary *hoursDict = [hoursArray lastObject];
                 id value = hoursDict[@"is_open_now"];
                 if ([value isKindOfClass:[NSNumber class]])
-                ***REMOVED***
+                {
                     _isOpenNow = [value boolValue];
-                ***REMOVED***
+                }
                 
                 _businessHours = hoursDict[@"open"];
-            ***REMOVED***
-        ***REMOVED***
+            }
+        }
 
         _categories = [self.class categoriesFromJSONArray:businessDict[@"categories"]];
         YLPCoordinate *coordinate = [self.class coordinateFromJSONDictionary:businessDict[@"coordinates"]];
         _location = [[YLPLocation alloc] initWithDictionary:businessDict[@"location"] coordinate:coordinate];
-    ***REMOVED***
+    }
     
     return self;
-***REMOVED***
+}
 
-+ (NSArray *)categoriesFromJSONArray:(NSArray *)categoriesJSON ***REMOVED***
++ (NSArray *)categoriesFromJSONArray:(NSArray *)categoriesJSON {
     NSMutableArray *mutableCategories = [[NSMutableArray alloc] init];
-    for (NSDictionary *category in categoriesJSON) ***REMOVED***
+    for (NSDictionary *category in categoriesJSON) {
         [mutableCategories addObject:[[YLPCategory alloc] initWithDictionary:category]];
-    ***REMOVED***
+    }
     return mutableCategories;
-***REMOVED***
+}
 
-+ (YLPCoordinate *)coordinateFromJSONDictionary:(NSDictionary *)coordinatesDict ***REMOVED***
++ (YLPCoordinate *)coordinateFromJSONDictionary:(NSDictionary *)coordinatesDict {
     NSNumber *latitude = [coordinatesDict ylp_objectMaybeNullForKey:@"latitude"];
     NSNumber *longitude = [coordinatesDict ylp_objectMaybeNullForKey:@"longitude"];
-    if (latitude && longitude) ***REMOVED***
+    if (latitude && longitude) {
         return [[YLPCoordinate alloc] initWithLatitude:[latitude doubleValue]
                                              longitude:[longitude doubleValue]];
-    ***REMOVED*** else ***REMOVED***
+    } else {
         return nil;
-    ***REMOVED***
-***REMOVED***
+    }
+}
 
-***REMOVED***
+@end

@@ -1,15 +1,15 @@
-***REMOVED***
-***REMOVED***  BVTTableViewSectionHeaderView.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 4/18/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTTableViewSectionHeaderView.h
+//  bvt
+//
+//  Created by Greg on 4/18/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
 @interface BVTTableViewSectionHeaderView : UIView
 
-***REMOVED***@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+//@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 
-***REMOVED***
+@end

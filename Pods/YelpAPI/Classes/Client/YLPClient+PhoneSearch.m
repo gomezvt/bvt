@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPClient+PhoneSearch.m
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/19/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPClient+PhoneSearch.m
+//  Pods
+//
+//  Created by David Chen on 1/19/16.
+//
+//
 
 #import "YLPClient+PhoneSearch.h"
 #import "YLPClientPrivate.h"
@@ -14,24 +14,24 @@
 
 @implementation YLPClient (PhoneSearch)
 
-- (NSURLRequest *)businessRequestWithParams:(NSDictionary *)params ***REMOVED***
+- (NSURLRequest *)businessRequestWithParams:(NSDictionary *)params {
     NSString *phoneSearchPath = @"/v3/businesses/search/phone";
     return [self requestWithPath:phoneSearchPath params:params];
-***REMOVED***
+}
 
 - (void)businessWithPhoneNumber:(NSString *)phoneNumber
-              completionHandler:(YLPPhoneSearchCompletionHandler)completionHandler ***REMOVED***
-    NSDictionary *params = @***REMOVED***@"phone": phoneNumber***REMOVED***;
+              completionHandler:(YLPPhoneSearchCompletionHandler)completionHandler {
+    NSDictionary *params = @{@"phone": phoneNumber};
     NSURLRequest *req = [self businessRequestWithParams:params];
     
-    [self queryWithRequest:req completionHandler:^(NSDictionary *responseDict, NSError *error) ***REMOVED***
-        if (error) ***REMOVED***
+    [self queryWithRequest:req completionHandler:^(NSDictionary *responseDict, NSError *error) {
+        if (error) {
             completionHandler(nil, error);
-        ***REMOVED*** else ***REMOVED***
+        } else {
             YLPSearch *search = [[YLPSearch alloc] initWithDictionary:responseDict];
             completionHandler(search, nil);
-        ***REMOVED***
-    ***REMOVED***];
-***REMOVED***
+        }
+    }];
+}
 
-***REMOVED***
+@end

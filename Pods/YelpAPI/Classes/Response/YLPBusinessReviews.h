@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPBusinessReviews.h
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 10/21/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPBusinessReviews.h
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 10/21/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -17,6 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSArray<YLPReview *> *reviews;
 @property (nonatomic, readonly) NSUInteger total;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

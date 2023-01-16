@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPQuery.h
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 6/26/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPQuery.h
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 6/26/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 #import "YLPSortType.h"
@@ -62,6 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL dealsFilter;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

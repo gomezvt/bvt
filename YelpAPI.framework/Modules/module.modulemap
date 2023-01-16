@@ -1,6 +1,6 @@
-framework module YelpAPI ***REMOVED***
+framework module YelpAPI {
   umbrella header "YelpAPI.h"
 
   export *
-  module * ***REMOVED*** export * ***REMOVED***
-***REMOVED***
+  module * { export * }
+}

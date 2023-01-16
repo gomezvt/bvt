@@ -1,9 +1,9 @@
-***REMOVED***
-***REMOVED***  DFPCustomRenderedInterstitialDelegate.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2014 Google Inc. All rights reserved.
-***REMOVED***
+//
+//  DFPCustomRenderedInterstitialDelegate.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2014 Google Inc. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -14,16 +14,16 @@
 
 GAD_ASSUME_NONNULL_BEGIN
 
-***REMOVED***/ The DFPCustomRenderedAd interstitial delegate protocol for notifying the delegate of changes to
-***REMOVED***/ custom rendered interstitials.
+/// The DFPCustomRenderedAd interstitial delegate protocol for notifying the delegate of changes to
+/// custom rendered interstitials.
 @protocol DFPCustomRenderedInterstitialDelegate<NSObject>
 
-***REMOVED***/ Called after ad data has been received. You must construct an interstitial from
-***REMOVED***/ |customRenderedAd| and call the |customRenderedAd| object's finishedRenderingAdView: method when
-***REMOVED***/ the ad has been rendered.
+/// Called after ad data has been received. You must construct an interstitial from
+/// |customRenderedAd| and call the |customRenderedAd| object's finishedRenderingAdView: method when
+/// the ad has been rendered.
 - (void)interstitial:(DFPInterstitial *)interstitial
     didReceiveCustomRenderedAd:(DFPCustomRenderedAd *)customRenderedAd;
 
-***REMOVED***
+@end
 
 GAD_ASSUME_NONNULL_END

@@ -1,38 +1,38 @@
-***REMOVED***
-***REMOVED***  BVTAboutTableViewCell.m
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 6/1/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTAboutTableViewCell.m
+//  bvt
+//
+//  Created by Greg on 6/1/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import "BVTAboutTableViewCell.h"
 
 @implementation BVTAboutTableViewCell
 
-- (void)awakeFromNib ***REMOVED***
+- (void)awakeFromNib {
     [super awakeFromNib];
-    ***REMOVED*** Initialization code
-***REMOVED***
+    // Initialization code
+}
 
 - (IBAction)didTapYelpButton:(id)sender
-***REMOVED***
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http:***REMOVED***yelp.com"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://yelp.com"]  options:@{} completionHandler:^(BOOL success) {
         NSLog(@"");
-    ***REMOVED***];
-***REMOVED***
+    }];
+}
 
 - (IBAction)didTapFBButton:(id)sender
-***REMOVED***
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http:***REMOVED***www.facebook.com/theburlingtonian"]  options:@***REMOVED******REMOVED*** completionHandler:^(BOOL success) ***REMOVED***
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.facebook.com/theburlingtonian"]  options:@{} completionHandler:^(BOOL success) {
         NSLog(@"");
-    ***REMOVED***];
-***REMOVED***
+    }];
+}
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated ***REMOVED***
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    ***REMOVED*** Configure the view for the selected state
-***REMOVED***
+    // Configure the view for the selected state
+}
 
-***REMOVED***
+@end

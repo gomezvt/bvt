@@ -1,8 +1,8 @@
-***REMOVED***
-***REMOVED***  GoogleMobileAds.h
-***REMOVED***  Google Mobile Ads SDK
-***REMOVED***
-***REMOVED***  Copyright 2014 Google Inc. All rights reserved.
+//
+//  GoogleMobileAds.h
+//  Google Mobile Ads SDK
+//
+//  Copyright 2014 Google Inc. All rights reserved.
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -15,10 +15,10 @@
 #error The Google Mobile Ads SDK doesn't support linking with armv7s. Remove armv7s from "ARCHS" (Architectures) in your Build Settings.
 #endif
 
-***REMOVED***/ Project version string for GoogleMobileAds.
+/// Project version string for GoogleMobileAds.
 FOUNDATION_EXPORT const unsigned char GoogleMobileAdsVersionString[];
 
-***REMOVED*** Header files.
+// Header files.
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
 #import <GoogleMobileAds/GADAdDelegate.h>

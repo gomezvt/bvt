@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPUser.h
-***REMOVED***  Pods
-***REMOVED***
-***REMOVED***  Created by David Chen on 1/13/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPUser.h
+//  Pods
+//
+//  Created by David Chen on 1/13/16.
+//
+//
 
 #import <Foundation/Foundation.h>
 
@@ -16,6 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable, readonly) NSURL *imageURL;
 
-***REMOVED***
+@end
 
 NS_ASSUME_NONNULL_END

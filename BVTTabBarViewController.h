@@ -1,13 +1,13 @@
-***REMOVED***
-***REMOVED***  BVTTabBarViewController.h
-***REMOVED***  bvt
-***REMOVED***
-***REMOVED***  Created by Greg on 7/5/17.
-***REMOVED***  Copyright © 2017 gms. All rights reserved.
-***REMOVED***
+//
+//  BVTTabBarViewController.h
+//  bvt
+//
+//  Created by Greg on 7/5/17.
+//  Copyright © 2017 gms. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
 @interface BVTTabBarViewController : UIViewController
 
-***REMOVED***
+@end

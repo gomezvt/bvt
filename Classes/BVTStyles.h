@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTStyles.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/30/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTStyles.h
+//  burlingtonian
+//
+//  Created by Greg on 12/30/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -12,12 +12,12 @@
 
 #define kBVTCategories @[ @"Arts, Museums, & Music", @"Coffee, Sweets, & Bakeries", @"Hotels, Hostels, Bed & Breakfast", @"Entertainment & Recreation", @"Bars & Lounges", @"Restaurants", @"Shopping", @"Tours & Festivals", @"Travel" ]
 
-***REMOVED*** Categories modeled after those found on https:***REMOVED***www.yelp.com/developers/documentation/v2/category_list
+// Categories modeled after those found on https://www.yelp.com/developers/documentation/v2/category_list
 #define kArtsMuseums @[ @"Art Galleries", @"Museums", @"Music Venues", @"Performing Arts" ]
 
 #define kCoffeeSweetsBakeries @[ @"Bakeries", @"Candy Stores", @"Chocolatiers & Shops", @"Coffee & Tea", @"Coffee Roasteries", @"Desserts", @"Ice Cream & Frozen Yogurt", @"Tea Rooms" ]
 
-***REMOVED***#define kMusic @[ @"Music Venues" ]
+//#define kMusic @[ @"Music Venues" ]
 
 #define kHotelsHostelsBB @[ @"Bed & Breakfast",  @"Guest Houses", @"Hostels", @"Hotels", @"Rest Stops" ]
 
@@ -64,4 +64,4 @@ extern NSString *const star_five;
 + (UIColor *)tabBarTint;
 + (UIColor *)placeHolderGreen;
 
-***REMOVED***
+@end

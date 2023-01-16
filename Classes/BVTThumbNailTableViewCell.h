@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  BVTThumbNailTableViewCell.h
-***REMOVED***  burlingtonian
-***REMOVED***
-***REMOVED***  Created by Greg on 12/20/16.
-***REMOVED***  Copyright © 2016 gomez. All rights reserved.
-***REMOVED***
+//
+//  BVTThumbNailTableViewCell.h
+//  burlingtonian
+//
+//  Created by Greg on 12/20/16.
+//  Copyright © 2016 gomez. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -16,6 +16,6 @@
 @property (nonatomic, weak) IBOutlet UIImageView *thumbNailView;
 @property (nonatomic, weak) IBOutlet UILabel *openCloseLabel;
 @property (nonatomic, weak) IBOutlet UILabel *secondaryOpenCloseLabel;
-***REMOVED***@property (nonatomic, weak) IBOutlet NSLayoutConstraint *secondaryHeightConstraint;
+//@property (nonatomic, weak) IBOutlet NSLayoutConstraint *secondaryHeightConstraint;
 
-***REMOVED***
+@end

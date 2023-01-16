@@ -1,10 +1,10 @@
-***REMOVED***
-***REMOVED***  YLPQuery.m
-***REMOVED***  YelpAPI
-***REMOVED***
-***REMOVED***  Created by Steven Sheldon on 6/26/16.
-***REMOVED***
-***REMOVED***
+//
+//  YLPQuery.m
+//  YelpAPI
+//
+//  Created by Steven Sheldon on 6/26/16.
+//
+//
 
 #import "YLPQuery.h"
 #import "YLPQueryPrivate.h"
@@ -12,28 +12,28 @@
 
 @implementation YLPQuery
 
-- (instancetype)initWithLocation:(NSString *)location ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithLocation:(NSString *)location {
+    if (self = [super init]) {
         _mode = YLPSearchModeLocation;
         _location = [location copy];
-    ***REMOVED***
+    }
     return self;
-***REMOVED***
+}
 
-- (instancetype)initWithCoordinate:(YLPCoordinate *)coordinate ***REMOVED***
-    if (self = [super init]) ***REMOVED***
+- (instancetype)initWithCoordinate:(YLPCoordinate *)coordinate {
+    if (self = [super init]) {
         _mode = YLPSearchModeCoordinate;
         _coordinate = coordinate;
-    ***REMOVED***
+    }
     return self;
-***REMOVED***
+}
 
-- (NSArray<NSString *> *)categoryFilter ***REMOVED***
+- (NSArray<NSString *> *)categoryFilter {
     return _categoryFilter ?: @[];
-***REMOVED***
+}
 
-- (NSString *)sortParameter ***REMOVED***
-    switch (self.sort) ***REMOVED***
+- (NSString *)sortParameter {
+    switch (self.sort) {
         case YLPSortTypeBestMatched:
             return @"best_match";
         case YLPSortTypeHighestRated:
@@ -42,12 +42,12 @@
             return @"distance";
         case YLPSortTypeMostReviewed:
             return @"review_count";
-    ***REMOVED***
-***REMOVED***
+    }
+}
 
-- (NSDictionary *)parameters ***REMOVED***
+- (NSDictionary *)parameters {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    switch (self.mode) ***REMOVED***
+    switch (self.mode) {
         case YLPSearchModeLocation:
             params[@"location"] = self.location;
             break;
@@ -55,31 +55,31 @@
             params[@"latitude"] = @(self.coordinate.latitude);
             params[@"longitude"] = @(self.coordinate.longitude);
             break;
-    ***REMOVED***
+    }
 
-    if (self.term) ***REMOVED***
+    if (self.term) {
         params[@"term"] = self.term;
-    ***REMOVED***
-    if (self.limit) ***REMOVED***
+    }
+    if (self.limit) {
         params[@"limit"] = @(self.limit);
-    ***REMOVED***
-    if (self.offset) ***REMOVED***
+    }
+    if (self.offset) {
         params[@"offset"] = @(self.offset);
-    ***REMOVED***
-    if (self.sort != YLPSortTypeBestMatched) ***REMOVED***
+    }
+    if (self.sort != YLPSortTypeBestMatched) {
         params[@"sort_by"] = [self sortParameter];
-    ***REMOVED***
-    if (self.categoryFilter.count > 0) ***REMOVED***
+    }
+    if (self.categoryFilter.count > 0) {
         params[@"categories"] = [self.categoryFilter componentsJoinedByString:@","];
-    ***REMOVED***
-    if (self.radiusFilter > 0) ***REMOVED***
+    }
+    if (self.radiusFilter > 0) {
         params[@"radius"] = @(self.radiusFilter);
-    ***REMOVED***
-    if (self.dealsFilter) ***REMOVED***
+    }
+    if (self.dealsFilter) {
         params[@"attributes"] = @"deals";
-    ***REMOVED***
+    }
 
     return params;
-***REMOVED***
+}
 
-***REMOVED***
+@end
